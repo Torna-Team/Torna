@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Circle } from 'react-konva';
 
-function Circles({ click, setClick }) {
-  const [circles, setCircles] = useState(null);
+function Circles({ click, setClick }: any) {
+  const [circles, setCircles] = useState<any>(null);
 
   useEffect(() => {
     if (click === 'circle') {
@@ -11,7 +11,7 @@ function Circles({ click, setClick }) {
         x: Math.random() * window.innerWidth,
         y: Math.random() * window.innerHeight,
       };
-      setCircles((prev) => {
+      setCircles((prev: any) => {
         if (prev) return [...prev, circle];
         else return [circle];
       });
@@ -22,19 +22,15 @@ function Circles({ click, setClick }) {
   return (
     <div>
       {circles &&
-        circles.map((circle) => (
+        circles.map((circle: any) => (
           <Circle
             key={circle.id}
             id={circle.id}
             x={circle.x}
             y={circle.y}
             radius={50}
-            fill='pink'
-            opacity={0.8}
+            stroke='black'
             draggable={true}
-            shadowColor='red'
-            shadowBlur={10}
-            shadowOpacity={0.6}
           />
         ))}
     </div>
