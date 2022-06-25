@@ -2,62 +2,61 @@ import React, { useState } from 'react';
 import { Layer, Stage } from 'react-konva';
 // import Arrows from './Arrows';
 import Circles from './Circles';
-import Squares from './Squares';
+// import Squares from './Squares';
 import Stars from './Stars';
 import Texts from './Texts';
 
 function Canvas() {
-  const [click, setClick] = useState<boolean>(false);
+  const [click, setClick] = useState<any>('');
   const [canvaElements, setCanvaElements] = useState<any[]>([]);
   const [text, setText] = useState<any>([]);
-  const [id, setId] = useState<any>(null);
 
   function handleClick(e: any) {
     e.preventDefault();
-    setClick(e.target.value);
+    const type = e.target.value;
+    if (type === 'star') {
+      const star = {
+        type: 'star',
+        id: canvaElements.length,
+        x: window.innerWidth / 2,
+        y: window.innerHeight / 2,
+        rotation: 0,
+      };
+      setCanvaElements((prev: any) => {
+        if (prev) return [...prev, star];
+        else return [star];
+      });
+    }
   }
 
   const handleDragStart = (e: any) => {
-    const id = Number(e.target.attrs.id);
-    setId(id);
-    let indx!: number;
-    const element = canvaElements.find((el: any, index: any) => {
-      if (id === el.id) {
-        indx = index;
-      }
-      return id === el.id;
-    });
-    setCanvaElements((prev: any) => {
-      if (prev) {
-        const arr1 = prev.slice(0, indx);
-        const arr2 = prev.slice(indx + 1, prev.length);
-        const result = [...arr1, ...arr2, element];
-        return result;
-      } else return [element];
-    });
+    // console.log(e.target, e.target._id, e);
+    // const newId = Number(e.target.attrs.id);
+    // console.log('la new id al clickar y hacer drag', newId);
+    // let indx!: number;
+    // console.log('newid', newId);
   };
 
-  const handleDragEnd = (e: any) => {
-    // const id = Number(e.target.attrs.id);
+  const handleDragEnd = (el: any) => {
     let indx!: number;
-    let type!: string;
-    let item!: any;
     for (let i = 0; i < canvaElements.length; i++) {
-      if (canvaElements[i].id === id) {
+      if (canvaElements[i].id === el.id) {
         indx = i;
-        item = canvaElements[i];
-        type = canvaElements[i].type;
         break;
       }
     }
-    console.log(item);
-    setId(null);
-    return { indx, type };
-    // canvaElements[indx].x = e.target.x();
-    // canvaElements[indx].y = e.target.y();
-    // const res = canvaElements.filter((el: any) => el.type === type);
-    // setStars([...res]);
-    // return res;
+
+    setCanvaElements((prev: any) => {
+      if (prev) {
+        console.log(indx);
+        const arr1 = prev.slice(0, indx);
+        const arr2 = prev.slice(indx + 1, prev.length);
+        const result = [...arr1, ...arr2, el];
+        console.log(arr1, arr2, result);
+        return result;
+      } else return [el];
+    });
+    return indx;
   };
 
   function handleSubmit(e: any) {
@@ -92,16 +91,39 @@ function Canvas() {
       </button>
       <Stage width={window.innerWidth} height={window.innerHeight}>
         <Layer>
-          <Circles click={click} setClick={setClick}></Circles>
-          <Stars
-            click={click}
-            setClick={setClick}
-            canvaElements={canvaElements}
-            setCanvaElements={setCanvaElements}
-            handleDragStart={handleDragStart}
-            handleDragEnd={handleDragEnd}
-          ></Stars>
-          <Squares click={click} setClick={setClick}></Squares>
+          {/* <Circles click={click} setClick={setClick}></Circles> */}
+          {canvaElements &&
+            canvaElements.map((el, i) => {
+              if (el) {
+                if (el.type === 'star') {
+                  return (
+                    <Stars
+                      // click={click}
+                      element={el}
+                      canvaElements={canvaElements}
+                      setCanvaElements={setCanvaElements}
+                      handleDragStart={handleDragStart}
+                      handleDragEnd={() => handleDragEnd(el)}
+                    ></Stars>
+                  );
+                }
+                if (el.type === 'circle') {
+                  return (
+                    <Circles
+                      click={click}
+                      setClick={setClick}
+                      canvaElements={canvaElements}
+                      setCanvaElements={setCanvaElements}
+                      handleDragStart={handleDragStart}
+                      handleDragEnd={handleDragEnd}
+                    ></Circles>
+                  );
+                }
+              }
+              return <></>;
+            })}
+
+          {/* <Squares click={click} setClick={setClick}></Squares> */}
           {/* <Arrows click={click} setClick={setClick}></Arrows> */}
         </Layer>
         <Texts text={text}></Texts>

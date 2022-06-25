@@ -1,104 +1,45 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Star } from 'react-konva';
 
 function Stars({
-  click,
-  setClick,
+  // click,
+  element,
   canvaElements,
-  setCanvaElements,
+  // setCanvaElements,
   handleDragStart,
   handleDragEnd,
 }: any) {
-  const [stars, setStars] = useState<any>(null);
-
-  useEffect(() => {
-    if (click === 'star') {
-      const star = {
-        type: 'star',
-        id: canvaElements.length,
-        x: window.innerWidth / 2,
-        y: window.innerHeight / 2,
-        rotation: 0,
-      };
-      setCanvaElements((prev: any) => {
-        if (prev) return [...prev, star];
-        else return [star];
-      });
-
-      setStars((prev: any) => {
-        if (prev) return [...prev, star];
-        else return [star];
-      });
-    }
-    setClick(null);
-  }, [click]);
-
-  // const handleDragStart = (e: any) => {
-  //   const id = Number(e.target.attrs.id);
-  //   let indx!: number;
-  //   const element = canvaElements.find((el: any, index: any) => {
-  //     if (id === el.id) {
-  //       indx = index;
-  //     }
-  //     return id === el.id;
-  //   });
-  //   setCanvaElements((prev: any) => {
-  //     if (prev) {
-  //       const arr1 = prev.slice(0, indx);
-  //       const arr2 = prev.slice(indx + 1, prev.length);
-  //       const result = [...arr1, ...arr2, element];
-  //       return result;
-  //     } else return [element];
-  //   });
-  // };
-
-  // const handleDragEnd = (e: any) => {
-  //   const id = Number(e.target.attrs.id);
-  //   let indx!: number;
-  //   let type!: string;
-  //   for (let i = 0; i < canvaElements.length; i++) {
-  //     if (canvaElements[i].id === id) {
-  //       indx = i;
-  //       type = canvaElements[i].type;
-  //       break;
-  //     }
-  //   }
-  //   canvaElements[indx].x = e.target.x();
-  //   canvaElements[indx].y = e.target.y();
-  //   const res = canvaElements.filter((el: any) => el.type === type);
-  //   setStars([...res]);
-  // };
+  const star = {
+    type: 'star',
+    id: element ? element.id : canvaElements.length - 1,
+    x: element ? element.x : window.innerWidth / 2,
+    y: element ? element.y : window.innerHeight / 2,
+    rotation: 0,
+  };
 
   return (
-    <>
-      {stars &&
-        stars.map((star: any) => (
-          <Star
-            key={star.id}
-            id={star.id.toString()}
-            x={star.x}
-            y={star.y}
-            numPoints={5}
-            innerRadius={20}
-            outerRadius={40}
-            fill='#FF7F50'
-            // opacity={0.8}
-            draggable={true}
-            onDragStart={handleDragStart}
-            onDragEnd={(e) => {
-              const res = handleDragEnd();
-              canvaElements[res.indx].x = e.target.x();
-              canvaElements[res.indx].y = e.target.y();
-              const element = canvaElements.filter(
-                (el: any) => el.type === res.type
-              );
-              setStars([...element]);
-            }}
-            rotation={star.rotation}
-            stroke='black'
-          />
-        ))}
-    </>
+    <Star
+      type={star.type}
+      key={star.id}
+      id={star.id.toString()}
+      x={star.x}
+      y={star.y}
+      rotation={star.rotation}
+      numPoints={5}
+      innerRadius={20}
+      outerRadius={40}
+      fill='#FF7F50'
+      // opacity={0.8}
+      draggable={true}
+      onDragStart={handleDragStart}
+      onDragEnd={(e) => {
+        const indx = handleDragEnd();
+        console.log(indx, canvaElements, canvaElements[indx]);
+        canvaElements[indx].x = e.target.x();
+        canvaElements[indx].y = e.target.y();
+      }}
+      stroke='black'
+    />
   );
 }
 
