@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Arrow } from 'react-konva';
 
 function Arrows({ click, setClick }: any) {
   const [arrows, setArrows] = useState<any>(null);
@@ -16,9 +17,28 @@ function Arrows({ click, setClick }: any) {
         else return [arrow];
       });
     }
-  });
+    setClick(null);
+  }, [click]);
 
-  return <div>Arrows</div>;
+  return (
+    <div>
+      {arrows &&
+        arrows.map((arrow: any) => (
+          <Arrow
+            key={arrow.id}
+            id={arrow.id}
+            x={arrow.x}
+            y={arrow.y}
+            points={[0, 100, 100, 0]}
+            pointerLength={6}
+            pointerWidth={6}
+            draggable={true}
+            stroke='black'
+            strokeWidth={4}
+          />
+        ))}
+    </div>
+  );
 }
 
 export default Arrows;

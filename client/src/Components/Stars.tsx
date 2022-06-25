@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Star } from 'react-konva';
 
-function Stars({ click, setClick }: any) {
+function Stars({ click, setClick, color }: any) {
   const [stars, setStars] = useState<any>(null);
 
   useEffect(() => {
@@ -11,6 +11,7 @@ function Stars({ click, setClick }: any) {
         x: Math.random() * window.innerWidth,
         y: Math.random() * window.innerHeight,
         rotation: Math.random() * 180,
+        color: color,
       };
       setStars((prev: any) => {
         if (prev) return [...prev, star];
@@ -32,7 +33,7 @@ function Stars({ click, setClick }: any) {
             numPoints={5}
             innerRadius={20}
             outerRadius={40}
-            stroke='black'
+            stroke={color}
             draggable={true}
             rotation={star.rotation}
           />

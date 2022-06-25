@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
+import { ChromePicker } from 'react-color';
 import { Layer, Stage } from 'react-konva';
-import Arrows from './Arrows';
 import Circles from './Circles';
 import Squares from './Squares';
 import Stars from './Stars';
@@ -9,6 +9,8 @@ import Texts from './Texts';
 function Canvas() {
   const [click, setClick] = useState<boolean>(false);
   const [text, setText] = useState<any>([]);
+  const [color, setColor] = useState<any>('#fff');
+  const [showColorPicker, setShowColorPicker] = useState<boolean>(false);
 
   function handleClick(e: any) {
     e.preventDefault();
@@ -32,6 +34,21 @@ function Canvas() {
         <input type='text' id={text} name='textInput'></input>
         <button type='submit'> Add Text </button>
       </form>
+      <button
+        onClick={() =>
+          setShowColorPicker((showColorPicker) => !showColorPicker)
+        }
+      >
+        {showColorPicker ? 'Close' : 'Pick a color'}
+      </button>
+      {showColorPicker && (
+        <ChromePicker
+          color={color}
+          onChange={(updatedColor) => setColor(updatedColor.hex)}
+        ></ChromePicker>
+      )}
+
+      <h2>You picked {color}</h2>
       <button type='submit' value='star' onClick={handleClick}>
         STAR
       </button>
@@ -46,10 +63,10 @@ function Canvas() {
       </button>
       <Stage width={window.innerWidth} height={window.innerHeight}>
         <Layer>
-          <Stars click={click} setClick={setClick}></Stars>
+          <Stars click={click} setClick={setClick} color={color}></Stars>
           <Circles click={click} setClick={setClick}></Circles>
-          <Squares click={click} setClick={setClick}></Squares>
-          <Arrows click={click} setClick={setClick}></Arrows>
+          <Squares click={click} setClick={setClick} color={color}></Squares>
+          {/* <Arrows click={click} setClick={setClick}></Arrows> */}
         </Layer>
         <Texts text={text}></Texts>
       </Stage>

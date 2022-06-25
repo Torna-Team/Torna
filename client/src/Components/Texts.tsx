@@ -1,5 +1,4 @@
 import React from 'react';
-//import { useState } from 'react';
 import { Layer, Text } from 'react-konva';
 
 function Texts({ text }: any) {
