@@ -1,9 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { Star } from 'react-konva';
 
-
-function Stars({ click, setClick, canvaElements, setCanvaElements }: any) {
-
+function Stars({
+  click,
+  setClick,
+  canvaElements,
+  setCanvaElements,
+  handleDragStart,
+  handleDragEnd,
+}: any) {
   const [stars, setStars] = useState<any>(null);
 
   useEffect(() => {
@@ -28,41 +33,41 @@ function Stars({ click, setClick, canvaElements, setCanvaElements }: any) {
     setClick(null);
   }, [click]);
 
-  const handleDragStart = (e: any) => {
-    const id = Number(e.target.attrs.id);
-    let indx!: number;
-    const element = canvaElements.find((el: any, index: any) => {
-      if (id === el.id) {
-        indx = index;
-      }
-      return id === el.id;
-    });
-    setCanvaElements((prev: any) => {
-      if (prev) {
-        const arr1 = prev.slice(0, indx);
-        const arr2 = prev.slice(indx + 1, prev.length);
-        const result = [...arr1, ...arr2, element];
-        return result;
-      } else return [element];
-    });
-  };
+  // const handleDragStart = (e: any) => {
+  //   const id = Number(e.target.attrs.id);
+  //   let indx!: number;
+  //   const element = canvaElements.find((el: any, index: any) => {
+  //     if (id === el.id) {
+  //       indx = index;
+  //     }
+  //     return id === el.id;
+  //   });
+  //   setCanvaElements((prev: any) => {
+  //     if (prev) {
+  //       const arr1 = prev.slice(0, indx);
+  //       const arr2 = prev.slice(indx + 1, prev.length);
+  //       const result = [...arr1, ...arr2, element];
+  //       return result;
+  //     } else return [element];
+  //   });
+  // };
 
-  const handleDragEnd = (e: any) => {
-    const id = Number(e.target.attrs.id);
-    let indx!: number;
-    let type!: string;
-    for (let i = 0; i < canvaElements.length; i++) {
-      if (canvaElements[i].id === id) {
-        indx = i;
-        type = canvaElements[i].type;
-        break;
-      }
-    }
-    canvaElements[indx].x = e.target.x();
-    canvaElements[indx].y = e.target.y();
-    const res = canvaElements.filter((el: any) => el.type === type);
-    setStars([...res]);
-  };
+  // const handleDragEnd = (e: any) => {
+  //   const id = Number(e.target.attrs.id);
+  //   let indx!: number;
+  //   let type!: string;
+  //   for (let i = 0; i < canvaElements.length; i++) {
+  //     if (canvaElements[i].id === id) {
+  //       indx = i;
+  //       type = canvaElements[i].type;
+  //       break;
+  //     }
+  //   }
+  //   canvaElements[indx].x = e.target.x();
+  //   canvaElements[indx].y = e.target.y();
+  //   const res = canvaElements.filter((el: any) => el.type === type);
+  //   setStars([...res]);
+  // };
 
   return (
     <>
@@ -80,11 +85,16 @@ function Stars({ click, setClick, canvaElements, setCanvaElements }: any) {
             // opacity={0.8}
             draggable={true}
             onDragStart={handleDragStart}
-            onDragEnd={handleDragEnd}
+            onDragEnd={(e) => {
+              const res = handleDragEnd();
+              canvaElements[res.indx].x = e.target.x();
+              canvaElements[res.indx].y = e.target.y();
+              const element = canvaElements.filter(
+                (el: any) => el.type === res.type
+              );
+              setStars([...element]);
+            }}
             rotation={star.rotation}
-            shadowColor='red'
-            shadowBlur={10}
-            shadowOpacity={0.6}
             stroke='black'
           />
         ))}
