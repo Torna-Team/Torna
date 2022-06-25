@@ -6,6 +6,7 @@ import Stars from './Stars';
 
 function Canvas() {
   const [click, setClick] = useState<boolean>(false);
+  const [canvaElements, setCanvaElements] = useState<any[]>([]);
 
   function handleClick(e: any) {
     e.preventDefault();
@@ -25,9 +26,14 @@ function Canvas() {
       </button>
       <Stage width={window.innerWidth} height={window.innerHeight}>
         <Layer>
-          <Stars click={click} setClick={setClick}></Stars>
-          <Circles click={click} setClick={setClick}></Circles>
-          <Squares click={click} setClick={setClick}></Squares>
+          <Stars
+            click={click}
+            setClick={setClick}
+            canvaElements={canvaElements}
+            setCanvaElements={setCanvaElements}
+          ></Stars>
+          {/* <Circles click={click} setClick={setClick}></Circles>
+          <Squares click={click} setClick={setClick}></Squares> */}
         </Layer>
       </Stage>
     </div>
