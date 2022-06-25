@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Star } from 'react-konva';
 
+
 function Stars({ click, setClick, canvaElements, setCanvaElements }: any) {
+
   const [stars, setStars] = useState<any>(null);
 
   useEffect(() => {
@@ -17,6 +19,7 @@ function Stars({ click, setClick, canvaElements, setCanvaElements }: any) {
         if (prev) return [...prev, star];
         else return [star];
       });
+
       setStars((prev: any) => {
         if (prev) return [...prev, star];
         else return [star];
@@ -82,6 +85,7 @@ function Stars({ click, setClick, canvaElements, setCanvaElements }: any) {
             shadowColor='red'
             shadowBlur={10}
             shadowOpacity={0.6}
+            stroke='black'
           />
         ))}
     </>
