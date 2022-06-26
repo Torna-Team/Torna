@@ -1,11 +1,12 @@
 import React from 'react';
 import './App.css';
-import FileUpload from './Components/ImageUpload';
+
+import Canvas from './Components/Canvas';
 
 function App() {
   return (
     <div className='App'>
-      <FileUpload></FileUpload>
+      <Canvas></Canvas>
     </div>
   );
 }
