@@ -1,4 +1,3 @@
-import React, { useEffect, useState } from 'react';
 import { Circle } from 'react-konva';
 
 function Circles({
@@ -14,6 +13,7 @@ function Circles({
     id: element ? element.id : canvaElements.length - 1,
     x: element ? element.x : window.innerWidth / 2,
     y: element ? element.y : window.innerHeight / 2,
+    color: element ? element.color : '#000000',
   };
 
   return (
@@ -24,7 +24,7 @@ function Circles({
       y={circle.y}
       radius={50}
       stroke='black'
-      fill='pink'
+      fill={circle.color}
       onDragStart={handleDragStart}
       onDragEnd={(e) => {
         const indx = handleDragEnd();

@@ -3,7 +3,7 @@ import { ChromePicker } from 'react-color';
 import { Layer, Stage } from 'react-konva';
 
 import checkCanvaElement from '../Services/utils';
-// import Arrows from './Arrows';
+import Arrows from './Arrows';
 import Circles from './Circles';
 import Squares from './Squares';
 import Stars from './Stars';
@@ -12,14 +12,14 @@ import Texts from './Texts';
 function Canvas() {
   const [canvaElements, setCanvaElements] = useState<any[]>([]);
   const [text, setText] = useState<any>([]);
-  const [color, setColor] = useState<any>('#fff');
+  const [color, setColor] = useState<any>('#000000');
   const [showColorPicker, setShowColorPicker] = useState<boolean>(false);
 
   function handleClick(e: any) {
     e.preventDefault();
     const type = e.target.value;
     const canvaLength = canvaElements.length;
-    const newCanvaElement = checkCanvaElement(type, canvaLength);
+    const newCanvaElement = checkCanvaElement(type, canvaLength, color);
     setCanvaElements((prev: any) => {
       if (prev) return [...prev, newCanvaElement];
       else return [newCanvaElement];
@@ -65,6 +65,7 @@ function Canvas() {
       id: canvaElements.length,
       x: window.innerWidth / 2,
       y: window.innerHeight / 2,
+      color: color,
     };
 
     setText((prev: any) => {
@@ -84,9 +85,21 @@ function Canvas() {
         <input type='text' id={text} name='textInput'></input>
         <button type='submit'> Add Text </button>
       </form>
-
+      <button
+        onClick={() =>
+          setShowColorPicker((showColorPicker) => !showColorPicker)
+        }
+      >
+        {showColorPicker ? 'Close' : 'Pick a color'}
+      </button>
+      {showColorPicker && (
+        <ChromePicker
+          color={color}
+          onChange={(updatedColor) => setColor(updatedColor.hex)}
+        ></ChromePicker>
+      )}
+      <h2>You picked {color}</h2>
       <button value='star' onClick={handleClick}>
-
         STAR
       </button>
       <button value='circle' onClick={handleClick}>
@@ -100,7 +113,6 @@ function Canvas() {
       </button>
       <Stage width={window.innerWidth} height={window.innerHeight}>
         <Layer>
-
           {canvaElements &&
             canvaElements.map((el, i) => {
               if (el) {
@@ -140,10 +152,21 @@ function Canvas() {
                     ></Squares>
                   );
                 }
+                if (el.type === 'arrow') {
+                  return (
+                    <Arrows
+                      key={el.id}
+                      element={el}
+                      canvaElements={canvaElements}
+                      setCanvaElements={setCanvaElements}
+                      handleDragStart={handleDragStart}
+                      handleDragEnd={() => handleDragEnd(el)}
+                    ></Arrows>
+                  );
+                }
               }
               return <></>;
             })}
-
         </Layer>
         <Texts
           key={'text'}

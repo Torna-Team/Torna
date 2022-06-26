@@ -1,4 +1,8 @@
-const checkCanvaElement = (type: string, canvaElementsLength: number) => {
+const checkCanvaElement = (
+  type: string,
+  canvaElementsLength: number,
+  color: string
+) => {
   switch (type) {
     case 'star':
       const star = {
@@ -6,7 +10,7 @@ const checkCanvaElement = (type: string, canvaElementsLength: number) => {
         id: canvaElementsLength,
         x: window.innerWidth / 2,
         y: window.innerHeight / 2,
-        rotation: 0,
+        color: color,
       };
       return star;
     case 'circle':
@@ -15,6 +19,7 @@ const checkCanvaElement = (type: string, canvaElementsLength: number) => {
         id: canvaElementsLength,
         x: window.innerWidth / 2,
         y: window.innerHeight / 2,
+        color: color,
       };
       return circle;
     case 'square':
@@ -23,9 +28,18 @@ const checkCanvaElement = (type: string, canvaElementsLength: number) => {
         id: canvaElementsLength,
         x: window.innerWidth / 2,
         y: window.innerHeight / 2,
+        color: color,
       };
       return square;
-
+    case 'arrow':
+      const arrow = {
+        type: 'arrow',
+        id: canvaElementsLength,
+        x: window.innerWidth / 2,
+        y: window.innerHeight / 2,
+        color: color,
+      };
+      return arrow;
     default:
       return {};
   }

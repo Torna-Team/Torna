@@ -1,6 +1,5 @@
 import { Star } from 'react-konva';
 
-
 function Stars({
   element,
   canvaElements,
@@ -13,6 +12,7 @@ function Stars({
     x: element ? element.x : window.innerWidth / 2,
     y: element ? element.y : window.innerHeight / 2,
     rotation: 0,
+    color: element ? element.color : '#000000',
   };
 
   return (
@@ -26,8 +26,7 @@ function Stars({
       numPoints={5}
       innerRadius={20}
       outerRadius={40}
-      fill='#FF7F50'
-      // opacity={0.8}
+      fill={star.color}
       draggable={true}
       onDragStart={handleDragStart}
       onDragEnd={(e) => {
@@ -38,7 +37,6 @@ function Stars({
       }}
       stroke='black'
     />
-
   );
 }
 

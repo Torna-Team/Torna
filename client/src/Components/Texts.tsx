@@ -1,4 +1,3 @@
-
 import { Layer, Text } from 'react-konva';
 
 function Texts({ text, handleDragEnd, canvaElements }: any) {
@@ -14,6 +13,7 @@ function Texts({ text, handleDragEnd, canvaElements }: any) {
                 y={el.y ? el.y : window.innerHeight / 2}
                 text={el.text}
                 fontSize={30}
+                fill={el.color}
                 draggable
                 key={el.id}
                 id={el.id.toString()}

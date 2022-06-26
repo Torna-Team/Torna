@@ -1,4 +1,3 @@
-
 import { Rect } from 'react-konva';
 
 function Squares({
@@ -14,27 +13,10 @@ function Squares({
     id: element ? element.id : canvaElements.length - 1,
     x: element ? element.x : window.innerWidth / 2,
     y: element ? element.y : window.innerHeight / 2,
+    color: element ? element.color : '#000000',
   };
 
-
-  useEffect(() => {
-    if (click === 'arrow') {
-      const arrow = {
-        type: 'arrow',
-        id: Math.random() * 1000,
-        x: window.innerWidth / 2,
-        y: window.innerHeight / 2,
-      };
-      setArrows((prev: any) => {
-        if (prev) return [...prev, arrow];
-        else return [arrow];
-      });
-    }
-    setClick(null);
-  }, [click]);
-
   return (
-
     <Rect
       key={square.id}
       id={square.id.toString()}
@@ -44,7 +26,7 @@ function Squares({
       width={100}
       height={100}
       stroke='black'
-      fill='blue'
+      fill={square.color}
       onDragStart={handleDragStart}
       onDragEnd={(e) => {
         const indx = handleDragEnd();
@@ -53,7 +35,6 @@ function Squares({
         canvaElements[indx].y = e.target.y();
       }}
     />
-
   );
 }
 
