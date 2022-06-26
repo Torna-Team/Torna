@@ -1,11 +1,8 @@
-import React from 'react';
 import { Star } from 'react-konva';
 
 function Stars({
-  // click,
   element,
   canvaElements,
-  // setCanvaElements,
   handleDragStart,
   handleDragEnd,
 }: any) {

@@ -13,18 +13,9 @@ function Canvas() {
 
   function handleClick(e: any) {
     e.preventDefault();
-    //THIS should be moved into utils as a huge function that returns the object that we need based on the type
     const type = e.target.value;
     const canvaLength = canvaElements.length;
     const newCanvaElement = checkCanvaElement(type, canvaLength);
-    // if (type === 'star') {
-    //   const star = {
-    //     type: 'star',
-    //     id: canvaElements.length,
-    //     x: window.innerWidth / 2,
-    //     y: window.innerHeight / 2,
-    //     rotation: 0,
-    //   };
     setCanvaElements((prev: any) => {
       if (prev) return [...prev, newCanvaElement];
       else return [newCanvaElement];
@@ -64,9 +55,19 @@ function Canvas() {
   function handleSubmit(e: any) {
     //generate text object
     e.preventDefault();
-    const newText = e.target.textInput.value;
+    const newText = {
+      type: 'text',
+      text: e.target.textInput.value,
+      id: canvaElements.length,
+      x: window.innerWidth / 2,
+      y: window.innerHeight / 2,
+    };
 
     setText((prev: any) => {
+      if (prev) return [...prev, newText];
+      else return [newText];
+    });
+    setCanvaElements((prev: any) => {
       if (prev) return [...prev, newText];
       else return [newText];
     });
@@ -99,6 +100,7 @@ function Canvas() {
                 if (el.type === 'star') {
                   return (
                     <Stars
+                      key={el.id}
                       element={el}
                       canvaElements={canvaElements}
                       setCanvaElements={setCanvaElements}
@@ -110,6 +112,7 @@ function Canvas() {
                 if (el.type === 'circle') {
                   return (
                     <Circles
+                      key={el.id}
                       element={el}
                       canvaElements={canvaElements}
                       setCanvaElements={setCanvaElements}
@@ -121,6 +124,7 @@ function Canvas() {
                 if (el.type === 'square') {
                   return (
                     <Squares
+                      key={el.id}
                       element={el}
                       canvaElements={canvaElements}
                       setCanvaElements={setCanvaElements}
@@ -132,11 +136,14 @@ function Canvas() {
               }
               return <></>;
             })}
-
-          {/* <Squares click={click} setClick={setClick}></Squares> */}
-          {/* <Arrows click={click} setClick={setClick}></Arrows> */}
         </Layer>
-        <Texts text={text} handleDragEnd={handleDragEnd}></Texts>
+        <Texts
+          key={'text'}
+          text={text}
+          handleDragEnd={handleDragEnd}
+          canvaElements={canvaElements}
+          setCanvaElements={setCanvaElements}
+        ></Texts>
       </Stage>
     </div>
   );

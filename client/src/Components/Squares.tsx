@@ -1,4 +1,3 @@
-import React, { useEffect, useState } from 'react';
 import { Rect } from 'react-konva';
 
 function Squares({
@@ -19,7 +18,7 @@ function Squares({
   return (
     <Rect
       key={square.id}
-      id={square.id}
+      id={square.id.toString()}
       x={square.x}
       y={square.y}
       draggable={true}
