@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from 'react';
-import Canva from './Canva';
+import Canva from './Canva-fileupload';
 
 function ImageUpload() {
   const [images, setImages] = useState<FileList>();
