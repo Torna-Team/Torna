@@ -1,39 +1,39 @@
 import React, { useEffect, useState } from 'react';
 import { Circle } from 'react-konva';
 
-function Circles({ click, setClick }: any) {
-  const [circles, setCircles] = useState<any>(null);
-
-  useEffect(() => {
-    if (click === 'circle') {
-      const circle = {
-        id: Math.random() * 1000,
-        x: Math.random() * window.innerWidth,
-        y: Math.random() * window.innerHeight,
-      };
-      setCircles((prev: any) => {
-        if (prev) return [...prev, circle];
-        else return [circle];
-      });
-    }
-    setClick(null);
-  }, [click]);
+function Circles({
+  // click,
+  element,
+  canvaElements,
+  // setCanvaElements,
+  handleDragStart,
+  handleDragEnd,
+}: any) {
+  const circle = {
+    type: 'circle',
+    id: element ? element.id : canvaElements.length - 1,
+    x: element ? element.x : window.innerWidth / 2,
+    y: element ? element.y : window.innerHeight / 2,
+  };
 
   return (
-    <div>
-      {circles &&
-        circles.map((circle: any) => (
-          <Circle
-            key={circle.id}
-            id={circle.id}
-            x={circle.x}
-            y={circle.y}
-            radius={50}
-            stroke='black'
-            draggable={true}
-          />
-        ))}
-    </div>
+    <Circle
+      key={circle.id}
+      id={circle.id.toString()}
+      x={circle.x}
+      y={circle.y}
+      radius={50}
+      stroke='black'
+      fill='pink'
+      onDragStart={handleDragStart}
+      onDragEnd={(e) => {
+        const indx = handleDragEnd();
+        console.log(indx, canvaElements, canvaElements[indx]);
+        canvaElements[indx].x = e.target.x();
+        canvaElements[indx].y = e.target.y();
+      }}
+      draggable={true}
+    />
   );
 }
 
