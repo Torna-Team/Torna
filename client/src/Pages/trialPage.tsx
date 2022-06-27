@@ -1,7 +1,10 @@
 import React from 'react';
 import { useState } from 'react';
-import { Stage, Layer } from 'react-konva';
+import { Stage, Layer, Image } from 'react-konva';
 import Rectangle from '../components/TransformedRectangle';
+import GIF from '../components/GIF';
+import { Video } from '../components/Video';
+import 'gifler';
 
 const elements = [
   {
@@ -101,6 +104,17 @@ function App() {
           onTouchStart={checkDeselect}
         >
           <Layer>
+            <GIF
+              src={
+                'https://media2.giphy.com/media/v2zAv6LiWFxvBbtE86/giphy.gif?cid=3a3f5487hiro0qxvli8qg86bcck8f69o91cdncs0yvjf9xks&rid=giphy.gif&ct=s'
+              }
+              draggable
+            ></GIF>
+            <Video
+              src={
+                'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4'
+              }
+            ></Video>
             {elements.map((item, i) => {
               return (
                 <Rectangle
