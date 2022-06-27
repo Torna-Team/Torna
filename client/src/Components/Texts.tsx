@@ -22,6 +22,7 @@ function Texts({
     scaleX: element ? element.scaleX : 0,
     scaleY: element ? element.scaleY : 0,
     color: element ? element.color : '#000000',
+    font: element ? element.font : 'Ubuntu',
   };
 
   React.useEffect(() => {
@@ -46,6 +47,7 @@ function Texts({
         fill={text.color}
         draggable={true}
         key={text.id}
+        fontFamily={text.font}
         id={text.id.toString()}
         onDragEnd={(e) => {
           console.log('text event', e.target);

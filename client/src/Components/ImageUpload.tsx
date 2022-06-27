@@ -1,11 +1,9 @@
-import React, { useRef, useState, useEffect } from 'react';
-import Canva from './Canva-fileupload';
+import { useRef, useState, useEffect } from 'react';
 
-function ImageUpload() {
-  const [images, setImages] = useState<FileList>();
+function ImageUpload({ setNewImage }: any) {
+  const [images, setImages] = useState<any[]>();
   const [preview, setPreview] = useState<string[]>();
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const [uploadedImage, setUploadedImage] = useState<any>(null);
 
   useEffect(() => {
     if (images) {
@@ -18,7 +16,6 @@ function ImageUpload() {
             } else return [reader.result as string];
           });
         };
-        // console.log(i, images, images[i]);
         reader.readAsDataURL(images[i]);
       }
     }
@@ -28,8 +25,16 @@ function ImageUpload() {
     e.preventDefault();
     fileInputRef.current?.click();
   };
-  const handleClick = (imageClicked: any) => {
-    setUploadedImage([imageClicked]);
+  const handleClick = async (imageClicked: any) => {
+    const formData = new FormData();
+    formData.append('file', imageClicked);
+    formData.append('upload_preset', 'yvorzt4q');
+    const url = process.env.REACT_APP_CLOUDURL as string;
+    console.log(url, formData);
+    const upload = await fetch(url, { method: 'POST', body: formData });
+    const res = await upload.json();
+    console.log(res);
+    setNewImage(res.url);
   };
 
   return (
@@ -43,8 +48,18 @@ function ImageUpload() {
           ref={fileInputRef}
           onChange={(e) => {
             if (e.target.files) {
-              const file = e.target.files;
-              setImages(file);
+              const files = e.target.files;
+              setImages((prev: any) => {
+                let arr: any = [];
+                for (const indx in files) {
+                  if (files.hasOwnProperty(indx)) {
+                    arr.push(files[indx]);
+                    console.log(files[indx]);
+                  }
+                }
+                if (prev) return [...prev, ...arr];
+                else return [...arr];
+              });
             } else {
               setImages(undefined);
             }
@@ -58,7 +73,9 @@ function ImageUpload() {
             return (
               <img
                 onClick={() => {
-                  handleClick(el);
+                  const file = (images as any)[indx];
+                  console.log(file, images);
+                  handleClick(file);
                 }}
                 key={indx}
                 src={el}

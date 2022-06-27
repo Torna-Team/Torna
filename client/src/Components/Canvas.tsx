@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ChromePicker } from 'react-color';
 import { Group, Layer, Stage } from 'react-konva';
-
+import FontPicker from 'font-picker-react';
 import checkCanvaElement from '../Services/utils';
 import Arrows from './Arrows';
 import Circles from './Circles';
@@ -17,6 +17,26 @@ function Canvas() {
   const [showColorPicker, setShowColorPicker] = useState<boolean>(false);
   const [height, setHeight] = useState(600);
   const [selectedId, selectShape] = useState<any>(null);
+  const [newImage, setNewImage] = useState<any>(null);
+  const [font, setFont] = useState<string>('Ubuntu');
+
+  const fontAPI = process.env.REACT_APP_GOOGLEAPI as string;
+
+  useEffect(() => {
+    if (newImage !== null) {
+      const canvaLength = canvaElements.length;
+      const newCanvaElement = checkCanvaElement(
+        'image',
+        canvaLength,
+        color,
+        newImage
+      );
+      setCanvaElements((prev: any) => {
+        if (prev) return [...prev, newCanvaElement];
+        else return [newCanvaElement];
+      });
+    }
+  }, [newImage]);
 
   function handleClick(e: any) {
     e.preventDefault();
@@ -87,6 +107,7 @@ function Canvas() {
       x: window.innerWidth / 2,
       y: window.innerHeight / 2,
       color: color,
+      font: font,
     };
 
     // setText((prev: any) => {
@@ -121,6 +142,11 @@ function Canvas() {
             onChange={(updatedColor) => setColor(updatedColor.hex)}
           ></ChromePicker>
         )}
+        <FontPicker
+          apiKey={fontAPI as string}
+          activeFontFamily={font}
+          onChange={(nextFont) => setFont(nextFont.family)}
+        />
         <h2>You picked {color}</h2>
         <button value={'star'} onClick={handleClick}>
           STAR
@@ -141,7 +167,7 @@ function Canvas() {
           IMAGE
         </button>
         {/* miss all the logic but at least they render */}
-        <ImageUpload></ImageUpload>
+        <ImageUpload setNewImage={setNewImage}></ImageUpload>
       </div>
       <Stage
         width={window.innerWidth}

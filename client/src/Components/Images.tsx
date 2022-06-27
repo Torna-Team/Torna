@@ -25,8 +25,8 @@ function Images({
     x: element ? element.x : window.innerWidth / 2,
     y: element ? element.y : window.innerHeight / 2,
     rotation: element ? element.rotation : 0,
-    scaleX: element ? element.scaleX : 0.5,
-    scaleY: element ? element.scaleY : 0.5,
+    scaleX: element ? element.scaleX : 0.05,
+    scaleY: element ? element.scaleY : 0.05,
   };
 
   return (

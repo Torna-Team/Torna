@@ -51,6 +51,8 @@ const checkCanvaElement = (
         x: window.innerWidth / 2,
         y: window.innerHeight / 2,
         src: newImage,
+        scaleX: 0.1,
+        scaleY: 0.1,
       };
       return image;
     default:
