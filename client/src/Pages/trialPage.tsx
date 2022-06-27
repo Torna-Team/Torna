@@ -1,10 +1,6 @@
 import React from 'react';
 import { useState } from 'react';
-import { Stage, Layer, Image } from 'react-konva';
-import Rectangle from '../components/TransformedRectangle';
-import GIF from '../components/GIF';
 import { Video } from '../components/Video';
-import 'gifler';
 
 const elements = [
   {

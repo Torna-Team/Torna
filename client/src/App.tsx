@@ -1,16 +1,15 @@
 import './App.css';
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Home from './Pages/Home';
-import TrialPage from './Pages/trialPage';
+// import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+// import Home from './Pages/Home';
+
+import Canvas from './Components/Canvas';
 
 function App() {
   return (
-    <Router>
-      <Routes>
-        <Route path='/' element={<TrialPage />} />
-      </Routes>
-    </Router>
+    <div className='App'>
+      <Canvas></Canvas>
+    </div>
   );
 }
 
