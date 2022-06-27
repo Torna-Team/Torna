@@ -13,10 +13,10 @@ code {
     monospace;
 }
 
-.menuContainer {
+/* .menuContainer {
   display: flex;
   position: sticky;
-  /* height: 200px; */
+  height: 200px;
   justify-content: space-evenly;
 }
 .chromePicker {
@@ -25,4 +25,4 @@ code {
 .menuContainer button {
   height: 50px;
   position: sticky;
-}
+} */

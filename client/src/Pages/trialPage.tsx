@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState } from 'react';
 import { Stage, Layer } from 'react-konva';
-import Rectangle from '../components/TransformedRectangle';
+import Rectangle from '../Components/TransformedRectangle';
 
 const elements = [
   {
