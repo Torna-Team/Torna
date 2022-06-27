@@ -1,5 +1,5 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
 import '../Styles/Home.css';
 import GoogleButton from 'react-google-button';
 import { auth } from '../Services/Firebase';
@@ -16,15 +16,11 @@ type LoginProps = {
 	userName: string;
 };
 
-const Home: React.FC<LoginProps> = ({
-	setUserId,
-	setUserMail,
-	setUserName,
-	userName,
-	userMail,
-	userId,
-}) => {
+const Home: React.FC<LoginProps> = () => {
 	const navigate = useNavigate();
+	const [userName, setUserName] = useState<any>('');
+	const [userId, setUserId] = useState('');
+	const [userMail, setUserMail] = useState('');
 
 	const onSubmitHandler = async (event: React.FormEvent) => {
 		event.preventDefault();
@@ -115,8 +111,8 @@ const Home: React.FC<LoginProps> = ({
 			</form>
 			<GoogleButton className='googleBtn' onClick={signInWithGoogle} />
 			<p>
-				Don't have an account?{' '}
-				<a href='http://localhost:3000/register'>Sign up</a>
+				Don't have an account?
+				<Link to='/register'>Sign up</Link>
 			</p>
 		</div>
 	);

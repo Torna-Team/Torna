@@ -2,10 +2,9 @@ import React from 'react';
 import '../Styles/Register.css';
 import { User } from '../Services/Server-Client';
 import { register } from '../Services/Server-Client';
-import { useNavigate } from 'react-router-dom';
-import { idText } from 'typescript';
+import { useNavigate, Link } from 'react-router-dom';
 
-const Register = () => {
+const Register = ({ setUserName }: any) => {
 	const navigate = useNavigate();
 	const onSubmitHandler = async (event: React.FormEvent) => {
 		event.preventDefault();
@@ -27,7 +26,7 @@ const Register = () => {
 			email: email,
 		};
 		const registration = await register(newUser as User);
-
+		setUserName(firstName);
 		navigate(`/profile/${(registration as User).id}`);
 	};
 	return (
@@ -71,7 +70,7 @@ const Register = () => {
 
 			<p>
 				or
-				<a href='http://localhost:3000/'> Login</a>
+				<Link to='/'> Login</Link>
 			</p>
 		</div>
 	);
