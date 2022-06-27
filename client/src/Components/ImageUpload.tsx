@@ -63,12 +63,11 @@ function ImageUpload() {
                 key={indx}
                 src={el}
                 alt={indx.toString()}
-                style={{ width: '300px' }}
+                style={{ height: '150px' }}
               ></img>
             );
           })}
       </div>
-      <Canva uploadedImage={uploadedImage}></Canva>
     </>
   );
 }

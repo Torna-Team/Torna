@@ -1,7 +1,8 @@
 const checkCanvaElement = (
   type: string,
   canvaElementsLength: number,
-  color: string
+  color: string,
+  imageSrc?: string
 ) => {
   switch (type) {
     case 'star':
@@ -40,6 +41,18 @@ const checkCanvaElement = (
         color: color,
       };
       return arrow;
+    case 'image':
+      const newImage = new window.Image();
+      newImage.src = imageSrc as string;
+
+      const image = {
+        type: 'image',
+        id: canvaElementsLength,
+        x: window.innerWidth / 2,
+        y: window.innerHeight / 2,
+        src: newImage,
+      };
+      return image;
     default:
       return {};
   }

@@ -8,6 +8,8 @@ import Circles from './Circles';
 import Squares from './Squares';
 import Stars from './Stars';
 import Texts from './Texts';
+import Images from './Images';
+import ImageUpload from './ImageUpload';
 
 function Canvas() {
   const [canvaElements, setCanvaElements] = useState<any[]>([]);
@@ -19,7 +21,10 @@ function Canvas() {
     e.preventDefault();
     const type = e.target.value;
     const canvaLength = canvaElements.length;
-    const newCanvaElement = checkCanvaElement(type, canvaLength, color);
+    let newCanvaElement!: any;
+    type.includes('http')
+      ? (newCanvaElement = checkCanvaElement('image', canvaLength, color, type))
+      : (newCanvaElement = checkCanvaElement(type, canvaLength, color));
     setCanvaElements((prev: any) => {
       if (prev) return [...prev, newCanvaElement];
       else return [newCanvaElement];
@@ -80,37 +85,48 @@ function Canvas() {
   }
 
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
-        <input type='text' id={text} name='textInput'></input>
-        <button type='submit'> Add Text </button>
-      </form>
-      <button
-        onClick={() =>
-          setShowColorPicker((showColorPicker) => !showColorPicker)
-        }
-      >
-        {showColorPicker ? 'Close' : 'Pick a color'}
-      </button>
-      {showColorPicker && (
-        <ChromePicker
-          color={color}
-          onChange={(updatedColor) => setColor(updatedColor.hex)}
-        ></ChromePicker>
-      )}
-      <h2>You picked {color}</h2>
-      <button value='star' onClick={handleClick}>
-        STAR
-      </button>
-      <button value='circle' onClick={handleClick}>
-        CIRCLE
-      </button>
-      <button value='square' onClick={handleClick}>
-        SQUARE
-      </button>
-      <button value='arrow' onClick={handleClick}>
-        ARROW
-      </button>
+    <div className='mainContainer'>
+      <div className='menuContainer'>
+        <form onSubmit={handleSubmit}>
+          <input type='text' id={text} name='textInput'></input>
+          <button type='submit'> Add Text </button>
+        </form>
+        <button
+          onClick={() =>
+            setShowColorPicker((showColorPicker) => !showColorPicker)
+          }
+        >
+          {showColorPicker ? 'Close' : 'Pick a color'}
+        </button>
+        {showColorPicker && (
+          <ChromePicker
+            className='chromePicker'
+            color={color}
+            onChange={(updatedColor) => setColor(updatedColor.hex)}
+          ></ChromePicker>
+        )}
+        <h2>You picked {color}</h2>
+        <button value={'star'} onClick={handleClick}>
+          STAR
+        </button>
+        <button value='circle' onClick={handleClick}>
+          CIRCLE
+        </button>
+        <button value='square' onClick={handleClick}>
+          SQUARE
+        </button>
+        <button value='arrow' onClick={handleClick}>
+          ARROW
+        </button>
+        <button
+          value='https://qph.cf2.quoracdn.net/main-qimg-c8781a4bb1f17e330b50cb35f851da05.webp'
+          onClick={handleClick}
+        >
+          IMAGE
+        </button>
+        {/* miss all the logic but at least they render */}
+        <ImageUpload></ImageUpload>
+      </div>
       <Stage width={window.innerWidth} height={window.innerHeight}>
         <Layer>
           {canvaElements &&
@@ -162,6 +178,18 @@ function Canvas() {
                       handleDragStart={handleDragStart}
                       handleDragEnd={() => handleDragEnd(el)}
                     ></Arrows>
+                  );
+                }
+                if (el.type === 'image') {
+                  return (
+                    <Images
+                      key={el.id}
+                      element={el}
+                      canvaElements={canvaElements}
+                      setCanvaElements={setCanvaElements}
+                      handleDragStart={handleDragStart}
+                      handleDragEnd={() => handleDragEnd(el)}
+                    ></Images>
                   );
                 }
               }
