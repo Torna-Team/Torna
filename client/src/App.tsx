@@ -3,6 +3,7 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Home from './Pages/Home';
 import Register from './Pages/Register';
+import Profile from './Pages/Profile';
 
 type UserId = string;
 type UserMail = string;
@@ -29,6 +30,7 @@ function App() {
 					}
 				/>
 				<Route path='/register' element={<Register />} />
+				<Route path='/profile/:id' element={<Profile />} />
 			</Routes>
 		</Router>
 	);
