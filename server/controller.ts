@@ -1,6 +1,7 @@
 import { Response, Request } from 'express';
 import { PrismaClient } from '@prisma/client';
 import bcrypt from 'bcrypt';
+import { v4 as uuidv4 } from 'uuid';
 
 const prisma = new PrismaClient();
 
@@ -14,6 +15,45 @@ const getUsers = async (req: Request, res: Response) => {
 		});
 		res.status(200);
 		res.json(users);
+	} catch (error) {
+		res.status(500);
+		console.log(error);
+		res.end();
+	}
+};
+
+const getUser = async (req: Request, res: Response) => {
+	try {
+		const { mail, firstName, lastName } = req.body;
+		console.log(mail);
+		let user = await prisma.user.findUnique({
+			where: {
+				email: mail,
+			},
+			include: {
+				albums: true,
+			},
+		});
+		if (user === null) {
+			const password = uuidv4();
+			const hash = await bcrypt.hash(password, 10);
+			(user as any) = await prisma.user.create({
+				data: {
+					firstName: firstName,
+					lastName: lastName,
+					email: mail,
+					password: hash,
+				},
+			});
+		}
+
+		const securedData = {
+			albums: user?.albums,
+			firstName: user?.firstName,
+			lastName: user?.lastName,
+		};
+		res.status(200);
+		res.json(securedData);
 	} catch (error) {
 		res.status(500);
 		console.log(error);
@@ -41,7 +81,7 @@ const login = async (req: Request, res: Response) => {
 	}
 };
 
-const postUser = async (req: Request, res: Response) => {
+const register = async (req: Request, res: Response) => {
 	try {
 		const { firstName, lastName, password, email } = req.body;
 		const hash = await bcrypt.hash(password, 10);
@@ -158,8 +198,9 @@ const deleteAlbum = async (req: Request, res: Response) => {
 
 export default {
 	getUsers,
+	getUser,
 	login,
-	postUser,
+	register,
 	editUser,
 	getAlbums,
 	postAlbum,

@@ -5,8 +5,9 @@ const router = express.Router();
 
 //User routes
 router.get('/users', Data.getUsers);
+router.post('/user/:id', Data.getUser);
 router.post('/login', Data.login);
-router.post('/user', Data.postUser);
+router.post('/register', Data.register);
 router.put('/user/:id', Data.editUser);
 
 //Album routes
