@@ -24,11 +24,11 @@ const getUsers = async (req: Request, res: Response) => {
 
 const getUser = async (req: Request, res: Response) => {
 	try {
-		const { mail, firstName, lastName } = req.body;
-		console.log(mail);
+		const { email, firstName, lastName } = req.body;
+		console.log(email);
 		let user = await prisma.user.findUnique({
 			where: {
-				email: mail,
+				email: email,
 			},
 			include: {
 				albums: true,
@@ -41,7 +41,7 @@ const getUser = async (req: Request, res: Response) => {
 				data: {
 					firstName: firstName,
 					lastName: lastName,
-					email: mail,
+					email: email,
 					password: hash,
 				},
 			});
@@ -63,6 +63,7 @@ const getUser = async (req: Request, res: Response) => {
 
 const login = async (req: Request, res: Response) => {
 	try {
+		console.log(req.body);
 		const { email, password } = req.body;
 		const user = await prisma.user.findUnique({
 			where: {
@@ -70,10 +71,14 @@ const login = async (req: Request, res: Response) => {
 			},
 		});
 		if (user) {
+			console.log(user, password);
 			const validatePass = await bcrypt.compare(password, user.password);
-			if (!validatePass) throw Error();
+			console.log(validatePass);
+			if (validatePass === false) throw Error();
 		}
-		res.status(200).json(user);
+		res.status(200);
+		console.log(user);
+		res.send(user);
 	} catch (error) {
 		res.status(401);
 		console.log(error);

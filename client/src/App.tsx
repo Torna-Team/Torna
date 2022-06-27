@@ -2,6 +2,7 @@ import './App.css';
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Home from './Pages/Home';
+import Register from './Pages/Register';
 
 type UserId = string;
 type UserMail = string;
@@ -27,6 +28,7 @@ function App() {
 						/>
 					}
 				/>
+				<Route path='/register' element={<Register />} />
 			</Routes>
 		</Router>
 	);

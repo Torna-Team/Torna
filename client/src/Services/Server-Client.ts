@@ -1,17 +1,22 @@
 const BASE_URL = 'http://localhost:3001';
 
-export type user = {
-	userId: string;
-	name: string;
+export interface User {
+	id: string;
+	firstName: string;
 	lastName?: string;
 	password?: string;
 	email: string;
-};
+}
+
+export interface LoggingUser {
+	email: string;
+	password: string;
+}
 
 export const getUser = async (
 	id: string,
 	displayName: string,
-	mail: string
+	email: string
 ) => {
 	try {
 		const result = await fetch(`${BASE_URL}/user/${id}`, {
@@ -20,26 +25,40 @@ export const getUser = async (
 			body: JSON.stringify({
 				firstName: displayName,
 				lastName: '',
-				mail: mail,
+				email: email,
 			}),
 		});
 		const json = await result.json();
-		console.log(json);
 		return json;
 	} catch (error) {
 		console.log(error);
 	}
 };
 
-export const login = async (user: user) => {
+export const login = async (user: LoggingUser) => {
 	try {
 		const result = await fetch(`${BASE_URL}/login`, {
 			method: 'POST',
 			headers: { 'Content-type': 'application/json' },
 			body: JSON.stringify(user),
 		});
-		return await result.json();
+		const res = await result.json();
+		return res as User;
 	} catch (error) {
 		console.log(error);
+	}
+};
+
+export const register = async (newuser: User) => {
+	try {
+		const result = await fetch(`${BASE_URL}/register`, {
+			method: 'POST',
+			headers: { 'Content-type': 'application/json' },
+			body: JSON.stringify(newuser),
+		});
+		const res = await result.json();
+		return res as User;
+	} catch (error) {
+		console.error(error);
 	}
 };

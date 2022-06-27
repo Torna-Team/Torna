@@ -1,10 +1,11 @@
 import React from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import '../Styles/Home.css';
 import GoogleButton from 'react-google-button';
 import { auth } from '../Services/Firebase';
 import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import { login, getUser } from '../Services/Server-Client';
+import { LoggingUser } from '../Services/Server-Client';
 
 type LoginProps = {
 	setUserId: React.Dispatch<React.SetStateAction<string>>;
@@ -25,7 +26,7 @@ const Home: React.FC<LoginProps> = ({
 }) => {
 	const navigate = useNavigate();
 
-	const onSubmitHandler = (event: React.FormEvent) => {
+	const onSubmitHandler = async (event: React.FormEvent) => {
 		event.preventDefault();
 		const target = event.target as typeof event.target & {
 			email: { value: string };
@@ -34,16 +35,25 @@ const Home: React.FC<LoginProps> = ({
 		const email: string = target.email.value;
 		const password: string = target.password.value;
 
-		navigate(`/profile/${email}`);
+		const user = {
+			email: email,
+			password: password,
+		};
+		const logged = await login(user as LoggingUser);
+		if (logged && (logged as any).id === undefined) {
+			alert('Invalid Email or Password');
+		} else {
+			navigate(`/profile/${(logged as unknown as any).id}`);
+		}
 	};
 
 	const checkExistingUser = async (
 		id: string,
 		displayName: string,
-		mail: string
+		email: string
 	) => {
-		if (id && displayName && mail !== null) {
-			const result = await getUser(id, displayName, mail);
+		if (id && displayName && email !== null) {
+			const result = await getUser(id, displayName, email);
 			if (result) {
 				return true;
 			} else {
@@ -83,6 +93,7 @@ const Home: React.FC<LoginProps> = ({
 
 	return (
 		<div className='form-container'>
+			<div>Sign in</div>
 			<form className='login-container' onSubmit={onSubmitHandler}>
 				<label className='signInLabel'>Email</label>
 				<input
@@ -103,7 +114,10 @@ const Home: React.FC<LoginProps> = ({
 				<button className='signInBtn'>Sign In</button>
 			</form>
 			<GoogleButton className='googleBtn' onClick={signInWithGoogle} />
-			<p>Don't have an account? Sign up</p>
+			<p>
+				Don't have an account?{' '}
+				<a href='http://localhost:3000/register'>Sign up</a>
+			</p>
 		</div>
 	);
 };
