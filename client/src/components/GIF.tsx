@@ -23,11 +23,10 @@ const GIF = ({ src }: any) => {
         ctx.drawImage(frame.buffer, frame.x, frame.y);
         imageRef.current.getLayer().draw();
       };
-      setAnim(an);
     });
-    console.log(anim, 'anim2');
-    if (anim) {
-      return () => anim.stop();
+    // console.log(anim, 'anim2');
+    if (an) {
+      return () => an.stop();
     }
   }, [src, canvas]);
 

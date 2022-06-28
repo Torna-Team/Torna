@@ -9,7 +9,9 @@ import Squares from './Squares';
 import Stars from './Stars';
 import Texts from './Texts';
 import Images from './Images';
+import AnimatedText from '../Components/AnimatedText';
 import ImageUpload from './ImageUpload';
+import Gifs from './Gifs';
 
 function Canvas() {
   const [canvaElements, setCanvaElements] = useState<any[]>([]);
@@ -23,6 +25,8 @@ function Canvas() {
   const [selectedId, selectShape] = useState<any>(null);
   const [newImage, setNewImage] = useState<any>(null);
   const [font, setFont] = useState<string>('Ubuntu');
+  const [animated, setAnimated] = useState<boolean>(false);
+  const [newGif, setNewGif] = useState<any>(null);
 
   const fontAPI = process.env.REACT_APP_GOOGLEAPI as string;
 
@@ -41,23 +45,48 @@ function Canvas() {
         else return [newCanvaElement];
       });
     }
-  }, [newImage]);
+    if (newGif !== null) {
+      const canvaLength = canvaElements.length;
+      const newCanvaElement = checkCanvaElement(
+        'gif',
+        canvaLength,
+        color,
+        stroke,
+        newGif
+      );
+      setCanvaElements((prev: any) => {
+        if (prev) return [...prev, newCanvaElement];
+        else return [newCanvaElement];
+      });
+    }
+  }, [newImage, newGif]);
 
   function handleClick(e: any) {
     e.preventDefault();
     const type = e.target.value;
     const canvaLength = canvaElements.length;
     let newCanvaElement!: any;
-    type.includes('http')
-      ? (newCanvaElement = checkCanvaElement(
-          'image',
-          canvaLength,
-          color,
-          stroke,
-          type
-        ))
-      : (newCanvaElement = checkCanvaElement(type, canvaLength, color, stroke));
+    if (type.includes('.gif')) {
+      newCanvaElement = checkCanvaElement(
+        'gif',
+        canvaLength,
+        color,
+        stroke,
+        type
+      );
+    } else if (type.includes('http://res.cloudinary.com')) {
+      newCanvaElement = checkCanvaElement(
+        'image',
+        canvaLength,
+        color,
+        stroke,
+        type
+      );
+    } else {
+      newCanvaElement = checkCanvaElement(type, canvaLength, color, stroke);
+    }
     setCanvaElements((prev: any) => {
+      console.log(newCanvaElement);
       if (prev) return [...prev, newCanvaElement];
       else return [newCanvaElement];
     });
@@ -122,12 +151,10 @@ function Canvas() {
       font: font,
     };
 
-
     // setText((prev: any) => {
     //   if (prev) return [...prev, newText];
     //   else return [newText];
     // });
-
 
     setCanvaElements((prev: any) => {
       if (prev) return [...prev, newText];
@@ -212,6 +239,24 @@ function Canvas() {
         >
           IMAGE
         </button>
+        <button
+          value='https://media2.giphy.com/media/DqIb4tYQPRAywC5d18/giphy.gif?cid=3a3f548700d14y67tcer708zyerzponvfdz02guqnami19mb&rid=giphy.gif&ct=g'
+          onClick={handleClick}
+        >
+          GIF
+        </button>
+        <button value='animatedText' onClick={handleClick}>
+          ANIMATED TEXT
+        </button>
+        <label>
+          <input
+            type='checkbox'
+            id='animated'
+            onClick={() => setAnimated(!animated)}
+          ></input>
+        </label>
+        {animated && <AnimatedText setNewGif={setNewGif}></AnimatedText>}
+
         {/* miss all the logic but at least they render */}
         <ImageUpload setNewImage={setNewImage}></ImageUpload>
       </div>
@@ -306,6 +351,22 @@ function Canvas() {
                         selectShape(el.id);
                       }}
                     ></Images>
+                  );
+                }
+                if (el.type === 'gif') {
+                  return (
+                    <Gifs
+                      key={el.id}
+                      element={el}
+                      canvaElements={canvaElements}
+                      setCanvaElements={setCanvaElements}
+                      handleDragStart={handleDragStart}
+                      handleDragEnd={() => handleDragEnd(el)}
+                      isSelected={el.id === selectedId}
+                      onSelect={() => {
+                        selectShape(el.id);
+                      }}
+                    ></Gifs>
                   );
                 }
               }

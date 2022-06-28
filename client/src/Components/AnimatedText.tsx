@@ -6,9 +6,11 @@ import '../Styles/gifPicker.styles.css';
 
 const giphyKey: any = process.env.REACT_APP_GIPHY_KEY;
 const giphy = new GiphyFetch(giphyKey);
-type Props = {};
+type Props = {
+  setNewGif: any;
+};
 
-const AnimatedText = (props: Props) => {
+const AnimatedText = ({ setNewGif }: Props) => {
   const [text, setText] = useState<string>('');
   const [results, setResults] = useState<any[]>([]);
   const [err, setErr] = useState<boolean>(false);
@@ -45,8 +47,18 @@ const AnimatedText = (props: Props) => {
         <div className='gifResult-container'>
           {results &&
             !err &&
-            results.map((gif) => {
-              return <img src={gif.url} width={width} draggable />;
+            results.map((gif, index) => {
+              return (
+                <img
+                  src={gif.url}
+                  width={width}
+                  key={index}
+                  alt={index.toString()}
+                  onClick={() => {
+                    setNewGif(gif);
+                  }}
+                />
+              );
             })}
         </div>
       </div>
