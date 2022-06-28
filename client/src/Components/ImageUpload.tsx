@@ -1,25 +1,8 @@
-import { useRef, useState, useEffect } from 'react';
+import { useRef, useState } from 'react';
 
 function ImageUpload({ setNewImage }: any) {
-  const [images, setImages] = useState<any[]>();
-  const [preview, setPreview] = useState<string[]>();
   const fileInputRef = useRef<HTMLInputElement>(null);
-
-  useEffect(() => {
-    if (images) {
-      for (let i = 0; i < images.length; i++) {
-        const reader = new FileReader();
-        reader.onloadend = () => {
-          setPreview((prev) => {
-            if (prev) {
-              return [...prev, reader.result as string];
-            } else return [reader.result as string];
-          });
-        };
-        reader.readAsDataURL(images[i]);
-      }
-    }
-  }, [images]);
+  const [imageObj, setImageObj] = useState<any>();
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
@@ -37,6 +20,13 @@ function ImageUpload({ setNewImage }: any) {
     setNewImage(res.url);
   };
 
+  const updatePreview = (file: any) => {
+    if (file) {
+      file.preview = URL.createObjectURL(file);
+      return file;
+    }
+  };
+
   return (
     <>
       <form>
@@ -49,36 +39,38 @@ function ImageUpload({ setNewImage }: any) {
           onChange={(e) => {
             if (e.target.files) {
               const files = e.target.files;
-              setImages((prev: any) => {
+              setImageObj((prev: any) => {
                 let arr: any = [];
                 for (const indx in files) {
                   if (files.hasOwnProperty(indx)) {
-                    arr.push(files[indx]);
-                    console.log(files[indx]);
+                    const element = updatePreview(files[indx]);
+                    arr.push(element);
+                    console.log(element);
                   }
                 }
                 if (prev) return [...prev, ...arr];
                 else return [...arr];
               });
             } else {
-              setImages(undefined);
+              setImageObj(undefined);
             }
           }}
         />
         <button onClick={handleSubmit}>Upload images</button>
       </form>
       <div>
-        {preview &&
-          preview.map((el, indx) => {
+        {imageObj &&
+          imageObj.map((el: any, indx: any) => {
+            console.log(indx, '--------------', el);
             return (
               <img
                 onClick={() => {
-                  const file = (images as any)[indx];
-                  console.log(file, images);
+                  const file = el;
+                  console.log(el, imageObj);
                   handleClick(file);
                 }}
                 key={indx}
-                src={el}
+                src={el.preview}
                 alt={indx.toString()}
                 style={{ height: '150px' }}
               ></img>

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { ChromePicker } from 'react-color';
-import { Group, Layer, Stage } from 'react-konva';
+import { Layer, Stage } from 'react-konva';
 import FontPicker from 'font-picker-react';
 import checkCanvaElement from '../Services/utils';
 import Arrows from './Arrows';
@@ -122,10 +122,12 @@ function Canvas() {
       font: font,
     };
 
+
     // setText((prev: any) => {
     //   if (prev) return [...prev, newText];
     //   else return [newText];
     // });
+
 
     setCanvaElements((prev: any) => {
       if (prev) return [...prev, newText];
@@ -306,35 +308,32 @@ function Canvas() {
                     ></Images>
                   );
                 }
-                if (el.type === 'text') {
-                  return (
-                    <Group>
-                      <Texts
-                        key={el.id}
-                        element={el}
-                        canvaElements={canvaElements}
-                        setCanvaElements={setCanvaElements}
-                        handleDragStart={handleDragStart}
-                        handleDragEnd={() => handleDragEnd(el)}
-                        isSelected={el.id === selectedId}
-                        onSelect={() => {
-                          selectShape(el.id);
-                        }}
-                      ></Texts>
-                    </Group>
-                  );
-                }
               }
               return <></>;
             })}
         </Layer>
-        {/* <Texts
-          key={'text'}
-          // text={text}
-          handleDragEnd={handleDragEnd}
-          canvaElements={canvaElements}
-          setCanvaElements={setCanvaElements}
-        ></Texts> */}
+        <Layer>
+          {canvaElements &&
+            canvaElements.map((el, i) => {
+              if (el.type === 'text') {
+                return (
+                  <Texts
+                    key={el.id}
+                    element={el}
+                    canvaElements={canvaElements}
+                    setCanvaElements={setCanvaElements}
+                    handleDragStart={handleDragStart}
+                    handleDragEnd={() => handleDragEnd(el)}
+                    isSelected={el.id === selectedId}
+                    onSelect={() => {
+                      selectShape(el.id);
+                    }}
+                  ></Texts>
+                );
+              }
+              return <></>;
+            })}
+        </Layer>
       </Stage>
     </div>
   );
