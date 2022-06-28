@@ -28,7 +28,8 @@ function Squares({
     rotation: element ? element.rotation : 0,
     scaleX: element ? element.scaleX : 0,
     scaleY: element ? element.scaleY : 0,
-    color: element ? element.color : '#000000',
+    color: element ? element.color : 'rgb(255, 255, 255)',
+    stroke: element ? element.stroke : 'rgb(0, 0, 0, 0)',
   };
 
   return (
@@ -45,8 +46,8 @@ function Squares({
         draggable={true}
         width={100}
         height={100}
-        stroke='black'
         fill={square.color}
+        stroke={square.stroke}
         onDragStart={handleDragStart}
         onDragEnd={(e) => {
           const indx = handleDragEnd();

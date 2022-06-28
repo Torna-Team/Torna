@@ -27,7 +27,7 @@ function Arrows({
     rotation: element ? element.rotation : 0,
     scaleX: element ? element.scaleX : 0,
     scaleY: element ? element.scaleY : 0,
-    color: element ? element.color : '#000000',
+    color: element ? element.color : 'rgb(0, 0, 0, 1)',
   };
 
   return (

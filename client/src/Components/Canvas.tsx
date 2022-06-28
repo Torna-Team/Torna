@@ -144,6 +144,8 @@ function Canvas() {
         >
           {showColorPicker ? 'Close' : 'Pick fill color'}
         </button>
+
+        {/* FIll */}
         {showColorPicker && (
           <ChromePicker
             className='chromePicker'
@@ -162,6 +164,8 @@ function Canvas() {
         >
           {showStrokePicker ? 'Close' : 'Pick stroke color'}
         </button>
+
+        {/* STROKE */}
         {showStrokePicker && (
           <ChromePicker
             className='chromePicker'
