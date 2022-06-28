@@ -11,7 +11,9 @@ import Squares from './Squares';
 import Stars from './Stars';
 import Texts from './Texts';
 import Images from './Images';
+import AnimatedText from '../Components/AnimatedText';
 import ImageUpload from './ImageUpload';
+import Gifs from './Gifs';
 
 function splitTextFromGenericShapes(shapeList) {
   return shapeList.reduce(
@@ -50,6 +52,7 @@ const shapeType = {
   square: Squares,
   image: Images,
   text: Texts,
+  gif: Gifs,
 };
 
 function Canvas() {
@@ -67,6 +70,8 @@ function Canvas() {
   const [selectedId, selectShape] = useState<any>(null);
   const [newImage, setNewImage] = useState<any>(null);
   const [font, setFont] = useState<string>('Ubuntu');
+  const [animated, setAnimated] = useState<boolean>(false);
+  const [newGif, setNewGif] = useState<any>(null);
 
   const fontAPI = process.env.REACT_APP_GOOGLEAPI as string;
 
@@ -85,23 +90,48 @@ function Canvas() {
         else return [newCanvaElement];
       });
     }
-  }, [newImage]);
+    if (newGif !== null) {
+      const canvaLength = canvaElements.length;
+      const newCanvaElement = checkCanvaElement(
+        'gif',
+        canvaLength,
+        color,
+        stroke,
+        newGif
+      );
+      setCanvaElements((prev: any) => {
+        if (prev) return [...prev, newCanvaElement];
+        else return [newCanvaElement];
+      });
+    }
+  }, [newImage, newGif]);
 
   function handleClick(e: any) {
     e.preventDefault();
     const type = e.target.value;
     const canvaLength = canvaElements.length;
     let newCanvaElement!: any;
-    type.includes('http')
-      ? (newCanvaElement = checkCanvaElement(
-          'image',
-          canvaLength,
-          color,
-          stroke,
-          type
-        ))
-      : (newCanvaElement = checkCanvaElement(type, canvaLength, color, stroke));
+    if (type.includes('.gif')) {
+      newCanvaElement = checkCanvaElement(
+        'gif',
+        canvaLength,
+        color,
+        stroke,
+        type
+      );
+    } else if (type.includes('http://res.cloudinary.com')) {
+      newCanvaElement = checkCanvaElement(
+        'image',
+        canvaLength,
+        color,
+        stroke,
+        type
+      );
+    } else {
+      newCanvaElement = checkCanvaElement(type, canvaLength, color, stroke);
+    }
     setCanvaElements((prev: any) => {
+      console.log(newCanvaElement);
       if (prev) return [...prev, newCanvaElement];
       else return [newCanvaElement];
     });
@@ -303,6 +333,7 @@ function Canvas() {
                   }}
                 />
               );
+
             })}
           </Layer>
           <Layer>

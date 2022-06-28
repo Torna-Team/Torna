@@ -59,6 +59,20 @@ const checkCanvaElement = (
         scaleY: 0.1,
       };
       return image;
+    case 'gif':
+      const newGif = new window.Image();
+      newGif.src = imageSrc as string;
+
+      const gif = {
+        type: 'gif',
+        id: canvaElementsLength,
+        x: window.innerWidth / 2,
+        y: window.innerHeight / 2,
+        src: newGif,
+        scaleX: 0.5,
+        scaleY: 0.5,
+      };
+      return gif;
     default:
       return {};
   }
