@@ -38,6 +38,7 @@ const Home: React.FC<LoginProps> = () => {
 			password: password,
 		};
 		const logged = await login(user as LoggingUser);
+		console.log(logged);
 		if (logged && (logged as any).id === undefined) {
 			alert('Invalid Email or Password');
 		} else {

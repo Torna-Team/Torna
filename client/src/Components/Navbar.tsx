@@ -2,15 +2,13 @@ import React, { useState, useEffect, useContext } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { LoginContext } from '../Utils/Context';
 
-function Navbar() {
+function Navbar({ user }: any) {
 	let { id } = useParams();
 	const { loggedIn, setLoggedIn } = useContext(LoginContext as any);
 
-	// const [user, setUser] = useState<any>();
-
 	return (
 		<>
-			<div>Navbar of {id}</div>
+			<div>Navbar of {user && (user.name ? user.name : user.firstName)}</div>
 			{loggedIn ? (
 				<Link to='/'>
 					<button

@@ -67,14 +67,22 @@ const login = async (req: Request, res: Response) => {
 			where: {
 				email,
 			},
+			include: {
+				albums: true,
+			},
 		});
 		if (user) {
 			const validatePass = await bcrypt.compare(password, user.password);
 			if (validatePass === false) throw Error();
 		}
+		const securedData = {
+			id: user?.id,
+			albums: user?.albums,
+			firstName: user?.firstName,
+			lastName: user?.lastName,
+		};
 		res.status(200);
-		console.log(user);
-		res.send(user);
+		res.send(securedData);
 	} catch (error) {
 		res.status(401);
 		console.log(error);

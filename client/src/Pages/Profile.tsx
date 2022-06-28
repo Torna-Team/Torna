@@ -4,8 +4,10 @@ import { LoginContext } from '../Utils/Context';
 import { useParams } from 'react-router-dom';
 
 function Profile() {
+	let { id } = useParams();
 	const { loggedIn, setLoggedIn } = useContext(LoginContext as any);
 	const [user, setUser] = useState<any>();
+
 	useEffect(() => {
 		if (sessionStorage && sessionStorage.getItem('user')) {
 			const res = JSON.parse(sessionStorage.getItem('user') as string);
@@ -14,10 +16,9 @@ function Profile() {
 		}
 	}, []);
 
-	let { id } = useParams();
 	return (
 		<>
-			<Navbar />
+			<Navbar user={user} />
 			<div>
 				{loggedIn ? (
 					<>
