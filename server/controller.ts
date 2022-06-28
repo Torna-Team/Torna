@@ -25,7 +25,6 @@ const getUsers = async (req: Request, res: Response) => {
 const getUser = async (req: Request, res: Response) => {
 	try {
 		const { email, firstName, lastName } = req.body;
-		console.log(email);
 		let user = await prisma.user.findUnique({
 			where: {
 				email: email,
@@ -63,7 +62,6 @@ const getUser = async (req: Request, res: Response) => {
 
 const login = async (req: Request, res: Response) => {
 	try {
-		console.log(req.body);
 		const { email, password } = req.body;
 		const user = await prisma.user.findUnique({
 			where: {
@@ -71,9 +69,7 @@ const login = async (req: Request, res: Response) => {
 			},
 		});
 		if (user) {
-			console.log(user, password);
 			const validatePass = await bcrypt.compare(password, user.password);
-			console.log(validatePass);
 			if (validatePass === false) throw Error();
 		}
 		res.status(200);

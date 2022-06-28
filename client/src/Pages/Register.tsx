@@ -1,11 +1,14 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import '../Styles/Register.css';
 import { User } from '../Services/Server-Client';
 import { register } from '../Services/Server-Client';
 import { useNavigate, Link } from 'react-router-dom';
+import { LoginContext } from '../Utils/Context';
 
 const Register = ({ setUserName }: any) => {
 	const navigate = useNavigate();
+	const { loggedIn, setLoggedIn } = useContext(LoginContext as any);
+
 	const onSubmitHandler = async (event: React.FormEvent) => {
 		event.preventDefault();
 		const target = event.target as typeof event.target & {
@@ -14,6 +17,7 @@ const Register = ({ setUserName }: any) => {
 			password: { value: string };
 			email: { value: string };
 		};
+
 		const firstName: string = target.firstName.value;
 		const lastName: string = target.lastName.value;
 		const email: string = target.email.value;
@@ -26,9 +30,11 @@ const Register = ({ setUserName }: any) => {
 			email: email,
 		};
 		const registration = await register(newUser as User);
-		setUserName(firstName);
+		// setUserName(firstName);
+		sessionStorage.setItem('user', JSON.stringify(registration));
 		navigate(`/profile/${(registration as User).id}`);
 	};
+
 	return (
 		<div className='form-container'>
 			<div>Sign up</div>
@@ -65,7 +71,9 @@ const Register = ({ setUserName }: any) => {
 					name='email'
 					placeholder='Insert your email'
 				/>
-				<button className='registerBtn'>Create an account</button>
+				<button className='registerBtn' onClick={() => setLoggedIn(true)}>
+					Create an account
+				</button>
 			</form>
 
 			<p>

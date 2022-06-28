@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import '../Styles/Home.css';
 import GoogleButton from 'react-google-button';
@@ -6,6 +6,7 @@ import { auth } from '../Services/Firebase';
 import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import { login, getUser } from '../Services/Server-Client';
 import { LoggingUser } from '../Services/Server-Client';
+import { LoginContext } from '../Utils/Context';
 
 type LoginProps = {
 	setUserId: React.Dispatch<React.SetStateAction<string>>;
@@ -17,6 +18,7 @@ type LoginProps = {
 };
 
 const Home: React.FC<LoginProps> = () => {
+	const { loggedIn, setLoggedIn } = useContext(LoginContext as any);
 	const navigate = useNavigate();
 	const [userName, setUserName] = useState<any>('');
 	const [userId, setUserId] = useState('');
@@ -39,6 +41,7 @@ const Home: React.FC<LoginProps> = () => {
 		if (logged && (logged as any).id === undefined) {
 			alert('Invalid Email or Password');
 		} else {
+			sessionStorage.setItem('user', JSON.stringify(logged));
 			navigate(`/profile/${(logged as unknown as any).id}`);
 		}
 	};
@@ -80,7 +83,9 @@ const Home: React.FC<LoginProps> = () => {
 
 					checkExistingUser(googleUserId, googleUserName, googleUserMail);
 				}
+				sessionStorage.setItem('user', JSON.stringify(newUser));
 				navigate(`/profile/${googleUserId}`);
+				setLoggedIn(true);
 			})
 			.catch((err) => {
 				console.log(err);
@@ -107,7 +112,9 @@ const Home: React.FC<LoginProps> = () => {
 					name='password'
 					placeholder='Insert your password'
 				/>
-				<button className='signInBtn'>Sign In</button>
+				<button className='signInBtn' onClick={() => setLoggedIn(true)}>
+					Sign In
+				</button>
 			</form>
 			<GoogleButton className='googleBtn' onClick={signInWithGoogle} />
 			<p>
