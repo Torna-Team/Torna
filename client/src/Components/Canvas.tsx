@@ -14,10 +14,12 @@ import ImageUpload from './ImageUpload';
 function Canvas() {
   const [canvaElements, setCanvaElements] = useState<any[]>([]);
   const [color, setColor] = useState<any>('rgba(255, 255, 255)');
+  const [textColor, setTextColor] = useState<any>('rgba(0, 0, 0, 1)');
   const [stroke, setStroke] = useState<any>('rgba(0, 0, 0, 1)');
+  const [strokedText, setStrokedText] = useState<boolean>(false);
   const [showColorPicker, setShowColorPicker] = useState<boolean>(false);
   const [showStrokePicker, setShowStrokePicker] = useState<boolean>(false);
-  const [height, setHeight] = useState(600);
+  const [height, setHeight] = useState(1200);
   const [selectedId, selectShape] = useState<any>(null);
   const [newImage, setNewImage] = useState<any>(null);
   const [font, setFont] = useState<string>('Ubuntu');
@@ -63,10 +65,13 @@ function Canvas() {
 
   const handleWheel = (e: any) => {
     if (e.evt.deltaY > 0) {
+      console.log(height);
       setHeight(height * 1.05);
     }
     if (e.evt.deltaY < 0) {
-      setHeight(height / 1.05);
+      if (height >= 1200) {
+        setHeight(height / 1.05);
+      }
     }
   };
   const checkDeselect = (e: any) => {
@@ -95,11 +100,9 @@ function Canvas() {
 
     setCanvaElements((prev: any) => {
       if (prev) {
-        console.log(indx);
         const arr1 = prev.slice(0, indx);
         const arr2 = prev.slice(indx + 1, prev.length);
         const result = [...arr1, ...arr2, el];
-        console.log(arr1, arr2, result);
         return result;
       } else return [el];
     });
@@ -114,8 +117,8 @@ function Canvas() {
       id: canvaElements.length,
       x: window.innerWidth / 2,
       y: window.innerHeight / 2,
-      color: color,
-      stroke: stroke,
+      color: textColor,
+      stroke: strokedText ? stroke : null,
       font: font,
     };
 
@@ -123,6 +126,7 @@ function Canvas() {
     //   if (prev) return [...prev, newText];
     //   else return [newText];
     // });
+
     setCanvaElements((prev: any) => {
       if (prev) return [...prev, newText];
       else return [newText];
@@ -136,6 +140,13 @@ function Canvas() {
         <form onSubmit={handleSubmit}>
           <input type='text' id='text' name='textInput'></input>
           <button type='submit'> Add Text </button>
+          <button
+            onClick={() => {
+              setStrokedText(!strokedText);
+            }}
+          >
+            {strokedText ? 'NO stroke' : 'stroke'}
+          </button>
         </form>
         <button
           onClick={() =>
@@ -144,7 +155,6 @@ function Canvas() {
         >
           {showColorPicker ? 'Close' : 'Pick fill color'}
         </button>
-
         {/* FIll */}
         {showColorPicker && (
           <ChromePicker
@@ -153,6 +163,7 @@ function Canvas() {
             onChange={(updatedColor) => {
               const res = updatedColor.rgb;
               const string = `rgba(${res.r}, ${res.g}, ${res.b}, ${res.a})`;
+              setTextColor(string);
               return setColor(string);
             }}
           ></ChromePicker>
@@ -164,7 +175,6 @@ function Canvas() {
         >
           {showStrokePicker ? 'Close' : 'Pick stroke color'}
         </button>
-
         {/* STROKE */}
         {showStrokePicker && (
           <ChromePicker
@@ -203,10 +213,12 @@ function Canvas() {
         {/* miss all the logic but at least they render */}
         <ImageUpload setNewImage={setNewImage}></ImageUpload>
       </div>
+
       <Stage
         width={window.innerWidth}
         height={height}
         onWheel={handleWheel}
+        onTouchMove={handleWheel}
         onMouseDown={checkDeselect}
         onTouchStart={checkDeselect}
       >

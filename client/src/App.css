@@ -1,3 +1,14 @@
 .App {
-	text-align: center;
+  text-align: center;
+}
+
+body {
+  background-color: lightblue;
+}
+
+.App {
+  background-color: azure;
+}
+.canva {
+  margin: 100px;
 }
