@@ -1,0 +1,34 @@
+.gifpicker-container {
+  border: 1px solid #c05746;
+  border-radius: 40px;
+  width: 15vw;
+  height: 50vh;
+}
+h3 {
+  font-family: 'Ubuntu';
+}
+input {
+  width: 10vw;
+  border-radius: 40px;
+  border: 1px solid #132830;
+}
+button {
+  border-radius: 60px;
+  border: 1px solid #132830;
+  background-color: white;
+}
+
+.gifResult-container {
+  height: 40vh;
+  overflow: auto;
+}
+body ::-webkit-scrollbar {
+  width: 8px;
+}
+body ::-webkit-scrollbar-track {
+  background: none; /* color of the tracking area */
+}
+body ::-webkit-scrollbar-thumb {
+  background-color: #c05746; /* color of the scroll thumb */
+  border-radius: 20px; /* roundness of the scroll thumb */
+}
