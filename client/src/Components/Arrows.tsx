@@ -47,7 +47,6 @@ function Arrows({
         onDragStart={handleDragStart}
         onDragEnd={(e) => {
           const indx = handleDragEnd();
-          console.log(indx, canvaElements, canvaElements[indx]);
           canvaElements[indx].x = e.target.x();
           canvaElements[indx].y = e.target.y();
         }}
@@ -62,12 +61,12 @@ function Arrows({
           const scaleY = node.scaleY();
           const rotation = node.rotation();
           const indx = handleDragEnd();
-          console.log(indx, canvaElements, canvaElements[indx]);
           canvaElements[indx].scaleX = scaleX;
           canvaElements[indx].scaleY = scaleY;
           canvaElements[indx].rotation = rotation;
         }}
       />
+
       {isSelected && (
         <Transformer
           ref={trRef}

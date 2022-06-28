@@ -13,10 +13,8 @@ function ImageUpload({ setNewImage }: any) {
     formData.append('file', imageClicked);
     formData.append('upload_preset', 'yvorzt4q');
     const url = process.env.REACT_APP_CLOUDURL as string;
-    console.log(url, formData);
     const upload = await fetch(url, { method: 'POST', body: formData });
     const res = await upload.json();
-    console.log(res);
     setNewImage(res.url);
   };
 
@@ -45,7 +43,6 @@ function ImageUpload({ setNewImage }: any) {
                   if (files.hasOwnProperty(indx)) {
                     const element = updatePreview(files[indx]);
                     arr.push(element);
-                    console.log(element);
                   }
                 }
                 if (prev) return [...prev, ...arr];
@@ -59,23 +56,20 @@ function ImageUpload({ setNewImage }: any) {
         <button onClick={handleSubmit}>Upload images</button>
       </form>
       <div>
-        {imageObj &&
-          imageObj.map((el: any, indx: any) => {
-            console.log(indx, '--------------', el);
-            return (
-              <img
-                onClick={() => {
-                  const file = el;
-                  console.log(el, imageObj);
-                  handleClick(file);
-                }}
-                key={indx}
-                src={el.preview}
-                alt={indx.toString()}
-                style={{ height: '150px' }}
-              ></img>
-            );
-          })}
+        {imageObj?.map((el: any, indx: any) => {
+          return (
+            <img
+              onClick={() => {
+                const file = el;
+                handleClick(file);
+              }}
+              key={indx}
+              src={el.preview}
+              alt={indx.toString()}
+              style={{ height: '150px' }}
+            ></img>
+          );
+        })}
       </div>
     </>
   );

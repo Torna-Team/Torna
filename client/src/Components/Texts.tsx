@@ -53,7 +53,6 @@ function Texts({
         id={text.id.toString()}
         onDragEnd={(e) => {
           const indx = handleDragEnd(text);
-          console.log(indx, canvaElements, canvaElements[indx]);
           canvaElements[indx].x = e.target.x();
           canvaElements[indx].y = e.target.y();
         }}
@@ -65,7 +64,6 @@ function Texts({
           const scaleY = node.scaleY();
           const rotation = node.rotation();
           const indx = handleDragEnd();
-          console.log(indx, canvaElements, canvaElements[indx]);
           canvaElements[indx].scaleX = scaleX;
           canvaElements[indx].scaleY = scaleY;
           canvaElements[indx].rotation = rotation;

@@ -51,7 +51,6 @@ function Squares({
         onDragStart={handleDragStart}
         onDragEnd={(e) => {
           const indx = handleDragEnd();
-          console.log(indx, canvaElements, canvaElements[indx]);
           canvaElements[indx].x = e.target.x();
           canvaElements[indx].y = e.target.y();
         }}

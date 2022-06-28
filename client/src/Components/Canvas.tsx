@@ -1,3 +1,4 @@
+//@ts-nocheck
 import React, { useEffect, useState } from 'react';
 import { ChromePicker, CompactPicker } from 'react-color';
 
@@ -12,12 +13,51 @@ import Texts from './Texts';
 import Images from './Images';
 import ImageUpload from './ImageUpload';
 
+function splitTextFromGenericShapes(shapeList) {
+  return shapeList.reduce(
+    (res, el) => {
+      if (el.type === 'text') res.textItems.push(el);
+      else res.genericItems.push(el);
+      return res;
+    },
+    { genericItems: [], textItems: [] }
+  );
+}
+
+// interface ShapeProps {
+//   id: string | number;
+//   type: any;
+//   element: any;
+//   canvaElements: any;
+//   handleDragStart: any;
+//   handleDragEnd: any;
+//   isSelected: any;
+//   onSelect: any;
+// }
+
+// type ShapeType =
+//   | typeof Stars
+//   | typeof Arrows
+//   | typeof Circles
+//   | typeof Squares
+//   | typeof Images
+//   | typeof Texts;
+
+const shapeType = {
+  star: Stars,
+  arrow: Arrows,
+  circle: Circles,
+  square: Squares,
+  image: Images,
+  text: Texts,
+};
+
 function Canvas() {
   const [canvaElements, setCanvaElements] = useState<any[]>([]);
   const [backgroundColor, setBackGroundColor] = useState<string>(
     'rgba(255, 255, 255)'
   );
-  const [color, setColor] = useState<any>('rgba(255, 255, 255)');
+  const [color, setColor] = useState<any>('rgba(241, 241, 246)');
   const [textColor, setTextColor] = useState<any>('rgba(0, 0, 0, 1)');
   const [stroke, setStroke] = useState<any>('rgba(0, 0, 0, 1)');
   const [strokedText, setStrokedText] = useState<boolean>(false);
@@ -69,7 +109,6 @@ function Canvas() {
 
   const handleWheel = (e: any) => {
     if (e.evt.deltaY > 0) {
-      console.log(height);
       setHeight(height * 1.05);
     }
     if (e.evt.deltaY < 0) {
@@ -78,6 +117,7 @@ function Canvas() {
       }
     }
   };
+
   const checkDeselect = (e: any) => {
     const clickedOnEmpty = e.target === e.target.getStage();
     if (clickedOnEmpty) {
@@ -126,11 +166,6 @@ function Canvas() {
       font: font,
     };
 
-    // setText((prev: any) => {
-    //   if (prev) return [...prev, newText];
-    //   else return [newText];
-    // });
-
     setCanvaElements((prev: any) => {
       if (prev) return [...prev, newText];
       else return [newText];
@@ -138,29 +173,42 @@ function Canvas() {
     e.target.reset();
   }
 
+  function handleDelete(e: any) {
+    e.preventDefault();
+    if (selectedId !== null) {
+      const arr = canvaElements.filter((el) => {
+        return el.id !== selectedId;
+      });
+      setCanvaElements([...arr]);
+    }
+  }
+
+  const { genericItems, textItems } = splitTextFromGenericShapes(canvaElements);
+
   return (
     <div className='mainContainer'>
       <div className='menuContainer'>
+        <p>Background color</p>
         <CompactPicker
           className='huePicker'
           color={backgroundColor}
           onChange={(updatedColor) => {
             const res = updatedColor.rgb;
             const string = `rgba(${res.r}, ${res.g}, ${res.b}, ${res.a})`;
-            console.log(string);
             return setBackGroundColor(string);
           }}
         ></CompactPicker>
+
         <form onSubmit={handleSubmit}>
           <input type='text' id='text' name='textInput'></input>
           <button type='submit'> Add Text </button>
-          <button
+          <input
+            type='checkbox'
             onClick={() => {
               setStrokedText(!strokedText);
             }}
-          >
-            {strokedText ? 'NO stroke' : 'stroke'}
-          </button>
+          ></input>
+          <label>Stroke</label>
         </form>
         <button
           onClick={() =>
@@ -224,6 +272,7 @@ function Canvas() {
         >
           IMAGE
         </button>
+        <button onClick={handleDelete}>DELETE</button>
         {/* miss all the logic but at least they render */}
         <ImageUpload setNewImage={setNewImage}></ImageUpload>
       </div>
@@ -237,114 +286,40 @@ function Canvas() {
           onTouchStart={checkDeselect}
         >
           <Layer>
-            {canvaElements &&
-              canvaElements.map((el, i) => {
-                if (el) {
-                  if (el.type === 'star') {
-                    return (
-                      <Stars
-                        key={el.id}
-                        element={el}
-                        canvaElements={canvaElements}
-                        setCanvaElements={setCanvaElements}
-                        handleDragStart={handleDragStart}
-                        handleDragEnd={() => handleDragEnd(el)}
-                        isSelected={el.id === selectedId}
-                        onSelect={() => {
-                          selectShape(el.id);
-                        }}
-                      ></Stars>
-                    );
-                  }
-                  if (el.type === 'circle') {
-                    return (
-                      <Circles
-                        key={el.id}
-                        element={el}
-                        canvaElements={canvaElements}
-                        setCanvaElements={setCanvaElements}
-                        handleDragStart={handleDragStart}
-                        handleDragEnd={() => handleDragEnd(el)}
-                        isSelected={el.id === selectedId}
-                        onSelect={() => {
-                          selectShape(el.id);
-                        }}
-                      ></Circles>
-                    );
-                  }
-                  if (el.type === 'square') {
-                    return (
-                      <Squares
-                        key={el.id}
-                        element={el}
-                        canvaElements={canvaElements}
-                        setCanvaElements={setCanvaElements}
-                        handleDragStart={handleDragStart}
-                        handleDragEnd={() => handleDragEnd(el)}
-                        isSelected={el.id === selectedId}
-                        onSelect={() => {
-                          selectShape(el.id);
-                        }}
-                      ></Squares>
-                    );
-                  }
-                  if (el.type === 'arrow') {
-                    return (
-                      <Arrows
-                        key={el.id}
-                        element={el}
-                        canvaElements={canvaElements}
-                        setCanvaElements={setCanvaElements}
-                        handleDragStart={handleDragStart}
-                        handleDragEnd={() => handleDragEnd(el)}
-                        isSelected={el.id === selectedId}
-                        onSelect={() => {
-                          selectShape(el.id);
-                        }}
-                      ></Arrows>
-                    );
-                  }
-                  if (el.type === 'image') {
-                    return (
-                      <Images
-                        key={el.id}
-                        element={el}
-                        canvaElements={canvaElements}
-                        setCanvaElements={setCanvaElements}
-                        handleDragStart={handleDragStart}
-                        handleDragEnd={() => handleDragEnd(el)}
-                        isSelected={el.id === selectedId}
-                        onSelect={() => {
-                          selectShape(el.id);
-                        }}
-                      ></Images>
-                    );
-                  }
-                }
-                return <></>;
-              })}
+            {genericItems?.map((el) => {
+              const Shape = shapeType[el?.type];
+              if (!el || !Shape) return null;
+              return (
+                <Shape
+                  key={el.id}
+                  element={el}
+                  canvaElements={canvaElements}
+                  setCanvaElements={setCanvaElements}
+                  handleDragStart={handleDragStart}
+                  handleDragEnd={() => handleDragEnd(el)}
+                  isSelected={el.id === selectedId}
+                  onSelect={() => {
+                    selectShape(el.id);
+                  }}
+                />
+              );
+            })}
           </Layer>
           <Layer>
-            {canvaElements &&
-              canvaElements.map((el, i) => {
-                if (el.type === 'text') {
-                  return (
-                    <Texts
-                      key={el.id}
-                      element={el}
-                      canvaElements={canvaElements}
-                      setCanvaElements={setCanvaElements}
-                      handleDragStart={handleDragStart}
-                      handleDragEnd={() => handleDragEnd(el)}
-                      isSelected={el.id === selectedId}
-                      onSelect={() => {
-                        selectShape(el.id);
-                      }}
-                    ></Texts>
-                  );
-                }
-                return <></>;
-              })}
+            {textItems?.map((el) => (
+              <Texts
+                key={el.id}
+                element={el}
+                canvaElements={canvaElements}
+                setCanvaElements={setCanvaElements}
+                handleDragStart={handleDragStart}
+                handleDragEnd={() => handleDragEnd(el)}
+                isSelected={el.id === selectedId}
+                onSelect={() => {
+                  selectShape(el.id);
+                }}
+              />
+            ))}
           </Layer>
         </Stage>
       </div>
