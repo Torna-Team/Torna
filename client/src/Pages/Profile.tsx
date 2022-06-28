@@ -2,6 +2,7 @@ import Navbar from '../Components/Navbar';
 import React, { useState, useContext, useEffect } from 'react';
 import { LoginContext } from '../Utils/Context';
 import { useParams } from 'react-router-dom';
+import '../Styles/Profile.css';
 
 function Profile() {
 	let { id } = useParams();
@@ -14,22 +15,29 @@ function Profile() {
 			setUser(res);
 			setLoggedIn(true);
 		}
-	}, []);
+	}, [loggedIn]);
 
 	return (
-		<>
+		<div className='mainContainer'>
 			<Navbar user={user} />
-			<div>
+			<div className='albumsContainer'>
 				{loggedIn ? (
 					<>
-						<h4>Welcome, {user && (user.name ? user.name : user.firstName)}</h4>
+						<h4>
+							{user && user.albums && user.albums.length !== 0 ? (
+								user.albums.map((el: any) => {
+									return <h1>{el.title}</h1>;
+								})
+							) : (
+								<p>You don't have albums yet</p>
+							)}
+						</h4>
 					</>
 				) : (
 					<h3>You need to log in</h3>
 				)}
-				<div>PROFILE of {id}</div>
 			</div>
-		</>
+		</div>
 	);
 }
 

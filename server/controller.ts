@@ -45,7 +45,7 @@ const getUser = async (req: Request, res: Response) => {
 				},
 			});
 		}
-
+		console.log(user);
 		const securedData = {
 			albums: user?.albums,
 			firstName: user?.firstName,

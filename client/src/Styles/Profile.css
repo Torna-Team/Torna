@@ -1,0 +1,12 @@
+.mainContainer {
+	background-color: aliceblue;
+	height: 100vh;
+}
+
+.albumsContainer {
+	margin-top: 10px;
+	border: 1px red solid;
+	display: flex;
+	align-items: center;
+	height: 250px;
+}

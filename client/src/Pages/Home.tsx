@@ -54,11 +54,8 @@ const Home: React.FC<LoginProps> = () => {
 	) => {
 		if (id && displayName && email !== null) {
 			const result = await getUser(id, displayName, email);
-			if (result) {
-				return true;
-			} else {
-				return false;
-			}
+			console.log(result);
+			return result;
 		}
 	};
 
@@ -73,6 +70,7 @@ const Home: React.FC<LoginProps> = () => {
 					userId: '',
 					name: '',
 					email: '',
+					albums: [],
 				};
 				if (googleUserId && googleUserName && googleUserMail) {
 					setUserId(googleUserId);
@@ -84,6 +82,7 @@ const Home: React.FC<LoginProps> = () => {
 
 					checkExistingUser(googleUserId, googleUserName, googleUserMail);
 				}
+
 				sessionStorage.setItem('user', JSON.stringify(newUser));
 				navigate(`/profile/${googleUserId}`);
 				setLoggedIn(true);
