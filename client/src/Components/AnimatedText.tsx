@@ -27,7 +27,7 @@ const AnimatedText = ({ setNewGif }: Props) => {
       return;
     }
     const apiCall = async () => {
-      const res = await giphy.animate(text, { limit: 10 });
+      const res = await giphy.animate(text, { limit: 25 });
       console.log(res, 'res');
       setResults(res.data);
     };

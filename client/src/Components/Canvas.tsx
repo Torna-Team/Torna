@@ -70,8 +70,8 @@ function Canvas() {
   const [selectedId, selectShape] = useState<any>(null);
   const [newImage, setNewImage] = useState<any>(null);
   const [font, setFont] = useState<string>('Ubuntu');
-  const [animated, setAnimated] = useState<boolean>(false);
   const [newGif, setNewGif] = useState<any>(null);
+  const [shownAnimate, setSwhownAnimate] = useState<boolean>(false);
 
   const fontAPI = process.env.REACT_APP_GOOGLEAPI as string;
 
@@ -302,11 +302,27 @@ function Canvas() {
         >
           IMAGE
         </button>
+        <button
+          value={
+            'https://media2.giphy.com/media/kDUG0IQtZq7P1AafEK/giphy.gif?cid=3a3f548700d14y67tcer708zyerzponvfdz02guqnami19mb&rid=giphy.gif&ct=g'
+          }
+          onClick={handleClick}
+        >
+          GIF
+        </button>
+        <input
+          type='checkbox'
+          onClick={() => {
+            setSwhownAnimate(!shownAnimate);
+          }}
+        ></input>
+        <label>Animated text</label>
         <button onClick={handleDelete}>DELETE</button>
         {/* miss all the logic but at least they render */}
         <ImageUpload setNewImage={setNewImage}></ImageUpload>
       </div>
       <div style={{ background: backgroundColor }}>
+        {shownAnimate && <AnimatedText />}
         <Stage
           width={window.innerWidth}
           height={height}
@@ -333,7 +349,6 @@ function Canvas() {
                   }}
                 />
               );
-
             })}
           </Layer>
           <Layer>
