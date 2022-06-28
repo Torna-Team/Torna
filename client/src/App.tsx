@@ -4,11 +4,13 @@ import React from 'react';
 // import Home from './Pages/Home';
 
 import Canvas from './Components/Canvas';
+import GifPicker from './Components/AnimatedText';
 
 function App() {
   return (
     <div className='App'>
-      <Canvas></Canvas>
+      {/* <Canvas></Canvas> */}
+      <GifPicker />
     </div>
   );
 }

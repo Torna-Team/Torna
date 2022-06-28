@@ -1,0 +1,25 @@
+.gifpicker-container {
+  border: 1px solid red;
+  width: 15vw;
+  height: 50vh;
+}
+h3 {
+  font-family: 'Ubuntu';
+}
+input {
+  width: 10vw;
+}
+.gifResult-container {
+  height: 40vh;
+  overflow: auto;
+}
+body ::-webkit-scrollbar {
+  width: 8px;
+}
+body ::-webkit-scrollbar-track {
+  background: none; /* color of the tracking area */
+}
+body ::-webkit-scrollbar-thumb {
+  background-color: #c05746; /* color of the scroll thumb */
+  border-radius: 20px; /* roundness of the scroll thumb */
+}

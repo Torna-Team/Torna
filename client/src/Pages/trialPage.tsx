@@ -1,6 +1,9 @@
 import React from 'react';
 import { useState } from 'react';
 import { Video } from '../components/Video';
+import GIF from '../components/GIF';
+import Rectangle from '../components/TransformedArrow';
+import { Layer, Stage } from 'react-konva';
 
 const elements = [
   {
