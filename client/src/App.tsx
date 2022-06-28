@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Home from './Pages/Home';
 import Register from './Pages/Register';
 import Profile from './Pages/Profile';
+import ErrorPage from './Pages/ErrorPage';
 import { LoginContext } from './Utils/Context';
 
 type UserId = string;
@@ -35,6 +36,7 @@ function App() {
 					/>
 					<Route path='/register' element={<Register />} />
 					<Route path='/profile/:id' element={<Profile />} />
+					<Route path='*' element={<ErrorPage />} />
 				</Routes>
 			</Router>
 		</LoginContext.Provider>
