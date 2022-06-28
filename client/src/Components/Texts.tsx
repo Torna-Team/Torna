@@ -21,7 +21,8 @@ function Texts({
     rotation: element ? element.rotation : 0,
     scaleX: element ? element.scaleX : 0,
     scaleY: element ? element.scaleY : 0,
-    color: element ? element.color : '#000000',
+    color: element ? element.color : 'rgb(0, 0, 0, 1)',
+    stroke: element ? element.stroke : 'rgb(0, 0, 0, 1)',
     font: element ? element.font : 'Ubuntu',
   };
 
@@ -36,22 +37,21 @@ function Texts({
   return (
     <>
       <Text
+        key={text.id}
         x={text.x}
         y={text.y}
         scaleX={text.scaleX}
         scaleY={text.scaleY}
         ref={shapeRef}
         rotation={text.rotation}
+        draggable={true}
         text={text.text}
         fontSize={30}
         fill={text.color}
-        draggable={true}
-        key={text.id}
+        stroke={text.stroke}
         fontFamily={text.font}
         id={text.id.toString()}
         onDragEnd={(e) => {
-          console.log('text event', e.target);
-          console.log('textoooooo', text);
           const indx = handleDragEnd(text);
           console.log(indx, canvaElements, canvaElements[indx]);
           canvaElements[indx].x = e.target.x();

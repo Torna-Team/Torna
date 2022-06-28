@@ -28,7 +28,8 @@ function Stars({
     rotation: element ? element.rotation : 0,
     scaleX: element ? element.scaleX : 0,
     scaleY: element ? element.scaleY : 0,
-    color: element ? element.color : '#000000',
+    color: element ? element.color : 'rgb(255, 255, 255)',
+    stroke: element ? element.stroke : 'rgb(0, 0, 0, 0)',
   };
 
   return (
@@ -47,6 +48,7 @@ function Stars({
         innerRadius={20}
         outerRadius={40}
         fill={star.color}
+        stroke={star.stroke}
         draggable={true}
         onDragStart={handleDragStart}
         onDragEnd={(e) => {
@@ -55,7 +57,6 @@ function Stars({
           canvaElements[indx].x = e.target.x();
           canvaElements[indx].y = e.target.y();
         }}
-        stroke='black'
         onClick={onSelect}
         onTap={onSelect}
         onTransformEnd={(e: any) => {

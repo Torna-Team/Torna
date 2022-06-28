@@ -27,7 +27,8 @@ function Circles({
     rotation: element ? element.rotation : 0,
     scaleX: element ? element.scaleX : 0,
     scaleY: element ? element.scaleY : 0,
-    color: element ? element.color : '#000000',
+    color: element ? element.color : 'rgb(255, 255, 255)',
+    stroke: element ? element.stroke : 'rgb(0, 0, 0, 0)',
   };
 
   return (
@@ -42,8 +43,8 @@ function Circles({
         ref={shapeRef}
         rotation={circle.rotation}
         radius={50}
-        stroke='black'
         fill={circle.color}
+        stroke={circle.stroke}
         onDragStart={handleDragStart}
         onDragEnd={(e) => {
           const indx = handleDragEnd();

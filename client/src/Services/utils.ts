@@ -2,6 +2,7 @@ const checkCanvaElement = (
   type: string,
   canvaElementsLength: number,
   color: string,
+  stroke: string,
   imageSrc?: string
 ) => {
   switch (type) {
@@ -12,6 +13,7 @@ const checkCanvaElement = (
         x: window.innerWidth / 2,
         y: window.innerHeight / 2,
         color: color,
+        stroke: stroke,
       };
       return star;
     case 'circle':
@@ -21,6 +23,7 @@ const checkCanvaElement = (
         x: window.innerWidth / 2,
         y: window.innerHeight / 2,
         color: color,
+        stroke: stroke,
       };
       return circle;
     case 'square':
@@ -30,6 +33,7 @@ const checkCanvaElement = (
         x: window.innerWidth / 2,
         y: window.innerHeight / 2,
         color: color,
+        stroke: stroke,
       };
       return square;
     case 'arrow':
