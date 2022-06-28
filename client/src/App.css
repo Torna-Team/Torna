@@ -1,14 +1,12 @@
 .App {
   text-align: center;
+  /* background-color: azure; */
 }
 
 body {
   background-color: lightblue;
 }
 
-.App {
-  background-color: azure;
-}
 .canva {
   margin: 100px;
 }

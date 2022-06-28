@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { ChromePicker } from 'react-color';
+import { ChromePicker, CompactPicker } from 'react-color';
+
 import { Layer, Stage } from 'react-konva';
 import FontPicker from 'font-picker-react';
 import checkCanvaElement from '../Services/utils';
@@ -13,6 +14,9 @@ import ImageUpload from './ImageUpload';
 
 function Canvas() {
   const [canvaElements, setCanvaElements] = useState<any[]>([]);
+  const [backgroundColor, setBackGroundColor] = useState<string>(
+    'rgba(255, 255, 255)'
+  );
   const [color, setColor] = useState<any>('rgba(255, 255, 255)');
   const [textColor, setTextColor] = useState<any>('rgba(0, 0, 0, 1)');
   const [stroke, setStroke] = useState<any>('rgba(0, 0, 0, 1)');
@@ -122,12 +126,10 @@ function Canvas() {
       font: font,
     };
 
-
     // setText((prev: any) => {
     //   if (prev) return [...prev, newText];
     //   else return [newText];
     // });
-
 
     setCanvaElements((prev: any) => {
       if (prev) return [...prev, newText];
@@ -139,6 +141,16 @@ function Canvas() {
   return (
     <div className='mainContainer'>
       <div className='menuContainer'>
+        <CompactPicker
+          className='huePicker'
+          color={backgroundColor}
+          onChange={(updatedColor) => {
+            const res = updatedColor.rgb;
+            const string = `rgba(${res.r}, ${res.g}, ${res.b}, ${res.a})`;
+            console.log(string);
+            return setBackGroundColor(string);
+          }}
+        ></CompactPicker>
         <form onSubmit={handleSubmit}>
           <input type='text' id='text' name='textInput'></input>
           <button type='submit'> Add Text </button>
@@ -215,22 +227,109 @@ function Canvas() {
         {/* miss all the logic but at least they render */}
         <ImageUpload setNewImage={setNewImage}></ImageUpload>
       </div>
-
-      <Stage
-        width={window.innerWidth}
-        height={height}
-        onWheel={handleWheel}
-        onTouchMove={handleWheel}
-        onMouseDown={checkDeselect}
-        onTouchStart={checkDeselect}
-      >
-        <Layer>
-          {canvaElements &&
-            canvaElements.map((el, i) => {
-              if (el) {
-                if (el.type === 'star') {
+      <div style={{ background: backgroundColor }}>
+        <Stage
+          width={window.innerWidth}
+          height={height}
+          onWheel={handleWheel}
+          onTouchMove={handleWheel}
+          onMouseDown={checkDeselect}
+          onTouchStart={checkDeselect}
+        >
+          <Layer>
+            {canvaElements &&
+              canvaElements.map((el, i) => {
+                if (el) {
+                  if (el.type === 'star') {
+                    return (
+                      <Stars
+                        key={el.id}
+                        element={el}
+                        canvaElements={canvaElements}
+                        setCanvaElements={setCanvaElements}
+                        handleDragStart={handleDragStart}
+                        handleDragEnd={() => handleDragEnd(el)}
+                        isSelected={el.id === selectedId}
+                        onSelect={() => {
+                          selectShape(el.id);
+                        }}
+                      ></Stars>
+                    );
+                  }
+                  if (el.type === 'circle') {
+                    return (
+                      <Circles
+                        key={el.id}
+                        element={el}
+                        canvaElements={canvaElements}
+                        setCanvaElements={setCanvaElements}
+                        handleDragStart={handleDragStart}
+                        handleDragEnd={() => handleDragEnd(el)}
+                        isSelected={el.id === selectedId}
+                        onSelect={() => {
+                          selectShape(el.id);
+                        }}
+                      ></Circles>
+                    );
+                  }
+                  if (el.type === 'square') {
+                    return (
+                      <Squares
+                        key={el.id}
+                        element={el}
+                        canvaElements={canvaElements}
+                        setCanvaElements={setCanvaElements}
+                        handleDragStart={handleDragStart}
+                        handleDragEnd={() => handleDragEnd(el)}
+                        isSelected={el.id === selectedId}
+                        onSelect={() => {
+                          selectShape(el.id);
+                        }}
+                      ></Squares>
+                    );
+                  }
+                  if (el.type === 'arrow') {
+                    return (
+                      <Arrows
+                        key={el.id}
+                        element={el}
+                        canvaElements={canvaElements}
+                        setCanvaElements={setCanvaElements}
+                        handleDragStart={handleDragStart}
+                        handleDragEnd={() => handleDragEnd(el)}
+                        isSelected={el.id === selectedId}
+                        onSelect={() => {
+                          selectShape(el.id);
+                        }}
+                      ></Arrows>
+                    );
+                  }
+                  if (el.type === 'image') {
+                    return (
+                      <Images
+                        key={el.id}
+                        element={el}
+                        canvaElements={canvaElements}
+                        setCanvaElements={setCanvaElements}
+                        handleDragStart={handleDragStart}
+                        handleDragEnd={() => handleDragEnd(el)}
+                        isSelected={el.id === selectedId}
+                        onSelect={() => {
+                          selectShape(el.id);
+                        }}
+                      ></Images>
+                    );
+                  }
+                }
+                return <></>;
+              })}
+          </Layer>
+          <Layer>
+            {canvaElements &&
+              canvaElements.map((el, i) => {
+                if (el.type === 'text') {
                   return (
-                    <Stars
+                    <Texts
                       key={el.id}
                       element={el}
                       canvaElements={canvaElements}
@@ -241,100 +340,14 @@ function Canvas() {
                       onSelect={() => {
                         selectShape(el.id);
                       }}
-                    ></Stars>
+                    ></Texts>
                   );
                 }
-                if (el.type === 'circle') {
-                  return (
-                    <Circles
-                      key={el.id}
-                      element={el}
-                      canvaElements={canvaElements}
-                      setCanvaElements={setCanvaElements}
-                      handleDragStart={handleDragStart}
-                      handleDragEnd={() => handleDragEnd(el)}
-                      isSelected={el.id === selectedId}
-                      onSelect={() => {
-                        selectShape(el.id);
-                      }}
-                    ></Circles>
-                  );
-                }
-                if (el.type === 'square') {
-                  return (
-                    <Squares
-                      key={el.id}
-                      element={el}
-                      canvaElements={canvaElements}
-                      setCanvaElements={setCanvaElements}
-                      handleDragStart={handleDragStart}
-                      handleDragEnd={() => handleDragEnd(el)}
-                      isSelected={el.id === selectedId}
-                      onSelect={() => {
-                        selectShape(el.id);
-                      }}
-                    ></Squares>
-                  );
-                }
-                if (el.type === 'arrow') {
-                  return (
-                    <Arrows
-                      key={el.id}
-                      element={el}
-                      canvaElements={canvaElements}
-                      setCanvaElements={setCanvaElements}
-                      handleDragStart={handleDragStart}
-                      handleDragEnd={() => handleDragEnd(el)}
-                      isSelected={el.id === selectedId}
-                      onSelect={() => {
-                        selectShape(el.id);
-                      }}
-                    ></Arrows>
-                  );
-                }
-                if (el.type === 'image') {
-                  return (
-                    <Images
-                      key={el.id}
-                      element={el}
-                      canvaElements={canvaElements}
-                      setCanvaElements={setCanvaElements}
-                      handleDragStart={handleDragStart}
-                      handleDragEnd={() => handleDragEnd(el)}
-                      isSelected={el.id === selectedId}
-                      onSelect={() => {
-                        selectShape(el.id);
-                      }}
-                    ></Images>
-                  );
-                }
-              }
-              return <></>;
-            })}
-        </Layer>
-        <Layer>
-          {canvaElements &&
-            canvaElements.map((el, i) => {
-              if (el.type === 'text') {
-                return (
-                  <Texts
-                    key={el.id}
-                    element={el}
-                    canvaElements={canvaElements}
-                    setCanvaElements={setCanvaElements}
-                    handleDragStart={handleDragStart}
-                    handleDragEnd={() => handleDragEnd(el)}
-                    isSelected={el.id === selectedId}
-                    onSelect={() => {
-                      selectShape(el.id);
-                    }}
-                  ></Texts>
-                );
-              }
-              return <></>;
-            })}
-        </Layer>
-      </Stage>
+                return <></>;
+              })}
+          </Layer>
+        </Stage>
+      </div>
     </div>
   );
 }
