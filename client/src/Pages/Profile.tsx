@@ -34,7 +34,7 @@ function Profile() {
 						</h4>
 					</>
 				) : (
-					<h3>You need to log in</h3>
+					<h3>Log in to see your albums or to create a new one </h3>
 				)}
 			</div>
 		</div>
