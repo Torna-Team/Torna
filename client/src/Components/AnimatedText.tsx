@@ -46,7 +46,7 @@ const AnimatedText = (props: Props) => {
           {results &&
             !err &&
             results.map((gif) => {
-              return <img src={gif.url} width={width} />;
+              return <img src={gif.url} width={width} draggable />;
             })}
         </div>
       </div>

@@ -1,5 +1,6 @@
 .gifpicker-container {
-  border: 1px solid red;
+  border: 1px solid #c05746;
+  border-radius: 40px;
   width: 15vw;
   height: 50vh;
 }
@@ -8,7 +9,15 @@ h3 {
 }
 input {
   width: 10vw;
+  border-radius: 40px;
+  border: 1px solid #132830;
 }
+button {
+  border-radius: 60px;
+  border: 1px solid #132830;
+  background-color: white;
+}
+
 .gifResult-container {
   height: 40vh;
   overflow: auto;
