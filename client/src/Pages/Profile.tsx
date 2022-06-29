@@ -1,10 +1,12 @@
 import Navbar from '../Components/Navbar';
 import React, { useState, useContext, useEffect } from 'react';
 import { LoginContext } from '../Utils/Context';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import '../Styles/Profile.css';
+import { createAlbum } from '../Services/Server-Client';
 
 function Profile() {
+	const navigate = useNavigate();
 	// let { id } = useParams();
 	const { loggedIn, setLoggedIn } = useContext(LoginContext as any);
 	const [user, setUser] = useState<any>();
@@ -17,26 +19,43 @@ function Profile() {
 		}
 	}, [loggedIn]);
 
+	const editAlbum = (album: any) => {
+		navigate(`/album/${album.id}/edit`);
+	};
+
+	const createNewAlbum = async (user: any) => {
+		const newAlbum = await createAlbum(user);
+		navigate(`/album/${newAlbum.id}/edit`);
+	};
+
 	return (
 		<div className='mainContainer'>
 			<Navbar user={user} />
 			<div className='albumsContainer'>
 				{loggedIn ? (
 					<>
-						<h4>
+						<div className='albumList'>
 							{user && user.albums && user.albums.length !== 0 ? (
 								user.albums.map((el: any) => {
-									return <h1>{el.title}</h1>;
+									return (
+										<div
+											className='albumFrontPage'
+											onClick={() => editAlbum(el)}
+										>
+											<h4>{el.title}</h4>
+										</div>
+									);
 								})
 							) : (
 								<p>You don't have albums yet</p>
 							)}
-						</h4>
+						</div>
 					</>
 				) : (
 					<h3>Log in to see your albums or to create a new one </h3>
 				)}
 			</div>
+			<button onClick={() => createNewAlbum(user)}>Create a new Album</button>
 		</div>
 	);
 }

@@ -5,8 +5,28 @@
 
 .albumsContainer {
 	margin-top: 10px;
-	border: 1px red solid;
+	border: 1px green solid;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 350px;
+	width: 95%;
+	margin-left: 2%;
+}
+
+.albumList {
+	border: 1px solid red;
 	display: flex;
 	align-items: center;
 	height: 250px;
+	width: 1150px;
+	overflow-x: auto;
+}
+
+.albumFrontPage {
+	border: 1px blue solid;
+	margin-left: 10px;
+	margin-right: 10px;
+	height: 200px;
+	min-width: 200px;
 }
