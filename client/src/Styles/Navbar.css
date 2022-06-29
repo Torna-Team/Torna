@@ -1,0 +1,17 @@
+.navBarContainer {
+	background-color: coral;
+
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	height: 100px;
+	align-items: center;
+}
+
+.welcome {
+	margin-left: 50px;
+}
+
+.logOutBtn {
+	margin-right: 50px;
+}

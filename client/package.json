@@ -54,6 +54,7 @@
     ]
   },
   "devDependencies": {
-    "@types/react-color": "^3.0.6"
+    "@types/react-color": "^3.0.6",
+    "@types/cors": "^2.8.12"
   }
 }

@@ -23,6 +23,7 @@ model User {
 model Album {
   id        Int      @default(autoincrement()) @id
   title     String
+  template  String
   author    User    @relation(fields: [authorId], references: [id], onDelete: Cascade)
   authorId  Int
 }
