@@ -1,4 +1,4 @@
-const BASE_URL = 'https://96f2-45-130-134-153.eu.ngrok.io';
+const BASE_URL = 'https://5a39-45-130-134-153.eu.ngrok.io';
 
 export interface User {
   id: string;
@@ -64,7 +64,9 @@ export const getAlbum = async (id: number) => {
   try {
     const result = await fetch(`${BASE_URL}/album/${id}`, {
       method: 'GET',
-      headers: { 'Content-type': 'application/json' },
+      headers: {
+        'Content-type': 'application/json',
+      },
     });
     console.log(result);
     const res = await result.json();
