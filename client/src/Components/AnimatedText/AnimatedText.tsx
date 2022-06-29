@@ -1,8 +1,7 @@
 import React, { useEffect } from 'react';
 import { useState } from 'react';
 import { GiphyFetch } from '@giphy/js-fetch-api';
-// import GIF from '../components/GIF';
-import '../Styles/gifPicker.styles.css';
+import './AnimatedText.css';
 
 const giphyKey: any = process.env.REACT_APP_GIPHY_KEY;
 const giphy = new GiphyFetch(giphyKey);

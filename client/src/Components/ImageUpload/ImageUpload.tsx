@@ -1,4 +1,5 @@
 import { useRef, useState } from 'react';
+import './ImageUpload.css';
 
 function ImageUpload({ setNewImage }: any) {
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -26,8 +27,8 @@ function ImageUpload({ setNewImage }: any) {
   };
 
   return (
-    <>
-      <form>
+    <div className='uploadContainer'>
+      <form className='navbarForm'>
         <input
           type='file'
           multiple={true}
@@ -55,7 +56,7 @@ function ImageUpload({ setNewImage }: any) {
         />
         <button onClick={handleSubmit}>Upload images</button>
       </form>
-      <div>
+      <div className='navbarImages'>
         {imageObj?.map((el: any, indx: any) => {
           return (
             <img
@@ -66,12 +67,12 @@ function ImageUpload({ setNewImage }: any) {
               key={indx}
               src={el.preview}
               alt={indx.toString()}
-              style={{ height: '150px' }}
+              style={{ height: '88px' }}
             ></img>
           );
         })}
       </div>
-    </>
+    </div>
   );
 }
 
