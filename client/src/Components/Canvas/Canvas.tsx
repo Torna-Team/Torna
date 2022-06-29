@@ -19,6 +19,8 @@ import tornaLogo from '../../images/tornalogo.png';
 import { FiStar, FiCircle, FiSquare, FiArrowUpRight } from 'react-icons/fi';
 import { IoMdColorFill } from 'react-icons/io';
 import { RiText } from 'react-icons/ri';
+import { MdOutlineColorLens, MdGif } from 'react-icons/md';
+import { TbTextResize } from 'react-icons/tb';
 
 function splitTextFromGenericShapes(shapeList) {
   return shapeList.reduce(
@@ -60,6 +62,22 @@ const shapeType = {
   gif: Gifs,
 };
 
+const toggleTool = {
+  backgroundTool: false,
+  textTool: false,
+  animatedTextTool: false,
+  colorTool: false,
+  gifTool: false,
+};
+
+// type toggleTool = {
+//   backgroundTool: boolean,
+//   textTool: boolean,
+//   animatedTextTool: boolean,
+//   colorTool: boolean,
+//   gifTool: boolean,
+// }
+
 function Canvas() {
   const [canvaElements, setCanvaElements] = useState<any[]>([]);
   const [backgroundColor, setBackGroundColor] = useState<string>(
@@ -77,6 +95,8 @@ function Canvas() {
   const [font, setFont] = useState<string>('Ubuntu');
   const [newGif, setNewGif] = useState<any>(null);
   const [shownAnimate, setSwhownAnimate] = useState<boolean>(false);
+
+  const [toolOption, setToolOption] = useState<toggleTool>(toggleTool);
 
   const fontAPI = process.env.REACT_APP_GOOGLEAPI as string;
 
@@ -218,6 +238,19 @@ function Canvas() {
     }
   }
 
+  function handleToggle(e: any) {
+    e.preventDefault();
+    for (let key in toggleTool) {
+      if (key === e.target.value) {
+        toggleTool[key] = !toggleTool[key];
+      } else {
+        toggleTool[key] = false;
+      }
+      console.log(toggleTool[key]);
+    }
+    setToolOption({ ...toggleTool });
+  }
+
   const { genericItems, textItems } = splitTextFromGenericShapes(canvaElements);
 
   return (
@@ -248,9 +281,11 @@ function Canvas() {
           <button className='drawButtons'>
             <IoMdColorFill />
           </button>
-          <button className='drawButtons' value={'star'} onClick={handleClick}>
-            <FiStar />
+
+          <button className='drawButtons' value='star' onClick={handleClick}>
+            <FiStar c />
           </button>
+
           <button className='drawButtons' value='circle' onClick={handleClick}>
             <FiCircle />
           </button>
@@ -260,12 +295,31 @@ function Canvas() {
           <button className='drawButtons' value='arrow' onClick={handleClick}>
             <FiArrowUpRight />
           </button>
+          {/* TEXT */}
           <button className='drawButtons'>
             <RiText />
           </button>
+
+          {/* ANIMATED TEXT */}
+          <button
+            className='drawButtons'
+            onClick={handleToggle}
+            value='animatedTextTool'
+          >
+            <TbTextResize />
+          </button>
+
+          {/* COLOR */}
+          <button className='drawButtons'>
+            <MdOutlineColorLens />
+          </button>
+
+          {/* GIF */}
+          <button className='drawButtons'>
+            <MdGif />
+          </button>
         </div>
 
-        <p>Background color</p>
         <CompactPicker
           className='huePicker'
           color={backgroundColor}
@@ -349,18 +403,20 @@ function Canvas() {
         >
           GIF
         </button>
-        <input
+
+        {/* <input
           type='checkbox'
           onClick={() => {
             setSwhownAnimate(!shownAnimate);
           }}
-        ></input>
+        ></input> */}
+
         <label>Animated text</label>
         <button onClick={handleDelete}>DELETE</button>
         {/* miss all the logic but at least they render */}
 
         <div style={{ background: backgroundColor }}>
-          {shownAnimate && <AnimatedText />}
+          {toggleTool.animatedTextTool && <AnimatedText />}
           <Stage
             width={window.innerWidth}
             height={height}
