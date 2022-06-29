@@ -14,11 +14,13 @@
     rgba(235, 235, 235, 1) 0%,
     rgba(64, 98, 187, 1) 100%
   ); */
-  background-color: #d6d7e5;
 }
 
 .navbar {
   display: flex;
+  position: fixed;
+  z-index: 10;
+  background-color: #d6d7e5;
   justify-content: space-between;
   border: 1px solid red;
   width: 100%;
@@ -51,10 +53,22 @@
   border: 1px solid blue;
 }
 
+.sidebarContainer {
+  display: flex;
+  margin-top: 20vh;
+  position: fixed;
+  z-index: 10;
+}
+
 .toolsContainer {
   display: flex;
   flex-direction: column;
   width: 4vw;
+}
+
+.logicContainer {
+  display: flex;
+  flex-direction: column;
 }
 
 .drawButtons {
@@ -67,4 +81,8 @@
 
 .drawButtons > * {
   pointer-events: none;
+}
+
+.canvaContainer {
+  position: relative;
 }
