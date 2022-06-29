@@ -21,6 +21,7 @@
     "react-color": "^2.19.3",
     "react-dom": "^18.2.0",
     "react-google-button": "^0.7.2",
+    "react-icons": "^4.4.0",
     "react-konva": "^18.2.1",
     "react-router-dom": "^6.3.0",
     "react-scripts": "5.0.1",

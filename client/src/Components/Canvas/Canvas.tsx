@@ -4,16 +4,21 @@ import { ChromePicker, CompactPicker } from 'react-color';
 
 import { Layer, Stage } from 'react-konva';
 import FontPicker from 'font-picker-react';
-import checkCanvaElement from '../Services/utils';
-import Arrows from './Arrows';
-import Circles from './Circles';
-import Squares from './Squares';
-import Stars from './Stars';
-import Texts from './Texts';
-import Images from './Images';
-import AnimatedText from '../Components/AnimatedText';
-import ImageUpload from './ImageUpload';
-import Gifs from './Gifs';
+import checkCanvaElement from '../../Services/utils';
+import Arrows from '../Arrows';
+import Circles from '../Circles';
+import Squares from '../Squares';
+import Stars from '../Stars';
+import Texts from '../Texts';
+import Images from '../Images';
+import AnimatedText from '../AnimatedText';
+import ImageUpload from '../ImageUpload';
+import Gifs from '../Gifs';
+import './Canvas.css';
+import tornaLogo from '../../images/tornalogo.png';
+import { FiStar, FiCircle, FiSquare, FiArrowUpRight } from 'react-icons/fi';
+import { IoMdColorFill } from 'react-icons/io';
+import { RiText } from 'react-icons/ri';
 
 function splitTextFromGenericShapes(shapeList) {
   return shapeList.reduce(
@@ -216,8 +221,50 @@ function Canvas() {
   const { genericItems, textItems } = splitTextFromGenericShapes(canvaElements);
 
   return (
-    <div className='mainContainer'>
-      <div className='menuContainer'>
+    <div className='canvaContainer'>
+      {/* NAVBAR */}
+      <div className='navbar'>
+        <div className='navbarElements'>
+          <img src={tornaLogo} alt='Torna logo' />
+        </div>
+        <div className='navbarElements'>
+          <button className='navbarButton'>SAVE ALBUM</button>
+        </div>
+        <div className='navbarElements'>
+          <label> Album Title:</label>
+          <input
+            className='navbarButton'
+            type='text'
+            placeholder='Your album title'
+          ></input>
+        </div>
+        <div className='navbarImgs'>
+          <ImageUpload setNewImage={setNewImage}></ImageUpload>
+        </div>
+      </div>
+
+      <div className='canvasEditor'>
+        <div className='toolsContainer'>
+          <button className='drawButtons'>
+            <IoMdColorFill />
+          </button>
+          <button className='drawButtons' value={'star'} onClick={handleClick}>
+            <FiStar />
+          </button>
+          <button className='drawButtons' value='circle' onClick={handleClick}>
+            <FiCircle />
+          </button>
+          <button className='drawButtons' value='square' onClick={handleClick}>
+            <FiSquare />
+          </button>
+          <button className='drawButtons' value='arrow' onClick={handleClick}>
+            <FiArrowUpRight />
+          </button>
+          <button className='drawButtons'>
+            <RiText />
+          </button>
+        </div>
+
         <p>Background color</p>
         <CompactPicker
           className='huePicker'
@@ -228,7 +275,6 @@ function Canvas() {
             return setBackGroundColor(string);
           }}
         ></CompactPicker>
-
         <form onSubmit={handleSubmit}>
           <input type='text' id='text' name='textInput'></input>
           <button type='submit'> Add Text </button>
@@ -240,6 +286,7 @@ function Canvas() {
           ></input>
           <label>Stroke</label>
         </form>
+
         <button
           onClick={() =>
             setShowColorPicker((showColorPicker) => !showColorPicker)
@@ -247,6 +294,7 @@ function Canvas() {
         >
           {showColorPicker ? 'Close' : 'Pick fill color'}
         </button>
+
         {/* FIll */}
         {showColorPicker && (
           <ChromePicker
@@ -267,7 +315,7 @@ function Canvas() {
         >
           {showStrokePicker ? 'Close' : 'Pick stroke color'}
         </button>
-        {/* STROKE */}
+
         {showStrokePicker && (
           <ChromePicker
             className='chromePicker'
@@ -279,29 +327,20 @@ function Canvas() {
             }}
           ></ChromePicker>
         )}
+
         <FontPicker
           apiKey={fontAPI as string}
           activeFontFamily={font}
           onChange={(nextFont) => setFont(nextFont.family)}
         />
-        <button value={'star'} onClick={handleClick}>
-          STAR
-        </button>
-        <button value='circle' onClick={handleClick}>
-          CIRCLE
-        </button>
-        <button value='square' onClick={handleClick}>
-          SQUARE
-        </button>
-        <button value='arrow' onClick={handleClick}>
-          ARROW
-        </button>
+
         <button
           value='https://qph.cf2.quoracdn.net/main-qimg-c8781a4bb1f17e330b50cb35f851da05.webp'
           onClick={handleClick}
         >
           IMAGE
         </button>
+
         <button
           value={
             'https://media2.giphy.com/media/kDUG0IQtZq7P1AafEK/giphy.gif?cid=3a3f548700d14y67tcer708zyerzponvfdz02guqnami19mb&rid=giphy.gif&ct=g'
@@ -319,24 +358,40 @@ function Canvas() {
         <label>Animated text</label>
         <button onClick={handleDelete}>DELETE</button>
         {/* miss all the logic but at least they render */}
-        <ImageUpload setNewImage={setNewImage}></ImageUpload>
-      </div>
-      <div style={{ background: backgroundColor }}>
-        {shownAnimate && <AnimatedText />}
-        <Stage
-          width={window.innerWidth}
-          height={height}
-          onWheel={handleWheel}
-          onTouchMove={handleWheel}
-          onMouseDown={checkDeselect}
-          onTouchStart={checkDeselect}
-        >
-          <Layer>
-            {genericItems?.map((el) => {
-              const Shape = shapeType[el?.type];
-              if (!el || !Shape) return null;
-              return (
-                <Shape
+
+        <div style={{ background: backgroundColor }}>
+          {shownAnimate && <AnimatedText />}
+          <Stage
+            width={window.innerWidth}
+            height={height}
+            onWheel={handleWheel}
+            onTouchMove={handleWheel}
+            onMouseDown={checkDeselect}
+            onTouchStart={checkDeselect}
+          >
+            <Layer>
+              {genericItems?.map((el) => {
+                const Shape = shapeType[el?.type];
+                if (!el || !Shape) return null;
+                return (
+                  <Shape
+                    key={el.id}
+                    element={el}
+                    canvaElements={canvaElements}
+                    setCanvaElements={setCanvaElements}
+                    handleDragStart={handleDragStart}
+                    handleDragEnd={() => handleDragEnd(el)}
+                    isSelected={el.id === selectedId}
+                    onSelect={() => {
+                      selectShape(el.id);
+                    }}
+                  />
+                );
+              })}
+            </Layer>
+            <Layer>
+              {textItems?.map((el) => (
+                <Texts
                   key={el.id}
                   element={el}
                   canvaElements={canvaElements}
@@ -348,26 +403,10 @@ function Canvas() {
                     selectShape(el.id);
                   }}
                 />
-              );
-            })}
-          </Layer>
-          <Layer>
-            {textItems?.map((el) => (
-              <Texts
-                key={el.id}
-                element={el}
-                canvaElements={canvaElements}
-                setCanvaElements={setCanvaElements}
-                handleDragStart={handleDragStart}
-                handleDragEnd={() => handleDragEnd(el)}
-                isSelected={el.id === selectedId}
-                onSelect={() => {
-                  selectShape(el.id);
-                }}
-              />
-            ))}
-          </Layer>
-        </Stage>
+              ))}
+            </Layer>
+          </Stage>
+        </div>
       </div>
     </div>
   );

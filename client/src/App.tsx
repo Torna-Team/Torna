@@ -3,17 +3,15 @@ import './App.css';
 // import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 // import Home from './Pages/Home';
 
-import Canvas from './Components/Canvas';
+import Canvas from './Components/Canvas/Canvas';
 import GifPicker from './Components/AnimatedText';
 
 function App() {
   return (
     <div className='App'>
-
       <div className='canva'>
         <Canvas></Canvas>
       </div>
-
     </div>
   );
 }
