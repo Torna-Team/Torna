@@ -16,11 +16,11 @@ import Gifs from '../Gifs';
 import './Canvas.css';
 import tornaLogo from '../../images/tornalogo.png';
 import {
-  FiStar,
-  FiCircle,
-  FiSquare,
-  FiArrowUpRight,
-  FiTrash2,
+	FiStar,
+	FiCircle,
+	FiSquare,
+	FiArrowUpRight,
+	FiTrash2,
 } from 'react-icons/fi';
 import { IoMdColorFill } from 'react-icons/io';
 import { RiText } from 'react-icons/ri';
@@ -72,11 +72,11 @@ const shapeType = {
 };
 
 const toggleTool = {
-  backgroundTool: false,
-  textTool: false,
-  animatedTextTool: false,
-  colorTool: false,
-  gifTool: false,
+	backgroundTool: false,
+	textTool: false,
+	animatedTextTool: false,
+	colorTool: false,
+	gifTool: false,
 };
 
 // type toggleTool = {
@@ -106,7 +106,7 @@ function Canvas() {
 	const [font, setFont] = useState<string>('Ubuntu');
 	const [newGif, setNewGif] = useState<any>(null);
 	const [toolOption, setToolOption] = useState<toggleTool>(toggleTool);
-  const fontAPI = process.env.REACT_APP_GOOGLEAPI as string;
+	const fontAPI = process.env.REACT_APP_GOOGLEAPI as string;
 
 	useEffect(() => {
 		getAlbumInfo();
@@ -214,7 +214,7 @@ function Canvas() {
 		};
 		saveAlbum(savedAlbum);
 	};
-
+	const handleDragStart = () => {};
 	const handleDragEnd = (el: any) => {
 		let indx!: number;
 		for (let i = 0; i < canvaElements.length; i++) {
@@ -255,17 +255,17 @@ function Canvas() {
 		});
 		e.target.reset();
 	}
-  function handleToggle(e: any) {
-    e.preventDefault();
-    for (let key in toggleTool) {
-      if (key === e.target.value) {
-        toggleTool[key] = !toggleTool[key];
-      } else {
-        toggleTool[key] = false;
-      }
-    }
-    setToolOption({ ...toggleTool });
-  }
+	function handleToggle(e: any) {
+		e.preventDefault();
+		for (let key in toggleTool) {
+			if (key === e.target.value) {
+				toggleTool[key] = !toggleTool[key];
+			} else {
+				toggleTool[key] = false;
+			}
+		}
+		setToolOption({ ...toggleTool });
+	}
 
 	function handleDelete(e: any) {
 		e.preventDefault();
@@ -304,215 +304,215 @@ function Canvas() {
 					<ImageUpload setNewImage={setNewImage}></ImageUpload>
 				</div>
 			</div>
-      <div className='canvasEditor'>
-        <div className='sidebarContainer'>
-          <div className='toolsContainer'>
-            {/* BACKGROUND */}
-            <button
-              className='drawButtons'
-              onClick={handleToggle}
-              value='backgroundTool'
-            >
-              <IoMdColorFill />
-            </button>
+			<div className='canvasEditor'>
+				<div className='sidebarContainer'>
+					<div className='toolsContainer'>
+						{/* BACKGROUND */}
+						<button
+							className='drawButtons'
+							onClick={handleToggle}
+							value='backgroundTool'
+						>
+							<IoMdColorFill />
+						</button>
 
-            <button className='drawButtons' value='star' onClick={handleClick}>
-              <FiStar />
-            </button>
-            <button
-              className='drawButtons'
-              value='circle'
-              onClick={handleClick}
-            >
-              <FiCircle />
-            </button>
-            <button
-              className='drawButtons'
-              value='square'
-              onClick={handleClick}
-            >
-              <FiSquare />
-            </button>
-            <button className='drawButtons' value='arrow' onClick={handleClick}>
-              <FiArrowUpRight />
-            </button>
+						<button className='drawButtons' value='star' onClick={handleClick}>
+							<FiStar />
+						</button>
+						<button
+							className='drawButtons'
+							value='circle'
+							onClick={handleClick}
+						>
+							<FiCircle />
+						</button>
+						<button
+							className='drawButtons'
+							value='square'
+							onClick={handleClick}
+						>
+							<FiSquare />
+						</button>
+						<button className='drawButtons' value='arrow' onClick={handleClick}>
+							<FiArrowUpRight />
+						</button>
 
-            {/* TEXT */}
-            <button
-              className='drawButtons'
-              onClick={handleToggle}
-              value='textTool'
-            >
-              <RiText />
-            </button>
+						{/* TEXT */}
+						<button
+							className='drawButtons'
+							onClick={handleToggle}
+							value='textTool'
+						>
+							<RiText />
+						</button>
 
-            {/* ANIMATED TEXT */}
-            <button
-              className='drawButtons'
-              onClick={handleToggle}
-              value='animatedTextTool'
-            >
-              <TbTextResize />
-            </button>
+						{/* ANIMATED TEXT */}
+						<button
+							className='drawButtons'
+							onClick={handleToggle}
+							value='animatedTextTool'
+						>
+							<TbTextResize />
+						</button>
 
-            {/* COLOR */}
-            <button
-              className='drawButtons'
-              onClick={handleToggle}
-              value='colorTool'
-            >
-              <MdOutlineColorLens />
-            </button>
+						{/* COLOR */}
+						<button
+							className='drawButtons'
+							onClick={handleToggle}
+							value='colorTool'
+						>
+							<MdOutlineColorLens />
+						</button>
 
-            {/* GIF */}
-            <button
-              className='drawButtons'
-              onClick={handleToggle}
-              value='gifTool'
-            >
-              <MdGif />
-            </button>
+						{/* GIF */}
+						<button
+							className='drawButtons'
+							onClick={handleToggle}
+							value='gifTool'
+						>
+							<MdGif />
+						</button>
 
-            {/* DELETE  */}
-            <button className='drawButtons' onClick={handleDelete}>
-              <FiTrash2 />
-            </button>
-          </div>
-          <div className='logicContainer'>
-            {toggleTool.backgroundTool && (
-              <div>
-                <CompactPicker
-                  className='huePicker'
-                  color={backgroundColor}
-                  onChange={(updatedColor) => {
-                    const res = updatedColor.rgb;
-                    const string = `rgba(${res.r}, ${res.g}, ${res.b}, ${res.a})`;
-                    return setBackGroundColor(string);
-                  }}
-                ></CompactPicker>
-              </div>
-            )}
+						{/* DELETE  */}
+						<button className='drawButtons' onClick={handleDelete}>
+							<FiTrash2 />
+						</button>
+					</div>
+					<div className='logicContainer'>
+						{toggleTool.backgroundTool && (
+							<div>
+								<CompactPicker
+									className='huePicker'
+									color={backgroundColor}
+									onChange={(updatedColor) => {
+										const res = updatedColor.rgb;
+										const string = `rgba(${res.r}, ${res.g}, ${res.b}, ${res.a})`;
+										return setBackGroundColor(string);
+									}}
+								></CompactPicker>
+							</div>
+						)}
 
-            {toggleTool.textTool && (
-              <div>
-                <FontPicker
-                  apiKey={fontAPI as string}
-                  activeFontFamily={font}
-                  onChange={(nextFont) => setFont(nextFont.family)}
-                />
-                <form onSubmit={handleSubmit}>
-                  <input type='text' id='text' name='textInput'></input>
-                  <button type='submit'> Add Text </button>
-                  <input
-                    type='checkbox'
-                    onClick={() => {
-                      setStrokedText(!strokedText);
-                    }}
-                  ></input>
-                  <label>Stroke</label>
-                </form>
-              </div>
-            )}
+						{toggleTool.textTool && (
+							<div>
+								<FontPicker
+									apiKey={fontAPI as string}
+									activeFontFamily={font}
+									onChange={(nextFont) => setFont(nextFont.family)}
+								/>
+								<form onSubmit={handleSubmit}>
+									<input type='text' id='text' name='textInput'></input>
+									<button type='submit'> Add Text </button>
+									<input
+										type='checkbox'
+										onClick={() => {
+											setStrokedText(!strokedText);
+										}}
+									></input>
+									<label>Stroke</label>
+								</form>
+							</div>
+						)}
 
-            {toggleTool.animatedTextTool && <AnimatedText />}
+						{toggleTool.animatedTextTool && <AnimatedText />}
 
-            {toggleTool.colorTool && (
-              <div>
-                <button
-                  onClick={() =>
-                    setShowColorPicker((showColorPicker) => !showColorPicker)
-                  }
-                >
-                  {showColorPicker ? 'Close' : 'Pick fill color'}
-                </button>
+						{toggleTool.colorTool && (
+							<div>
+								<button
+									onClick={() =>
+										setShowColorPicker((showColorPicker) => !showColorPicker)
+									}
+								>
+									{showColorPicker ? 'Close' : 'Pick fill color'}
+								</button>
 
-                {/* FIll */}
-                {showColorPicker && (
-                  <ChromePicker
-                    className='chromePicker'
-                    color={color}
-                    onChange={(updatedColor) => {
-                      const res = updatedColor.rgb;
-                      const string = `rgba(${res.r}, ${res.g}, ${res.b}, ${res.a})`;
-                      setTextColor(string);
-                      return setColor(string);
-                    }}
-                  ></ChromePicker>
-                )}
-                <button
-                  onClick={() =>
-                    setShowStrokePicker((showStrokePicker) => !showStrokePicker)
-                  }
-                >
-                  {showStrokePicker ? 'Close' : 'Pick stroke color'}
-                </button>
+								{/* FIll */}
+								{showColorPicker && (
+									<ChromePicker
+										className='chromePicker'
+										color={color}
+										onChange={(updatedColor) => {
+											const res = updatedColor.rgb;
+											const string = `rgba(${res.r}, ${res.g}, ${res.b}, ${res.a})`;
+											setTextColor(string);
+											return setColor(string);
+										}}
+									></ChromePicker>
+								)}
+								<button
+									onClick={() =>
+										setShowStrokePicker((showStrokePicker) => !showStrokePicker)
+									}
+								>
+									{showStrokePicker ? 'Close' : 'Pick stroke color'}
+								</button>
 
-                {showStrokePicker && (
-                  <ChromePicker
-                    className='chromePicker'
-                    color={stroke}
-                    onChange={(updatedColor) => {
-                      const res = updatedColor.rgb;
-                      const string = `rgba(${res.r}, ${res.g}, ${res.b}, ${res.a})`;
-                      return setStroke(string);
-                    }}
-                  ></ChromePicker>
-                )}
-              </div>
-            )}
-          </div>
-        </div>
+								{showStrokePicker && (
+									<ChromePicker
+										className='chromePicker'
+										color={stroke}
+										onChange={(updatedColor) => {
+											const res = updatedColor.rgb;
+											const string = `rgba(${res.r}, ${res.g}, ${res.b}, ${res.a})`;
+											return setStroke(string);
+										}}
+									></ChromePicker>
+								)}
+							</div>
+						)}
+					</div>
+				</div>
 
-        <div className='canvaContainer' style={{ background: backgroundColor }}>
-          <Stage
-            width={window.innerWidth}
-            height={height}
-            onWheel={handleWheel}
-            onTouchMove={handleWheel}
-            onMouseDown={checkDeselect}
-            onTouchStart={checkDeselect}
-          >
-            <Layer>
-              {genericItems?.map((el) => {
-                const Shape = shapeType[el?.type];
-                if (!el || !Shape) return null;
-                return (
-                  <Shape
-                    key={el.id}
-                    element={el}
-                    canvaElements={canvaElements}
-                    setCanvaElements={setCanvaElements}
-                    handleDragStart={handleDragStart}
-                    handleDragEnd={() => handleDragEnd(el)}
-                    isSelected={el.id === selectedId}
-                    onSelect={() => {
-                      selectShape(el.id);
-                    }}
-                  />
-                );
-              })}
-            </Layer>
-            <Layer>
-              {textItems?.map((el) => (
-                <Texts
-                  key={el.id}
-                  element={el}
-                  canvaElements={canvaElements}
-                  setCanvaElements={setCanvaElements}
-                  handleDragStart={handleDragStart}
-                  handleDragEnd={() => handleDragEnd(el)}
-                  isSelected={el.id === selectedId}
-                  onSelect={() => {
-                    selectShape(el.id);
-                  }}
-                />
-              ))}
-            </Layer>
-          </Stage>
-        </div>
-      </div>
-    </div>
-  );
+				<div className='canvaContainer' style={{ background: backgroundColor }}>
+					<Stage
+						width={window.innerWidth}
+						height={height}
+						onWheel={handleWheel}
+						onTouchMove={handleWheel}
+						onMouseDown={checkDeselect}
+						onTouchStart={checkDeselect}
+					>
+						<Layer>
+							{genericItems?.map((el) => {
+								const Shape = shapeType[el?.type];
+								if (!el || !Shape) return null;
+								return (
+									<Shape
+										key={el.id}
+										element={el}
+										canvaElements={canvaElements}
+										setCanvaElements={setCanvaElements}
+										handleDragStart={handleDragStart}
+										handleDragEnd={() => handleDragEnd(el)}
+										isSelected={el.id === selectedId}
+										onSelect={() => {
+											selectShape(el.id);
+										}}
+									/>
+								);
+							})}
+						</Layer>
+						<Layer>
+							{textItems?.map((el) => (
+								<Texts
+									key={el.id}
+									element={el}
+									canvaElements={canvaElements}
+									setCanvaElements={setCanvaElements}
+									handleDragStart={handleDragStart}
+									handleDragEnd={() => handleDragEnd(el)}
+									isSelected={el.id === selectedId}
+									onSelect={() => {
+										selectShape(el.id);
+									}}
+								/>
+							))}
+						</Layer>
+					</Stage>
+				</div>
+			</div>
+		</div>
+	);
 }
 
 export default Canvas;
