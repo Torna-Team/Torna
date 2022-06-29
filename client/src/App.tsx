@@ -8,9 +8,6 @@ import ErrorPage from './Pages/ErrorPage';
 import { LoginContext } from './Utils/Context';
 import Canvas from './Components/Canvas/Canvas';
 
-type UserId = string;
-type UserMail = string;
-type UserName = string;
 type loggedIn = boolean;
 
 function App() {
