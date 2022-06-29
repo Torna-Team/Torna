@@ -5,7 +5,7 @@ export interface User {
 	firstName: string;
 	lastName?: string;
 	password?: string;
-	// albums?: any[];
+	albums?: any[];
 	email: string;
 }
 
@@ -14,13 +14,9 @@ export interface LoggingUser {
 	password: string;
 }
 
-export const getUser = async (
-	id: string,
-	displayName: string,
-	email: string
-) => {
+export const getUser = async (displayName: string, email: string) => {
 	try {
-		const result = await fetch(`${BASE_URL}/user/${id}`, {
+		const result = await fetch(`${BASE_URL}/user/`, {
 			method: 'POST',
 			headers: { 'Content-type': 'application/json' },
 			body: JSON.stringify({

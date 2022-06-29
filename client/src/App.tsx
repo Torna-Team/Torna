@@ -13,29 +13,16 @@ type UserName = string;
 type loggedIn = boolean;
 
 function App() {
-	const [userId, setUserId] = React.useState<UserId>('');
-	const [userMail, setUserMail] = React.useState<UserMail>('');
-	const [userName, setUserName] = React.useState<UserName>('');
 	const [loggedIn, setLoggedIn] = React.useState<loggedIn>(false);
+
 	return (
 		<LoginContext.Provider value={{ loggedIn, setLoggedIn }}>
 			<Router>
 				<Routes>
-					<Route
-						path='/'
-						element={
-							<Home
-								setUserId={setUserId}
-								setUserMail={setUserMail}
-								setUserName={setUserName}
-								userId={userId}
-								userMail={userMail}
-								userName={userName}
-							/>
-						}
-					/>
+					<Route path='/' element={<Home />} />
 					<Route path='/register' element={<Register />} />
 					<Route path='/profile/:id' element={<Profile />} />
+					{/* <Route path='/album/:id' element={<Album />} /> */}
 					<Route path='*' element={<ErrorPage />} />
 				</Routes>
 			</Router>

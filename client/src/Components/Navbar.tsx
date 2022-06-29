@@ -4,13 +4,12 @@ import { LoginContext } from '../Utils/Context';
 import '../Styles/Navbar.css';
 
 function Navbar({ user }: any) {
-	let { id } = useParams();
 	const { loggedIn, setLoggedIn } = useContext(LoginContext as any);
 
 	return (
 		<div className='navBarContainer'>
 			<h3 className='welcome'>
-				Welcome, {user && (user.name ? user.name : user.firstName)}
+				Welcome, {user?.firstName} {user?.lastName}
 			</h3>
 			{loggedIn ? (
 				<Link to='/'>

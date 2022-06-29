@@ -5,7 +5,7 @@ import { register } from '../Services/Server-Client';
 import { useNavigate, Link } from 'react-router-dom';
 import { LoginContext } from '../Utils/Context';
 
-const Register = ({ setUserName }: any) => {
+const Register = () => {
 	const navigate = useNavigate();
 	const { loggedIn, setLoggedIn } = useContext(LoginContext as any);
 
@@ -18,21 +18,22 @@ const Register = ({ setUserName }: any) => {
 			email: { value: string };
 		};
 
-		const firstName: string = target.firstName.value;
-		const lastName: string = target.lastName.value;
-		const email: string = target.email.value;
-		const password: string = target.password.value;
-
 		const newUser = {
-			firstName: firstName,
-			lastName: lastName,
-			password: password,
-			email: email,
+			firstName: target.firstName.value,
+			lastName: target.lastName.value,
+			password: target.password.value,
+			email: target.email.value,
 		};
-		const registration = await register(newUser as User);
-		// setUserName(firstName);
-		sessionStorage.setItem('user', JSON.stringify(registration));
-		navigate(`/profile/${(registration as User).id}`);
+		try {
+			const registration = await register(newUser as User);
+			if (registration) {
+				sessionStorage.setItem('user', JSON.stringify(registration));
+				navigate(`/profile/${(registration as User).id}`);
+			} else throw new Error();
+		} catch (error) {
+			console.log(error);
+			alert('Email already exists. Try again');
+		}
 	};
 
 	return (
@@ -67,7 +68,7 @@ const Register = ({ setUserName }: any) => {
 				<input
 					required
 					className='registerInput'
-					type='text'
+					type='email'
 					name='email'
 					placeholder='Insert your email'
 				/>

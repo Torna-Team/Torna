@@ -5,7 +5,7 @@ import { useParams } from 'react-router-dom';
 import '../Styles/Profile.css';
 
 function Profile() {
-	let { id } = useParams();
+	// let { id } = useParams();
 	const { loggedIn, setLoggedIn } = useContext(LoginContext as any);
 	const [user, setUser] = useState<any>();
 

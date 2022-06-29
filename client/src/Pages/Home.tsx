@@ -4,25 +4,22 @@ import '../Styles/Home.css';
 import GoogleButton from 'react-google-button';
 import { auth } from '../Services/Firebase';
 import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
-import { login, getUser } from '../Services/Server-Client';
+import { login, getUser, User } from '../Services/Server-Client';
 import { LoggingUser } from '../Services/Server-Client';
 import { LoginContext } from '../Utils/Context';
 
-type LoginProps = {
-	setUserId: React.Dispatch<React.SetStateAction<string>>;
-	setUserMail: React.Dispatch<React.SetStateAction<string>>;
-	setUserName: React.Dispatch<React.SetStateAction<string>>;
-	userId: string;
-	userMail: string;
-	userName: string;
-};
+// type LoginProps = {
+// 	setUserId: React.Dispatch<React.SetStateAction<string>>;
+// 	setUserMail: React.Dispatch<React.SetStateAction<string>>;
+// 	setUserName: React.Dispatch<React.SetStateAction<string>>;
+// 	userId: string;
+// 	userMail: string;
+// 	userName: string;
+// };
 
-const Home: React.FC<LoginProps> = () => {
+const Home = () => {
 	const { loggedIn, setLoggedIn } = useContext(LoginContext as any);
 	const navigate = useNavigate();
-	const [userName, setUserName] = useState<any>('');
-	const [userId, setUserId] = useState('');
-	const [userMail, setUserMail] = useState('');
 
 	const onSubmitHandler = async (event: React.FormEvent) => {
 		event.preventDefault();
@@ -47,49 +44,35 @@ const Home: React.FC<LoginProps> = () => {
 		}
 	};
 
-	const checkExistingUser = async (
-		id: string,
-		displayName: string,
-		email: string
-	) => {
-		if (id && displayName && email !== null) {
-			const result = await getUser(id, displayName, email);
+	const checkExistingUser = async (displayName: string, email: string) => {
+		if (displayName && email) {
+			const result = await getUser(displayName, email);
 			console.log(result);
 			return result;
 		}
 	};
 
-	const signInWithGoogle = () => {
-		const provider = new GoogleAuthProvider();
-		signInWithPopup(auth, provider)
-			.then((result) => {
-				const googleUserId = result.user.uid;
-				const googleUserName = result.user.displayName;
-				const googleUserMail = result.user.email;
-				let newUser = {
-					userId: '',
-					name: '',
-					email: '',
-					albums: [],
-				};
-				if (googleUserId && googleUserName && googleUserMail) {
-					setUserId(googleUserId);
-					setUserName(googleUserName);
-					setUserMail(googleUserMail);
-					newUser.userId = googleUserId;
-					newUser.name = googleUserName;
-					newUser.email = googleUserMail;
+	const signInWithGoogle = async () => {
+		try {
+			const provider = new GoogleAuthProvider();
+			const result = await signInWithPopup(auth, provider);
 
-					checkExistingUser(googleUserId, googleUserName, googleUserMail);
-				}
+			const googleUserName = result.user.displayName;
+			const googleUserMail = result.user.email;
 
-				sessionStorage.setItem('user', JSON.stringify(newUser));
-				navigate(`/profile/${googleUserId}`);
-				setLoggedIn(true);
-			})
-			.catch((err) => {
-				console.log(err);
-			});
+			if (googleUserName && googleUserMail) {
+				const user = await checkExistingUser(googleUserName, googleUserMail);
+
+				if (user) {
+					sessionStorage.setItem('user', JSON.stringify(user));
+					setLoggedIn(true);
+					navigate(`/profile/${(user as unknown as User).id}`);
+				} else throw new Error();
+			}
+		} catch (error) {
+			alert('Error, try again');
+			console.log(error);
+		}
 	};
 
 	return (
