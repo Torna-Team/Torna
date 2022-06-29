@@ -1,7 +1,6 @@
 //@ts-nocheck
 import React, { useEffect, useState } from 'react';
 import { ChromePicker, CompactPicker } from 'react-color';
-
 import { Layer, Stage } from 'react-konva';
 import FontPicker from 'font-picker-react';
 import checkCanvaElement from '../../Services/utils';
@@ -27,16 +26,20 @@ import { IoMdColorFill } from 'react-icons/io';
 import { RiText } from 'react-icons/ri';
 import { MdOutlineColorLens, MdGif } from 'react-icons/md';
 import { TbTextResize } from 'react-icons/tb';
+import { uuidv4 } from '@firebase/util';
+import { useParams } from 'react-router-dom';
+import { saveAlbum, getAlbum } from '../../Services/Server-Client';
 
 function splitTextFromGenericShapes(shapeList) {
-  return shapeList.reduce(
-    (res, el) => {
-      if (el.type === 'text') res.textItems.push(el);
-      else res.genericItems.push(el);
-      return res;
-    },
-    { genericItems: [], textItems: [] }
-  );
+	console.log(shapeList);
+	return shapeList.reduce(
+		(res, el) => {
+			if (el.type === 'text') res.textItems.push(el);
+			else res.genericItems.push(el);
+			return res;
+		},
+		{ genericItems: [], textItems: [] }
+	);
 }
 
 // interface ShapeProps {
@@ -59,13 +62,13 @@ function splitTextFromGenericShapes(shapeList) {
 //   | typeof Texts;
 
 const shapeType = {
-  star: Stars,
-  arrow: Arrows,
-  circle: Circles,
-  square: Squares,
-  image: Images,
-  text: Texts,
-  gif: Gifs,
+	star: Stars,
+	arrow: Arrows,
+	circle: Circles,
+	square: Squares,
+	image: Images,
+	text: Texts,
+	gif: Gifs,
 };
 
 const toggleTool = {
@@ -85,165 +88,173 @@ const toggleTool = {
 // }
 
 function Canvas() {
-  const [canvaElements, setCanvaElements] = useState<any[]>([]);
-  const [backgroundColor, setBackGroundColor] = useState<string>(
-    'rgba(255, 255, 255)'
-  );
-  const [color, setColor] = useState<any>('rgba(241, 241, 246)');
-  const [textColor, setTextColor] = useState<any>('rgba(0, 0, 0, 1)');
-  const [stroke, setStroke] = useState<any>('rgba(0, 0, 0, 1)');
-  const [strokedText, setStrokedText] = useState<boolean>(false);
-  const [showColorPicker, setShowColorPicker] = useState<boolean>(false);
-  const [showStrokePicker, setShowStrokePicker] = useState<boolean>(false);
-  const [height, setHeight] = useState(1200);
-  const [selectedId, selectShape] = useState<any>(null);
-  const [newImage, setNewImage] = useState<any>(null);
-  const [font, setFont] = useState<string>('Ubuntu');
-  const [newGif, setNewGif] = useState<any>(null);
-  const [shownAnimate, setSwhownAnimate] = useState<boolean>(false);
+	const albumId = useParams().id;
 
-  const [toolOption, setToolOption] = useState<toggleTool>(toggleTool);
-
+	const [canvaElements, setCanvaElements] = useState<any[]>([]);
+	const [backgroundColor, setBackGroundColor] = useState<string>(
+		'rgba(255, 255, 255)'
+	);
+	const [color, setColor] = useState<any>('rgba(241, 241, 246)');
+	const [textColor, setTextColor] = useState<any>('rgba(0, 0, 0, 1)');
+	const [stroke, setStroke] = useState<any>('rgba(0, 0, 0, 1)');
+	const [strokedText, setStrokedText] = useState<boolean>(false);
+	const [showColorPicker, setShowColorPicker] = useState<boolean>(false);
+	const [showStrokePicker, setShowStrokePicker] = useState<boolean>(false);
+	const [height, setHeight] = useState(1200);
+	const [selectedId, selectShape] = useState<any>(null);
+	const [newImage, setNewImage] = useState<any>(null);
+	const [font, setFont] = useState<string>('Ubuntu');
+	const [newGif, setNewGif] = useState<any>(null);
+	const [toolOption, setToolOption] = useState<toggleTool>(toggleTool);
   const fontAPI = process.env.REACT_APP_GOOGLEAPI as string;
 
-  useEffect(() => {
-    if (newImage !== null) {
-      const canvaLength = canvaElements.length;
-      const newCanvaElement = checkCanvaElement(
-        'image',
-        canvaLength,
-        color,
-        stroke,
-        newImage
-      );
-      setCanvaElements((prev: any) => {
-        if (prev) return [...prev, newCanvaElement];
-        else return [newCanvaElement];
-      });
-    }
-    if (newGif !== null) {
-      const canvaLength = canvaElements.length;
-      const newCanvaElement = checkCanvaElement(
-        'gif',
-        canvaLength,
-        color,
-        stroke,
-        newGif
-      );
-      setCanvaElements((prev: any) => {
-        if (prev) return [...prev, newCanvaElement];
-        else return [newCanvaElement];
-      });
-    }
-  }, [newImage, newGif]);
+	useEffect(() => {
+		getAlbumInfo();
+	}, []);
 
-  function handleClick(e: any) {
-    e.preventDefault();
-    const type = e.target.value;
-    const canvaLength = canvaElements.length;
-    let newCanvaElement!: any;
-    if (type.includes('.gif')) {
-      newCanvaElement = checkCanvaElement(
-        'gif',
-        canvaLength,
-        color,
-        stroke,
-        type
-      );
-    } else if (type.includes('http://res.cloudinary.com')) {
-      newCanvaElement = checkCanvaElement(
-        'image',
-        canvaLength,
-        color,
-        stroke,
-        type
-      );
-    } else {
-      newCanvaElement = checkCanvaElement(type, canvaLength, color, stroke);
-    }
-    setCanvaElements((prev: any) => {
-      console.log(newCanvaElement);
-      if (prev) return [...prev, newCanvaElement];
-      else return [newCanvaElement];
-    });
-  }
+	useEffect(() => {
+		if (newImage !== null) {
+			const elementId = uuidv4();
+			const newCanvaElement = checkCanvaElement(
+				'image',
+				elementId,
+				color,
+				stroke,
+				newImage
+			);
+			setCanvaElements((prev: any) => {
+				if (prev) return [...prev, newCanvaElement];
+				else return [newCanvaElement];
+			});
+		}
+		if (newGif !== null) {
+			const elementId = uuidv4();
+			const newCanvaElement = checkCanvaElement(
+				'gif',
+				elementId,
+				color,
+				stroke,
+				newGif
+			);
+			setCanvaElements((prev: any) => {
+				if (prev) return [...prev, newCanvaElement];
+				else return [newCanvaElement];
+			});
+		}
+	}, [newImage, newGif]);
 
-  const handleWheel = (e: any) => {
-    if (e.evt.deltaY > 0) {
-      setHeight(height * 1.05);
-    }
-    if (e.evt.deltaY < 0) {
-      if (height >= 1200) {
-        setHeight(height / 1.05);
-      }
-    }
-  };
+	async function getAlbumInfo() {
+		const album = await getAlbum(albumId);
+		//if template
+		console.log('album', album);
+		if (album) {
+			const template = JSON.parse(album.template);
+			console.log(template);
+		}
+		album?.template && setCanvaElements([...JSON.parse(album.template)]);
+	}
 
-  const checkDeselect = (e: any) => {
-    const clickedOnEmpty = e.target === e.target.getStage();
-    if (clickedOnEmpty) {
-      selectShape(null);
-    }
-  };
+	function handleClick(e: any) {
+		e.preventDefault();
+		const type = e.target.value;
+		const elementId = uuidv4();
+		let newCanvaElement!: any;
+		console.log(type);
+		if (type.includes('.gif')) {
+			newCanvaElement = checkCanvaElement(
+				'gif',
+				elementId,
+				color,
+				stroke,
+				type
+			);
+		} else if (type.includes('http://res.cloudinary.com')) {
+			newCanvaElement = checkCanvaElement(
+				'image',
+				elementId,
+				color,
+				stroke,
+				type
+			);
+		} else {
+			newCanvaElement = checkCanvaElement(type, elementId, color, stroke);
+		}
+		setCanvaElements((prev: any) => {
+			console.log(newCanvaElement);
+			if (prev) return [...prev, newCanvaElement];
+			else return [newCanvaElement];
+		});
+	}
 
-  const handleDragStart = (e: any) => {
-    // console.log(e.target, e.target._id, e);
-    // const newId = Number(e.target.attrs.id);
-    // console.log('la new id al clickar y hacer drag', newId);
-    // let indx!: number;
-    // console.log('newid', newId);
-  };
+	const handleWheel = (e: any) => {
+		if (e.evt.deltaY > 0) {
+			setHeight(height * 1.05);
+		}
+		if (e.evt.deltaY < 0) {
+			if (height >= 1200) {
+				setHeight(height / 1.05);
+			}
+		}
+	};
 
-  const handleDragEnd = (el: any) => {
-    let indx!: number;
-    for (let i = 0; i < canvaElements.length; i++) {
-      if (canvaElements[i].id === el.id) {
-        indx = i;
-        break;
-      }
-    }
+	const checkDeselect = (e: any) => {
+		const clickedOnEmpty = e.target === e.target.getStage();
+		if (clickedOnEmpty) {
+			selectShape(null);
+		}
+	};
 
-    setCanvaElements((prev: any) => {
-      if (prev) {
-        const arr1 = prev.slice(0, indx);
-        const arr2 = prev.slice(indx + 1, prev.length);
-        const result = [...arr1, ...arr2, el];
-        return result;
-      } else return [el];
-    });
-    return indx;
-  };
+	const editAlbum = async (e) => {
+		e.preventDefault();
+		const title = e.target.albumTitle.value;
+		const savedAlbum = {
+			title,
+			template: JSON.stringify(canvaElements),
+			id: albumId,
+		};
+		saveAlbum(savedAlbum);
+	};
 
-  function handleSubmit(e: any) {
-    e.preventDefault();
-    const newText = {
-      type: 'text',
-      text: e.target.textInput.value,
-      id: canvaElements.length,
-      x: window.innerWidth / 2,
-      y: window.innerHeight / 2,
-      color: textColor,
-      stroke: strokedText ? stroke : null,
-      font: font,
-    };
+	const handleDragEnd = (el: any) => {
+		let indx!: number;
+		for (let i = 0; i < canvaElements.length; i++) {
+			if (canvaElements[i].id === el.id) {
+				indx = i;
+				break;
+			}
+		}
 
-    setCanvaElements((prev: any) => {
-      if (prev) return [...prev, newText];
-      else return [newText];
-    });
-    e.target.reset();
-  }
+		setCanvaElements((prev: any) => {
+			if (prev) {
+				const arr1 = prev.slice(0, indx);
+				const arr2 = prev.slice(indx + 1, prev.length);
+				const result = [...arr1, ...arr2, el];
+				return result;
+			} else return [el];
+		});
+		console.log(indx);
+		return indx;
+	};
 
-  function handleDelete(e: any) {
-    e.preventDefault();
-    if (selectedId !== null) {
-      const arr = canvaElements.filter((el) => {
-        return el.id !== selectedId;
-      });
-      setCanvaElements([...arr]);
-    }
-  }
+	function handleSubmit(e: any) {
+		e.preventDefault();
+		const newText = {
+			type: 'text',
+			text: e.target.textInput.value,
+			id: uuidv4(),
+			x: window.innerWidth / 2,
+			y: window.innerHeight / 2,
+			color: textColor,
+			stroke: strokedText ? stroke : null,
+			font: font,
+		};
 
+		setCanvaElements((prev: any) => {
+			if (prev) return [...prev, newText];
+			else return [newText];
+		});
+		e.target.reset();
+	}
   function handleToggle(e: any) {
     e.preventDefault();
     for (let key in toggleTool) {
@@ -256,31 +267,43 @@ function Canvas() {
     setToolOption({ ...toggleTool });
   }
 
-  const { genericItems, textItems } = splitTextFromGenericShapes(canvaElements);
+	function handleDelete(e: any) {
+		e.preventDefault();
+		if (selectedId !== null) {
+			const arr = canvaElements.filter((el) => {
+				return el.id !== selectedId;
+			});
+			setCanvaElements([...arr]);
+		}
+	}
+	if (canvaElements) {
+	}
+	const { genericItems, textItems } = splitTextFromGenericShapes(canvaElements);
 
-  return (
-    <div className='canvaContainer'>
-      {/* NAVBAR */}
-      <div className='navbar'>
-        <div className='navbarElements'>
-          <img src={tornaLogo} alt='Torna logo' />
-        </div>
-        <div className='navbarElements'>
-          <button className='navbarButton'>SAVE ALBUM</button>
-        </div>
-        <div className='navbarElements'>
-          <label> Album Title:</label>
-          <input
-            className='navbarButton'
-            type='text'
-            placeholder='Your album title'
-          ></input>
-        </div>
-        <div className='navbarImgs'>
-          <ImageUpload setNewImage={setNewImage}></ImageUpload>
-        </div>
-      </div>
-
+	return (
+		<div className='canvaContainer'>
+			{/* NAVBAR */}
+			<div className='navbar'>
+				<div className='navbarElements'>
+					<img src={tornaLogo} alt='Torna logo' />
+				</div>
+				<div className='navbarElements'></div>
+				<form className='navbarElements' onSubmit={editAlbum}>
+					<label> Album Title:</label>
+					<input
+						className='navbarButton'
+						type='text'
+						name='albumTitle'
+						placeholder='Your album title'
+					></input>
+					<button className='navbarButton' type='submit'>
+						SAVE ALBUM
+					</button>
+				</form>
+				<div className='navbarImgs'>
+					<ImageUpload setNewImage={setNewImage}></ImageUpload>
+				</div>
+			</div>
       <div className='canvasEditor'>
         <div className='sidebarContainer'>
           <div className='toolsContainer'>

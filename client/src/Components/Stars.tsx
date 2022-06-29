@@ -4,7 +4,6 @@ import { Transformer, Star } from 'react-konva';
 function Stars({
   element,
   canvaElements,
-  handleDragStart,
   handleDragEnd,
   isSelected,
   onSelect,
@@ -50,7 +49,6 @@ function Stars({
         fill={star.color}
         stroke={star.stroke}
         draggable={true}
-        onDragStart={handleDragStart}
         onDragEnd={(e) => {
           const indx = handleDragEnd();
           canvaElements[indx].x = e.target.x();

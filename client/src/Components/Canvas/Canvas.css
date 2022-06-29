@@ -15,7 +15,6 @@
     rgba(64, 98, 187, 1) 100%
   ); */
 }
-
 .navbar {
   display: flex;
   position: fixed;
@@ -86,3 +85,4 @@
 .canvaContainer {
   position: relative;
 }
+

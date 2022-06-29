@@ -4,7 +4,6 @@ import React from 'react';
 function Texts({
   element,
   canvaElements,
-  handleDragStart,
   handleDragEnd,
   isSelected,
   onSelect,

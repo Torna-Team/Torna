@@ -4,7 +4,6 @@ import React from 'react';
 function Circles({
   element,
   canvaElements,
-  handleDragStart,
   handleDragEnd,
   isSelected,
   onSelect,
@@ -45,7 +44,6 @@ function Circles({
         radius={50}
         fill={circle.color}
         stroke={circle.stroke}
-        onDragStart={handleDragStart}
         onDragEnd={(e) => {
           const indx = handleDragEnd();
           console.log(indx, canvaElements, canvaElements[indx]);

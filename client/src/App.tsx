@@ -20,7 +20,8 @@ function App() {
           <Route path='/' element={<Home />} />
           <Route path='/register' element={<Register />} />
           <Route path='/profile/:id' element={<Profile />} />
-          <Route path='/album/' element={<Canvas />} />
+          <Route path='/album/:id/edit' element={<Canvas />} />
+          <Route path='/album/:id' element={<Canvas />} />
           <Route path='*' element={<ErrorPage />} />
         </Routes>
       </Router>

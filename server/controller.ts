@@ -182,11 +182,11 @@ const editUser = async (req: Request, res: Response) => {
 
 //Albums functions
 const getAlbum = async (req: Request, res: Response) => {
-	const { id } = req.body;
+	const id = req.params.id;
 	try {
-		const album = await prisma.album.findMany({
+		const album = await prisma.album.findUnique({
 			where: {
-				id: id,
+				id: Number(id),
 			},
 		});
 		res.status(200);
@@ -231,8 +231,8 @@ const editAlbum = async (req: Request, res: Response) => {
 				template,
 			},
 		});
-		res.status(204);
-		res.json(album);
+		res.status(200);
+		res.send(JSON.stringify(album));
 	} catch (error) {
 		res.status(500);
 		console.log(error);

@@ -11,7 +11,7 @@ router.post('/register', Data.register);
 router.put('/user/:id', Data.editUser);
 
 //Album routes
-router.get('/albums/', Data.getAlbum);
+router.get('/album/:id', Data.getAlbum);
 router.post('/album/', Data.postAlbum);
 router.put('/album/:id', Data.editAlbum);
 router.delete('/album/:id', Data.deleteAlbum);

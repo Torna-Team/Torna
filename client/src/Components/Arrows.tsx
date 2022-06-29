@@ -4,7 +4,6 @@ import React from 'react';
 function Arrows({
   element,
   canvaElements,
-  handleDragStart,
   handleDragEnd,
   isSelected,
   onSelect,
@@ -14,7 +13,6 @@ function Arrows({
 
   React.useEffect(() => {
     if (isSelected) {
-      // we need to attach transformer manually
       trRef.current.nodes([shapeRef.current]);
       trRef.current.getLayer().batchDraw();
     }
@@ -44,7 +42,6 @@ function Arrows({
         points={[0, 100, 100, 0]}
         pointerLength={6}
         pointerWidth={6}
-        onDragStart={handleDragStart}
         onDragEnd={(e) => {
           const indx = handleDragEnd();
           canvaElements[indx].x = e.target.x();
