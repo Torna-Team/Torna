@@ -1,4 +1,4 @@
-const BASE_URL = 'http://localhost:3001';
+const BASE_URL = 'https://96f2-45-130-134-153.eu.ngrok.io';
 
 export interface User {
 	id: string;
