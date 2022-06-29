@@ -15,9 +15,17 @@ import ImageUpload from '../ImageUpload';
 import Gifs from '../Gifs';
 import './Canvas.css';
 import tornaLogo from '../../images/tornalogo.png';
-import { FiStar, FiCircle, FiSquare, FiArrowUpRight } from 'react-icons/fi';
+import {
+  FiStar,
+  FiCircle,
+  FiSquare,
+  FiArrowUpRight,
+  FiTrash2,
+} from 'react-icons/fi';
 import { IoMdColorFill } from 'react-icons/io';
 import { RiText } from 'react-icons/ri';
+import { MdOutlineColorLens, MdGif } from 'react-icons/md';
+import { TbTextResize } from 'react-icons/tb';
 import { uuidv4 } from '@firebase/util';
 import { useParams } from 'react-router-dom';
 import { saveAlbum, getAlbum } from '../../Services/Server-Client';
@@ -63,6 +71,22 @@ const shapeType = {
 	gif: Gifs,
 };
 
+const toggleTool = {
+  backgroundTool: false,
+  textTool: false,
+  animatedTextTool: false,
+  colorTool: false,
+  gifTool: false,
+};
+
+// type toggleTool = {
+//   backgroundTool: boolean,
+//   textTool: boolean,
+//   animatedTextTool: boolean,
+//   colorTool: boolean,
+//   gifTool: boolean,
+// }
+
 function Canvas() {
 	const albumId = useParams().id;
 
@@ -81,9 +105,8 @@ function Canvas() {
 	const [newImage, setNewImage] = useState<any>(null);
 	const [font, setFont] = useState<string>('Ubuntu');
 	const [newGif, setNewGif] = useState<any>(null);
-	const [shownAnimate, setSwhownAnimate] = useState<boolean>(false);
-
-	const fontAPI = process.env.REACT_APP_GOOGLEAPI as string;
+	const [toolOption, setToolOption] = useState<toggleTool>(toggleTool);
+  const fontAPI = process.env.REACT_APP_GOOGLEAPI as string;
 
 	useEffect(() => {
 		getAlbumInfo();
@@ -232,6 +255,17 @@ function Canvas() {
 		});
 		e.target.reset();
 	}
+  function handleToggle(e: any) {
+    e.preventDefault();
+    for (let key in toggleTool) {
+      if (key === e.target.value) {
+        toggleTool[key] = !toggleTool[key];
+      } else {
+        toggleTool[key] = false;
+      }
+    }
+    setToolOption({ ...toggleTool });
+  }
 
 	function handleDelete(e: any) {
 		e.preventDefault();
@@ -270,172 +304,215 @@ function Canvas() {
 					<ImageUpload setNewImage={setNewImage}></ImageUpload>
 				</div>
 			</div>
+      <div className='canvasEditor'>
+        <div className='sidebarContainer'>
+          <div className='toolsContainer'>
+            {/* BACKGROUND */}
+            <button
+              className='drawButtons'
+              onClick={handleToggle}
+              value='backgroundTool'
+            >
+              <IoMdColorFill />
+            </button>
 
-			<div className='canvasEditor'>
-				<div className='toolsContainer'>
-					<button className='drawButtons'>
-						<IoMdColorFill />
-					</button>
-					<button className='drawButtons' value='star' onClick={handleClick}>
-						<FiStar />
-					</button>
-					<button className='drawButtons' value='circle' onClick={handleClick}>
-						<FiCircle />
-					</button>
-					<button className='drawButtons' value='square' onClick={handleClick}>
-						<FiSquare />
-					</button>
-					<button className='drawButtons' value='arrow' onClick={handleClick}>
-						<FiArrowUpRight />
-					</button>
-					<button className='drawButtons'>
-						<RiText />
-					</button>
-				</div>
+            <button className='drawButtons' value='star' onClick={handleClick}>
+              <FiStar />
+            </button>
+            <button
+              className='drawButtons'
+              value='circle'
+              onClick={handleClick}
+            >
+              <FiCircle />
+            </button>
+            <button
+              className='drawButtons'
+              value='square'
+              onClick={handleClick}
+            >
+              <FiSquare />
+            </button>
+            <button className='drawButtons' value='arrow' onClick={handleClick}>
+              <FiArrowUpRight />
+            </button>
 
-				<p>Background color</p>
-				<CompactPicker
-					className='huePicker'
-					color={backgroundColor}
-					onChange={(updatedColor) => {
-						const res = updatedColor.rgb;
-						const string = `rgba(${res.r}, ${res.g}, ${res.b}, ${res.a})`;
-						return setBackGroundColor(string);
-					}}
-				></CompactPicker>
-				<form onSubmit={handleSubmit}>
-					<input type='text' id='text' name='textInput'></input>
-					<button type='submit'> Add Text </button>
-					<input
-						type='checkbox'
-						onClick={() => {
-							setStrokedText(!strokedText);
-						}}
-					></input>
-					<label>Stroke</label>
-				</form>
+            {/* TEXT */}
+            <button
+              className='drawButtons'
+              onClick={handleToggle}
+              value='textTool'
+            >
+              <RiText />
+            </button>
 
-				<button
-					onClick={() =>
-						setShowColorPicker((showColorPicker) => !showColorPicker)
-					}
-				>
-					{showColorPicker ? 'Close' : 'Pick fill color'}
-				</button>
+            {/* ANIMATED TEXT */}
+            <button
+              className='drawButtons'
+              onClick={handleToggle}
+              value='animatedTextTool'
+            >
+              <TbTextResize />
+            </button>
 
-				{/* FIll */}
-				{showColorPicker && (
-					<ChromePicker
-						className='chromePicker'
-						color={color}
-						onChange={(updatedColor) => {
-							const res = updatedColor.rgb;
-							const string = `rgba(${res.r}, ${res.g}, ${res.b}, ${res.a})`;
-							setTextColor(string);
-							return setColor(string);
-						}}
-					></ChromePicker>
-				)}
-				<button
-					onClick={() =>
-						setShowStrokePicker((showStrokePicker) => !showStrokePicker)
-					}
-				>
-					{showStrokePicker ? 'Close' : 'Pick stroke color'}
-				</button>
+            {/* COLOR */}
+            <button
+              className='drawButtons'
+              onClick={handleToggle}
+              value='colorTool'
+            >
+              <MdOutlineColorLens />
+            </button>
 
-				{showStrokePicker && (
-					<ChromePicker
-						className='chromePicker'
-						color={stroke}
-						onChange={(updatedColor) => {
-							const res = updatedColor.rgb;
-							const string = `rgba(${res.r}, ${res.g}, ${res.b}, ${res.a})`;
-							return setStroke(string);
-						}}
-					></ChromePicker>
-				)}
+            {/* GIF */}
+            <button
+              className='drawButtons'
+              onClick={handleToggle}
+              value='gifTool'
+            >
+              <MdGif />
+            </button>
 
-				<FontPicker
-					apiKey={fontAPI as string}
-					activeFontFamily={font}
-					onChange={(nextFont) => setFont(nextFont.family)}
-				/>
+            {/* DELETE  */}
+            <button className='drawButtons' onClick={handleDelete}>
+              <FiTrash2 />
+            </button>
+          </div>
+          <div className='logicContainer'>
+            {toggleTool.backgroundTool && (
+              <div>
+                <CompactPicker
+                  className='huePicker'
+                  color={backgroundColor}
+                  onChange={(updatedColor) => {
+                    const res = updatedColor.rgb;
+                    const string = `rgba(${res.r}, ${res.g}, ${res.b}, ${res.a})`;
+                    return setBackGroundColor(string);
+                  }}
+                ></CompactPicker>
+              </div>
+            )}
 
-				<button
-					value='https://qph.cf2.quoracdn.net/main-qimg-c8781a4bb1f17e330b50cb35f851da05.webp'
-					onClick={handleClick}
-				>
-					IMAGE
-				</button>
+            {toggleTool.textTool && (
+              <div>
+                <FontPicker
+                  apiKey={fontAPI as string}
+                  activeFontFamily={font}
+                  onChange={(nextFont) => setFont(nextFont.family)}
+                />
+                <form onSubmit={handleSubmit}>
+                  <input type='text' id='text' name='textInput'></input>
+                  <button type='submit'> Add Text </button>
+                  <input
+                    type='checkbox'
+                    onClick={() => {
+                      setStrokedText(!strokedText);
+                    }}
+                  ></input>
+                  <label>Stroke</label>
+                </form>
+              </div>
+            )}
 
-				<button
-					value={
-						'https://media2.giphy.com/media/kDUG0IQtZq7P1AafEK/giphy.gif?cid=3a3f548700d14y67tcer708zyerzponvfdz02guqnami19mb&rid=giphy.gif&ct=g'
-					}
-					onClick={handleClick}
-				>
-					GIF
-				</button>
-				<input
-					type='checkbox'
-					onClick={() => {
-						setSwhownAnimate(!shownAnimate);
-					}}
-				></input>
-				<label>Animated text</label>
-				<button onClick={handleDelete}>DELETE</button>
-				{/* miss all the logic but at least they render */}
+            {toggleTool.animatedTextTool && <AnimatedText />}
 
-				<div style={{ background: backgroundColor }}>
-					{shownAnimate && <AnimatedText />}
-					<Stage
-						width={window.innerWidth}
-						height={height}
-						onWheel={handleWheel}
-						onTouchMove={handleWheel}
-						onMouseDown={checkDeselect}
-						onTouchStart={checkDeselect}
-					>
-						<Layer>
-							{genericItems?.map((el) => {
-								const Shape = shapeType[el?.type];
-								if (!el || !Shape) return null;
-								return (
-									<Shape
-										key={el.id}
-										element={el}
-										canvaElements={canvaElements}
-										setCanvaElements={setCanvaElements}
-										handleDragEnd={() => handleDragEnd(el)}
-										isSelected={el.id === selectedId}
-										onSelect={() => {
-											selectShape(el.id);
-										}}
-									/>
-								);
-							})}
-						</Layer>
-						<Layer>
-							{textItems?.map((el) => (
-								<Texts
-									key={el.id}
-									element={el}
-									canvaElements={canvaElements}
-									setCanvaElements={setCanvaElements}
-									handleDragEnd={() => handleDragEnd(el)}
-									isSelected={el.id === selectedId}
-									onSelect={() => {
-										selectShape(el.id);
-									}}
-								/>
-							))}
-						</Layer>
-					</Stage>
-				</div>
-			</div>
-		</div>
-	);
+            {toggleTool.colorTool && (
+              <div>
+                <button
+                  onClick={() =>
+                    setShowColorPicker((showColorPicker) => !showColorPicker)
+                  }
+                >
+                  {showColorPicker ? 'Close' : 'Pick fill color'}
+                </button>
+
+                {/* FIll */}
+                {showColorPicker && (
+                  <ChromePicker
+                    className='chromePicker'
+                    color={color}
+                    onChange={(updatedColor) => {
+                      const res = updatedColor.rgb;
+                      const string = `rgba(${res.r}, ${res.g}, ${res.b}, ${res.a})`;
+                      setTextColor(string);
+                      return setColor(string);
+                    }}
+                  ></ChromePicker>
+                )}
+                <button
+                  onClick={() =>
+                    setShowStrokePicker((showStrokePicker) => !showStrokePicker)
+                  }
+                >
+                  {showStrokePicker ? 'Close' : 'Pick stroke color'}
+                </button>
+
+                {showStrokePicker && (
+                  <ChromePicker
+                    className='chromePicker'
+                    color={stroke}
+                    onChange={(updatedColor) => {
+                      const res = updatedColor.rgb;
+                      const string = `rgba(${res.r}, ${res.g}, ${res.b}, ${res.a})`;
+                      return setStroke(string);
+                    }}
+                  ></ChromePicker>
+                )}
+              </div>
+            )}
+          </div>
+        </div>
+
+        <div className='canvaContainer' style={{ background: backgroundColor }}>
+          <Stage
+            width={window.innerWidth}
+            height={height}
+            onWheel={handleWheel}
+            onTouchMove={handleWheel}
+            onMouseDown={checkDeselect}
+            onTouchStart={checkDeselect}
+          >
+            <Layer>
+              {genericItems?.map((el) => {
+                const Shape = shapeType[el?.type];
+                if (!el || !Shape) return null;
+                return (
+                  <Shape
+                    key={el.id}
+                    element={el}
+                    canvaElements={canvaElements}
+                    setCanvaElements={setCanvaElements}
+                    handleDragStart={handleDragStart}
+                    handleDragEnd={() => handleDragEnd(el)}
+                    isSelected={el.id === selectedId}
+                    onSelect={() => {
+                      selectShape(el.id);
+                    }}
+                  />
+                );
+              })}
+            </Layer>
+            <Layer>
+              {textItems?.map((el) => (
+                <Texts
+                  key={el.id}
+                  element={el}
+                  canvaElements={canvaElements}
+                  setCanvaElements={setCanvaElements}
+                  handleDragStart={handleDragStart}
+                  handleDragEnd={() => handleDragEnd(el)}
+                  isSelected={el.id === selectedId}
+                  onSelect={() => {
+                    selectShape(el.id);
+                  }}
+                />
+              ))}
+            </Layer>
+          </Stage>
+        </div>
+      </div>
+    </div>
+  );
 }
 
 export default Canvas;
