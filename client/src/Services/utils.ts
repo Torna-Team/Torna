@@ -1,6 +1,6 @@
 const checkCanvaElement = (
   type: string,
-  canvaElementsLength: number,
+  elementId: string,
   color: string,
   stroke: string,
   imageSrc?: string
@@ -9,7 +9,7 @@ const checkCanvaElement = (
     case 'star':
       const star = {
         type: 'star',
-        id: canvaElementsLength,
+        id: elementId,
         x: window.innerWidth / 2,
         y: window.innerHeight / 2,
         color: color,
@@ -19,7 +19,7 @@ const checkCanvaElement = (
     case 'circle':
       const circle = {
         type: 'circle',
-        id: canvaElementsLength,
+        id: elementId,
         x: window.innerWidth / 2,
         y: window.innerHeight / 2,
         color: color,
@@ -29,7 +29,7 @@ const checkCanvaElement = (
     case 'square':
       const square = {
         type: 'square',
-        id: canvaElementsLength,
+        id: elementId,
         x: window.innerWidth / 2,
         y: window.innerHeight / 2,
         color: color,
@@ -39,7 +39,7 @@ const checkCanvaElement = (
     case 'arrow':
       const arrow = {
         type: 'arrow',
-        id: canvaElementsLength,
+        id: elementId,
         x: window.innerWidth / 2,
         y: window.innerHeight / 2,
         color: color,
@@ -51,7 +51,7 @@ const checkCanvaElement = (
 
       const image = {
         type: 'image',
-        id: canvaElementsLength,
+        id: elementId,
         x: window.innerWidth / 2,
         y: window.innerHeight / 2,
         src: newImage,
@@ -65,7 +65,7 @@ const checkCanvaElement = (
 
       const gif = {
         type: 'gif',
-        id: canvaElementsLength,
+        id: elementId,
         x: window.innerWidth / 2,
         y: window.innerHeight / 2,
         src: newGif,

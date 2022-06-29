@@ -6,7 +6,6 @@ import 'gifler';
 function Gifs({
   element,
   canvaElements,
-  handleDragStart,
   handleDragEnd,
   isSelected,
   onSelect,
@@ -64,7 +63,6 @@ function Gifs({
         rotation={imageProps.rotation}
         image={canvas}
         draggable={true}
-        onDragStart={handleDragStart}
         onDragEnd={(e) => {
           const indx = handleDragEnd();
           canvaElements[indx].x = e.target.x();

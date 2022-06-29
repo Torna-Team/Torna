@@ -4,7 +4,6 @@ import React from 'react';
 function Squares({
   element,
   canvaElements,
-  handleDragStart,
   handleDragEnd,
   isSelected,
   onSelect,
@@ -48,7 +47,6 @@ function Squares({
         height={100}
         fill={square.color}
         stroke={square.stroke}
-        onDragStart={handleDragStart}
         onDragEnd={(e) => {
           const indx = handleDragEnd();
           canvaElements[indx].x = e.target.x();

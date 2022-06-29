@@ -4,7 +4,6 @@ import React from 'react';
 function Images({
   element,
   canvaElements,
-  handleDragStart,
   handleDragEnd,
   isSelected,
   onSelect,
@@ -43,7 +42,6 @@ function Images({
         rotation={imageProps.rotation}
         image={element.src}
         draggable={true}
-        onDragStart={handleDragStart}
         onDragEnd={(e) => {
           const indx = handleDragEnd();
           console.log(indx, canvaElements, canvaElements[indx]);
