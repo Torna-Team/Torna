@@ -11,6 +11,9 @@
 		"build-db-dev": "npx prisma migrate dev --name init && npx prisma migrate reset -f",
 		"start": "node index.js"
 	},
+	"engines": {
+		"node": "18.x"
+	},
 	"author": "",
 	"license": "ISC",
 	"devDependencies": {
