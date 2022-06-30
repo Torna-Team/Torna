@@ -2,7 +2,6 @@ import { Response, Request } from 'express';
 import { PrismaClient } from '@prisma/client';
 import bcrypt from 'bcrypt';
 import { v4 as uuidv4 } from 'uuid';
-import { title } from 'process';
 
 const prisma = new PrismaClient();
 

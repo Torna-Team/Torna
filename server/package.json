@@ -9,7 +9,7 @@
 		"build-server": "tsc",
 		"build-db": "npx prisma db push --accept-data-loss && npx prisma migrate reset -f",
 		"build-db-dev": "npx prisma migrate dev --name init && npx prisma migrate reset -f",
-		"start": "node index.js"
+		"start": "node dist/server.js"
 	},
 	"engines": {
 		"node": "16.x"
