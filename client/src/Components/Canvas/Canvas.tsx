@@ -283,7 +283,7 @@ function Canvas() {
   const { genericItems, textItems } = splitTextFromGenericShapes(canvaElements);
 
   return (
-    <div className='canvaContainer'>
+    <div className='mainContainer'>
       {/* NAVBAR */}
       <div className='navbar'>
         <div className='navbarElements'>
@@ -293,6 +293,7 @@ function Canvas() {
         <div className='navbarImgs'>
           <ImageUpload setNewImage={setNewImage}></ImageUpload>
         </div>
+
         <div className='navbarElements'>
           <form onSubmit={editAlbum}>
             <input
@@ -308,7 +309,7 @@ function Canvas() {
         </div>
       </div>
 
-      <div className='canvasEditor'>
+      <div className='canvasEditor' style={{ background: backgroundColor }}>
         <div className='sidebarContainer'>
           <div className='toolsContainer'>
             {/* BACKGROUND */}
@@ -466,10 +467,10 @@ function Canvas() {
             )}
           </div>
         </div>
-
-        <div className='canvaContainer' style={{ background: backgroundColor }}>
+        {/* style={{ background: backgroundColor }} */}
+        <div>
           <Stage
-            width={window.innerWidth}
+            width={window.innerWidth * 0.98}
             height={height}
             onWheel={handleWheel}
             onTouchMove={handleWheel}

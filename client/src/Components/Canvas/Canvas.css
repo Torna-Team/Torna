@@ -1,34 +1,27 @@
-.canvaContainer {
-  /* background-color: #5ca0f2;
-  background-image: linear-gradient(315deg, #5ca0f2 0%, #f5f7f6 74%); */
+.mainContainer {
+  height: 100%;
+  width: 100%;
+  background-color: #90f25c;
 
-  /* background-color: #4062bb;
-  background-image: linear-gradient(315deg, #4062bb 0%, #ebebeb 74%); */
-
-  /* background-color: #fefefe;
-  background-image: linear-gradient(315deg, #fefefe 0%, #00a4e4 74%); */
-
-  /* background: rgb(235, 235, 235);
-  background: linear-gradient(
-    90deg,
-    rgba(235, 235, 235, 1) 0%,
-    rgba(64, 98, 187, 1) 100%
-  ); */
+  position: absolute;
 }
+
 .navbar {
   display: flex;
   position: fixed;
   z-index: 10;
-  background-color: #d6d7e5;
   justify-content: space-around;
+  /* background-color: #e5dad6; */
   width: 100%;
   height: 120px;
+  border: 3px solid red;
 }
 
 .navbarElements {
   display: flex;
   flex-direction: column;
   align-self: center;
+  border: 3px solid #ffff00;
 }
 
 .navbar img {
@@ -40,6 +33,7 @@
   flex: start;
   align-self: center;
   width: 60%;
+  border: 3px solid palevioletred;
 }
 
 .navbarButton {
@@ -47,10 +41,21 @@
   height: 46px;
   gap: 12px;
   background-color: whitesmoke;
+  border: 3px solid firebrick;
 }
 
 .canvasEditor {
-  border: 1px solid blue;
+  display: flex;
+
+  align-self: center;
+  margin-left: 5%;
+
+  border: 6px solid violet;
+  /* justify-content: center; */
+  margin-top: 120px;
+
+  margin-right: 2%;
+  position: relative;
 }
 
 .sidebarContainer {
@@ -58,17 +63,20 @@
   margin-top: 20vh;
   position: fixed;
   z-index: 10;
+  border: 3px solid lawngreen;
 }
 
 .toolsContainer {
   display: flex;
   flex-direction: column;
   width: 4vw;
+  border: 3px solid brown;
 }
 
 .logicContainer {
   display: flex;
   flex-direction: column;
+  border: 3px solid aquamarine;
 }
 
 .drawButtons {
@@ -81,8 +89,4 @@
 
 .drawButtons > * {
   pointer-events: none;
-}
-
-.canvaContainer {
-  position: relative;
 }
