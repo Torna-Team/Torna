@@ -1,6 +1,6 @@
-.mainContainer {
+.ProfileMainContainer {
 	background-color: aliceblue;
-	height: 100vh;
+	/* height: 100vh; */
 }
 
 .albumsContainer {

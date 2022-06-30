@@ -14,7 +14,6 @@ function Profile() {
 	useEffect(() => {
 		if (sessionStorage && sessionStorage.getItem('user')) {
 			const res = JSON.parse(sessionStorage.getItem('user') as string);
-			console.log(res.albums[4].frontPage);
 			setUser(res);
 			setLoggedIn(true);
 		}
@@ -31,7 +30,7 @@ function Profile() {
 	};
 
 	return (
-		<div className='mainContainer'>
+		<div className='ProfileMainContainer'>
 			<Navbar user={user} />
 			<div className='albumsContainer'>
 				{loggedIn ? (
@@ -58,7 +57,9 @@ function Profile() {
 					<h3>Log in to see your albums or to create a new one </h3>
 				)}
 			</div>
-			<button onClick={() => createNewAlbum(user)}>Create a new Album</button>
+			{loggedIn && (
+				<button onClick={() => createNewAlbum(user)}>Create a new Album</button>
+			)}
 		</div>
 	);
 }

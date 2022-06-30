@@ -1,6 +1,5 @@
 .navBarContainer {
 	background-color: coral;
-
 	display: flex;
 	flex-direction: row;
 	justify-content: space-between;
@@ -14,4 +13,13 @@
 
 .logOutBtn {
 	margin-right: 50px;
+}
+
+.noLogin {
+	width: 100%;
+	height: 90%;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-around;
 }
