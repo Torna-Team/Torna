@@ -2,14 +2,14 @@
 	"name": "server",
 	"version": "1.0.0",
 	"description": "",
-	"main": "index.js",
+	"main": "index.ts",
 	"scripts": {
-		"dev": "react-scripts start",
-		"start": "serve -s build",
-		"build": "react-scripts build",
-		"test": "react-scripts test --env=jsdom",
-		"eject": "react-scripts eject",
-		"heroku-postbuild": "npm run build"
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"build": "tsc && npm run build-db",
+		"build-server": "tsc",
+		"build-db": "npx prisma db push --accept-data-loss && npx prisma migrate reset -f",
+		"build-db-dev": "npx prisma migrate dev --name init && npx prisma migrate reset -f",
+		"start": "node index.js"
 	},
 	"engines": {
 		"node": "16.x"
