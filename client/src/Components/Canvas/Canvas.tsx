@@ -29,6 +29,7 @@ import { TbTextResize } from 'react-icons/tb';
 import { uuidv4 } from '@firebase/util';
 import { useParams } from 'react-router-dom';
 import { saveAlbum, getAlbum } from '../../Services/Server-Client';
+import { text } from 'stream/consumers';
 
 function splitTextFromGenericShapes(shapeList) {
   console.log(shapeList);
@@ -90,6 +91,7 @@ const toggleTool = {
 function Canvas() {
   const albumId = useParams().id;
 
+	const [album, setAlbum] = useState<any>();
   const [canvaElements, setCanvaElements] = useState<any[]>([]);
   const [backgroundColor, setBackGroundColor] = useState<string>(
     'rgba(255, 255, 255)'
@@ -117,6 +119,14 @@ function Canvas() {
   useEffect(() => {
     setWidth(window.innerWidth - 90);
   }, [window.innerWidth]);
+	async function getAlbumInfo() {
+		const album = await getAlbum(albumId);
+		//if template
+		console.log('album', album);
+		album?.background && setBackGroundColor(album.background);
+		album?.template && setCanvaElements([...JSON.parse(album.template)]);
+		album && setAlbum(album);
+	}
 
   useEffect(() => {
     if (newImage !== null) {
@@ -192,6 +202,36 @@ function Canvas() {
     });
   }
 
+	const editAlbum = async (e) => {
+		e.preventDefault();
+		const title = e.target.albumTitle.value;
+		let frontImage;
+		for (let i = 0; i < canvaElements.length; i++) {
+			if (canvaElements[i].type === 'image') {
+				frontImage = canvaElements[i].imageSrc;
+				break;
+			}
+		}
+
+		console.log(frontImage);
+		const savedAlbum = {
+			title: title,
+			background: backgroundColor,
+			template: JSON.stringify(canvaElements),
+			frontPage: frontImage ? frontImage : tornaLogo,
+			id: albumId,
+		};
+		saveAlbum(savedAlbum);
+	};
+	const handleDragStart = () => {};
+	const handleDragEnd = (el: any) => {
+		let indx!: number;
+		for (let i = 0; i < canvaElements.length; i++) {
+			if (canvaElements[i].id === el.id) {
+				indx = i;
+				break;
+			}
+		}
   const handleWheel = (e: any) => {
     if (e.evt.deltaY > 0) {
       setHeight(height * 1.05);
@@ -261,6 +301,42 @@ function Canvas() {
     });
     e.target.reset();
   }
+	return (
+		<div className='canvaContainer'>
+			{/* NAVBAR */}
+			<div className='navbar'>
+				<div className='navbarElements'>
+					<img src={tornaLogo} alt='Torna logo' />
+				</div>
+				<div className='navbarElements'></div>
+				<form className='navbarElements' onSubmit={editAlbum}>
+					<label> Album Title:</label>
+					<input
+						className='navbarButton'
+						type='text'
+						defaultValue={album?.title}
+						name='albumTitle'
+						placeholder='Your album title'
+					></input>
+					<button className='navbarButton' type='submit'>
+						SAVE ALBUM
+					</button>
+				</form>
+				<div className='navbarImgs'>
+					<ImageUpload setNewImage={setNewImage}></ImageUpload>
+				</div>
+			</div>
+			<div className='canvasEditor'>
+				<div className='sidebarContainer'>
+					<div className='toolsContainer'>
+						{/* BACKGROUND */}
+						<button
+							className='drawButtons'
+							onClick={handleToggle}
+							value='backgroundTool'
+						>
+							<IoMdColorFill />
+						</button>
 
   function handleToggle(e: any) {
     e.preventDefault();
