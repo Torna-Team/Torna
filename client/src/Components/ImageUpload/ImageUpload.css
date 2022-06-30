@@ -1,0 +1,20 @@
+.uploadContainer {
+  display: flex;
+
+  width: 100%;
+  gap: 6px;
+}
+
+.navbarForm {
+  align-self: center;
+  justify-content: left;
+  width: 6vw;
+  margin-right: 20px;
+}
+
+.navbarImages {
+  display: flex;
+  overflow-x: scroll;
+  gap: 8px;
+  margin-right: 10px;
+}

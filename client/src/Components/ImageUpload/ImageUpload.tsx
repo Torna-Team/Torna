@@ -1,4 +1,6 @@
 import { useRef, useState } from 'react';
+import './ImageUpload.css';
+import { uuidv4 } from '@firebase/util';
 
 function ImageUpload({ setNewImage }: any) {
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -26,8 +28,8 @@ function ImageUpload({ setNewImage }: any) {
   };
 
   return (
-    <>
-      <form>
+    <div className='uploadContainer'>
+      <form className='navbarForm'>
         <input
           type='file'
           multiple={true}
@@ -55,7 +57,7 @@ function ImageUpload({ setNewImage }: any) {
         />
         <button onClick={handleSubmit}>Upload images</button>
       </form>
-      <div>
+      <div className='navbarImages'>
         {imageObj?.map((el: any, indx: any) => {
           return (
             <img
@@ -63,15 +65,15 @@ function ImageUpload({ setNewImage }: any) {
                 const file = el;
                 handleClick(file);
               }}
-              key={indx}
+              key={uuidv4()}
               src={el.preview}
-              alt={indx.toString()}
-              style={{ height: '150px' }}
+              alt={'not uploaded'}
+              style={{ height: '88px' }}
             ></img>
           );
         })}
       </div>
-    </>
+    </div>
   );
 }
 

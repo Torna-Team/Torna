@@ -12,18 +12,20 @@ input {
   border-radius: 40px;
   border: 1px solid #132830;
 }
-button {
+/* button {
   border-radius: 60px;
   border: 1px solid #132830;
   background-color: white;
-}
+} */
 
 .gifResult-container {
   height: 40vh;
   overflow: auto;
 }
 body ::-webkit-scrollbar {
+  margin-top: 2px;
   width: 8px;
+  height: 8px;
 }
 body ::-webkit-scrollbar-track {
   background: none; /* color of the tracking area */
@@ -31,4 +33,5 @@ body ::-webkit-scrollbar-track {
 body ::-webkit-scrollbar-thumb {
   background-color: #c05746; /* color of the scroll thumb */
   border-radius: 20px; /* roundness of the scroll thumb */
+  width: 8px;
 }

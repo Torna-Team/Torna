@@ -8,23 +8,32 @@ function Navbar({ user }: any) {
 
 	return (
 		<div className='navBarContainer'>
-			<h3 className='welcome'>
-				Welcome, {user?.firstName} {user?.lastName}
-			</h3>
 			{loggedIn ? (
-				<Link to='/'>
-					<button
-						className='logOutBtn'
-						onClick={() => {
-							sessionStorage.removeItem('user');
-							setLoggedIn(false);
-						}}
-					>
-						Log out
-					</button>
-				</Link>
+				<>
+					<h3 className='welcome'>
+						Welcome, {user?.firstName} {user?.lastName}
+					</h3>
+					<Link to='/'>
+						<button
+							className='logOutBtn'
+							onClick={() => {
+								sessionStorage.removeItem('user');
+								setLoggedIn(false);
+							}}
+						>
+							Log out
+						</button>
+					</Link>
+				</>
 			) : (
-				<h1>You need to log in</h1>
+				<div className='noLogin'>
+					<Link to='/'>
+						<button>Log in</button>
+					</Link>
+					<Link to='/register'>
+						<button>Register</button>
+					</Link>
+				</div>
 			)}
 		</div>
 	);

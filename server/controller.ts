@@ -36,6 +36,7 @@ const getUserFromGoogleAuth = async (req: Request, res: Response) => {
 					select: {
 						title: true,
 						id: true,
+						frontPage: true,
 					},
 				},
 			},
@@ -56,6 +57,7 @@ const getUserFromGoogleAuth = async (req: Request, res: Response) => {
 						select: {
 							title: true,
 							id: true,
+							frontPage: true,
 						},
 					},
 				},
@@ -88,6 +90,7 @@ const login = async (req: Request, res: Response) => {
 					select: {
 						title: true,
 						id: true,
+						frontPage: true,
 					},
 				},
 			},
@@ -135,6 +138,7 @@ const register = async (req: Request, res: Response) => {
 					select: {
 						title: true,
 						id: true,
+						frontPage: true,
 					},
 				},
 			},
@@ -182,11 +186,11 @@ const editUser = async (req: Request, res: Response) => {
 
 //Albums functions
 const getAlbum = async (req: Request, res: Response) => {
-	const { id } = req.body;
+	const id = req.params.id;
 	try {
-		const album = await prisma.album.findMany({
+		const album = await prisma.album.findUnique({
 			where: {
-				id: id,
+				id: Number(id),
 			},
 		});
 		res.status(200);
@@ -200,12 +204,14 @@ const getAlbum = async (req: Request, res: Response) => {
 
 const postAlbum = async (req: Request, res: Response) => {
 	try {
-		const { title, template, author } = req.body;
+		const { title, template, background, frontPage, author } = req.body;
 		const createAlbum = await prisma.album.create({
 			data: {
 				title,
-				author: { connect: { id: author } },
 				template,
+				background,
+				frontPage,
+				author: { connect: { id: author } },
 			},
 			include: { author: true },
 		});
@@ -221,7 +227,7 @@ const postAlbum = async (req: Request, res: Response) => {
 const editAlbum = async (req: Request, res: Response) => {
 	try {
 		const id = req.params.id;
-		const { title, template } = req.body;
+		const { title, template, background, frontPage } = req.body;
 		const album = await prisma.album.update({
 			where: {
 				id: Number(id),
@@ -229,10 +235,12 @@ const editAlbum = async (req: Request, res: Response) => {
 			data: {
 				title,
 				template,
+				background,
+				frontPage,
 			},
 		});
-		res.status(204);
-		res.json(album);
+		res.status(200);
+		res.send(JSON.stringify(album));
 	} catch (error) {
 		res.status(500);
 		console.log(error);
