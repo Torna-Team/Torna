@@ -28,7 +28,6 @@
 
 .navbarLogo {
   margin-left: 32px;
-  /* height: 8vh; */
   /* border: 3px solid forestgreen; */
 }
 
@@ -37,15 +36,20 @@
   flex: start;
   align-self: center;
   width: 60%;
+
   /* border: 3px solid palevioletred; */
 }
 
 .navbarInput {
   align-self: center;
-  height: 46px;
-  gap: 12px;
+  height: 44px;
+  width: 220px;
   background-color: #d6d7e5;
-  border-radius: 12px;
+  border-radius: 4px;
+  border: 2px solid #132830;
+  font-size: 16px;
+  box-shadow: 0.2px 0.2px 1px #132830;
+  padding-left: 4px;
   /* border: 3px solid firebrick; */
 }
 
@@ -61,7 +65,7 @@
   margin-top: 120px;
   margin-right: 30px;
   position: relative;
-  border-radius: 12px;
+  border-radius: 6px;
 }
 
 .sidebarContainer {
@@ -70,9 +74,11 @@
   margin: 18px;
   padding: 8px;
   z-index: 10;
-  border: 1px solid #d6d7e5;
-  background-color: #d6d7e574;
+  border: 1px solid #132830;
+  background-color: #d6d7e582;
   border-radius: 6px;
+  box-shadow: 0.4px 0.4px 2px #132830;
+  width: fit-content;
 }
 
 .toolsContainer {
@@ -80,14 +86,7 @@
   flex-direction: column;
   align-items: center;
   width: fit-content;
-
   /* border: 3px solid brown; */
-}
-
-.logicContainer {
-  display: flex;
-  flex-direction: column;
-  /* border: 3px solid aquamarine; */
 }
 
 .drawButtons {
@@ -100,4 +99,115 @@
 
 .drawButtons > * {
   pointer-events: none;
+}
+
+.logicContainer {
+  display: flex;
+  flex-direction: column;
+  max-width: 280px;
+  /* border: 3px solid aquamarine; */
+}
+
+.toolContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin: 12px;
+  gap: 12px;
+}
+
+.toolLabel {
+  font-size: 16px;
+  font-weight: bold;
+  font-family: 'Ubuntu';
+}
+
+.huePicker {
+  /* border: 2px solid saddlebrown; */
+  border-radius: 4px;
+  border: 2px solid #132830;
+  box-shadow: 0.2px 0.2px 1px #132830;
+}
+
+.formFont {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border-radius: 4px;
+  font-size: 16px;
+  background-color: transparent;
+  gap: 12px;
+}
+
+.addTextFont {
+  height: 44px;
+  width: 220px;
+  background-color: #d6d7e5;
+  border-radius: 4px;
+  border: 2px solid #132830;
+  font-size: 16px;
+  box-shadow: 0.2px 0.2px 1px #132830;
+  padding-left: 4px;
+}
+
+.fontStroke {
+  display: flex;
+  align-items: center;
+  margin: 4px;
+}
+
+/* CONTAINER */
+.fontStroke label {
+  font-size: 16px;
+  font-weight: bold;
+  font-family: 'Ubuntu';
+}
+
+.fontStroke input {
+  width: 16px;
+  height: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.colorContainer {
+  display: flex;
+  position: fixed;
+  margin: 18px;
+  padding: 8px;
+  z-index: 10;
+  border: 1px solid #132830;
+  background-color: #d6d7e582;
+  border-radius: 6px;
+  box-shadow: 0.4px 0.4px 2px #132830;
+  width: fit-content;
+  top: 620px;
+}
+
+.colorPickers {
+  display: flex;
+  border: 3px solid blueviolet;
+}
+
+.chrome-picker {
+  border: 2px solid indianred;
+  width: 360px;
+  height: 200px;
+}
+
+.fillAndStroke {
+  display: flex;
+  flex-direction: column;
+}
+
+.flexbox-fix input {
+  display: none;
+}
+
+.flexbox-fix label {
+  display: none !important;
+}
+
+.flexbox-fix svg {
+  display: none !important;
 }

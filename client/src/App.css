@@ -1,9 +1,11 @@
+@import url('https://fonts.googleapis.com/css?family=Ubuntu:400');
 .App {
   text-align: center;
 }
 
 html {
   background-color: #d6d7e5;
+  font-family: 'Ubuntu';
 }
 
 button {
@@ -26,6 +28,7 @@ button {
   user-select: none;
   -webkit-user-select: none;
   touch-action: manipulation;
+  box-shadow: 0.2px 0.2px 1px #132830;
 }
 
 button:disabled {
@@ -35,4 +38,18 @@ button:disabled {
 button:hover {
   color: #132830;
   background-color: #ffb140;
+}
+
+body ::-webkit-scrollbar {
+  margin-top: 2px;
+  width: 8px;
+  height: 8px;
+}
+body ::-webkit-scrollbar-track {
+  background: none; /* color of the tracking area */
+}
+body ::-webkit-scrollbar-thumb {
+  background-color: #ffb140; /* color of the scroll thumb */
+  border-radius: 20px; /* roundness of the scroll thumb */
+  width: 8px;
 }

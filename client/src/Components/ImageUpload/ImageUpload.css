@@ -7,9 +7,9 @@
 .imageForm {
   align-self: center;
   justify-content: left;
-  /* width: 6vw; */
   margin-right: 20px;
   margin-left: 40px;
+
   /* border: 3px solid orange; */
 }
 
@@ -18,6 +18,7 @@
   overflow-x: scroll;
   gap: 8px;
   margin-right: 10px;
+  cursor: pointer;
   /* border: 3px solid black; */
 }
 
