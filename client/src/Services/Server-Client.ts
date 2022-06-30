@@ -1,3 +1,5 @@
+import tornaLogo from '../images/tornalogo.png';
+
 const BASE_URL = 'http://localhost:3001';
 
 export interface User {
@@ -97,7 +99,13 @@ export const saveAlbum = async (album: any) => {
 export const createAlbum = async (user: any) => {
 	try {
 		console.log(user);
-		const album = { title: 'new album', template: '', author: user.id };
+		const album = {
+			title: 'new album',
+			template: '',
+			background: 'rgba(255, 255, 255)',
+			frontPage: tornaLogo,
+			author: user.id,
+		};
 		const result = await fetch(`${BASE_URL}/album/`, {
 			method: 'POST',
 			headers: { 'Content-type': 'application/json' },

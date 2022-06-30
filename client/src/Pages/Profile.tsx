@@ -14,6 +14,7 @@ function Profile() {
 	useEffect(() => {
 		if (sessionStorage && sessionStorage.getItem('user')) {
 			const res = JSON.parse(sessionStorage.getItem('user') as string);
+			console.log(res.albums[4].frontPage);
 			setUser(res);
 			setLoggedIn(true);
 		}
@@ -25,6 +26,7 @@ function Profile() {
 
 	const createNewAlbum = async (user: any) => {
 		const newAlbum = await createAlbum(user);
+		console.log(newAlbum);
 		navigate(`/album/${newAlbum.id}/edit`);
 	};
 
@@ -42,7 +44,8 @@ function Profile() {
 											className='albumFrontPage'
 											onClick={() => editAlbum(el)}
 										>
-											<h4>{el.title}</h4>
+											<h4 className='albumTitle'>{el.title}</h4>
+											<img className='albumFrontImage' src={el.frontPage} />
 										</div>
 									);
 								})

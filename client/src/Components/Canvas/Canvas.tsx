@@ -29,6 +29,7 @@ import { TbTextResize } from 'react-icons/tb';
 import { uuidv4 } from '@firebase/util';
 import { useParams } from 'react-router-dom';
 import { saveAlbum, getAlbum } from '../../Services/Server-Client';
+import { text } from 'stream/consumers';
 
 function splitTextFromGenericShapes(shapeList) {
 	console.log(shapeList);
@@ -100,6 +101,7 @@ function Canvas() {
 	const [strokedText, setStrokedText] = useState<boolean>(false);
 	const [showColorPicker, setShowColorPicker] = useState<boolean>(false);
 	const [showStrokePicker, setShowStrokePicker] = useState<boolean>(false);
+	const [album, setAlbum] = useState<any>();
 	const [height, setHeight] = useState(1200);
 	const [selectedId, selectShape] = useState<any>(null);
 	const [newImage, setNewImage] = useState<any>(null);
@@ -147,11 +149,9 @@ function Canvas() {
 		const album = await getAlbum(albumId);
 		//if template
 		console.log('album', album);
-		if (album) {
-			const template = JSON.parse(album.template);
-			console.log(template);
-		}
+		album?.background && setBackGroundColor(album.background);
 		album?.template && setCanvaElements([...JSON.parse(album.template)]);
+		album && setAlbum(album);
 	}
 
 	function handleClick(e: any) {
@@ -207,9 +207,20 @@ function Canvas() {
 	const editAlbum = async (e) => {
 		e.preventDefault();
 		const title = e.target.albumTitle.value;
+		let frontImage;
+		for (let i = 0; i < canvaElements.length; i++) {
+			if (canvaElements[i].type === 'image') {
+				frontImage = canvaElements[i].imageSrc;
+				break;
+			}
+		}
+
+		console.log(frontImage);
 		const savedAlbum = {
-			title,
+			title: title,
+			background: backgroundColor,
 			template: JSON.stringify(canvaElements),
+			frontPage: frontImage ? frontImage : tornaLogo,
 			id: albumId,
 		};
 		saveAlbum(savedAlbum);
@@ -293,6 +304,7 @@ function Canvas() {
 					<input
 						className='navbarButton'
 						type='text'
+						defaultValue={album?.title}
 						name='albumTitle'
 						placeholder='Your album title'
 					></input>
