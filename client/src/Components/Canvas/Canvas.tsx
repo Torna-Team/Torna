@@ -94,9 +94,9 @@ function Canvas() {
   const [backgroundColor, setBackGroundColor] = useState<string>(
     'rgba(255, 255, 255)'
   );
-  const [color, setColor] = useState<any>('rgba(241, 241, 246)');
-  const [textColor, setTextColor] = useState<any>('rgba(0, 0, 0, 1)');
-  const [stroke, setStroke] = useState<any>('rgba(0, 0, 0, 1)');
+  const [color, setColor] = useState<string>('rgba(241, 241, 246)');
+  const [textColor, setTextColor] = useState<string>('rgba(0, 0, 0, 1)');
+  const [stroke, setStroke] = useState<string>('rgba(0, 0, 0, 1)');
   const [strokedText, setStrokedText] = useState<boolean>(false);
   const [showColorPicker, setShowColorPicker] = useState<boolean>(false);
   const [showStrokePicker, setShowStrokePicker] = useState<boolean>(false);

@@ -18,94 +18,99 @@ import { LoginContext } from '../Utils/Context';
 // };
 
 const Home = () => {
-	const { loggedIn, setLoggedIn } = useContext(LoginContext as any);
-	const navigate = useNavigate();
+  const { loggedIn, setLoggedIn } = useContext(LoginContext as any);
+  const navigate = useNavigate();
 
-	const onSubmitHandler = async (event: React.FormEvent) => {
-		event.preventDefault();
-		const target = event.target as typeof event.target & {
-			email: { value: string };
-			password: { value: string };
-		};
-		const email: string = target.email.value;
-		const password: string = target.password.value;
+  const onSubmitHandler = async (event: React.FormEvent) => {
+    event.preventDefault();
+    const target = event.target as typeof event.target & {
+      email: { value: string };
+      password: { value: string };
+    };
+    const email: string = target.email.value;
+    const password: string = target.password.value;
 
-		const user = {
-			email: email,
-			password: password,
-		};
-		const logged = await login(user as LoggingUser);
-		console.log(logged);
-		if (logged && (logged as any).id === undefined) {
-			alert('Invalid Email or Password');
-		} else {
-			sessionStorage.setItem('user', JSON.stringify(logged));
-			navigate(`/profile/${(logged as unknown as any).id}`);
-		}
-	};
+    const user = {
+      email: email,
+      password: password,
+    };
 
-	const checkExistingUser = async (displayName: string, email: string) => {
-		if (displayName && email) {
-			const result = await getUser(displayName, email);
-			console.log(result);
-			return result;
-		}
-	};
+    const logged = await login(user as LoggingUser);
 
-	const signInWithGoogle = async () => {
-		try {
-			const provider = new GoogleAuthProvider();
-			const result = await signInWithPopup(auth, provider);
+    if ((logged && (logged as any).id) === undefined) {
+      alert('Invalid Email or Password');
+    } else {
+      sessionStorage.setItem('user', JSON.stringify(logged));
+      navigate(`/profile/${(logged as unknown as any).id}`);
+    }
+  };
 
-			const googleUserName = result.user.displayName;
-			const googleUserMail = result.user.email;
+  const checkExistingUser = async (displayName: string, email: string) => {
+    if (displayName && email) {
+      const result = await getUser(displayName, email);
+      console.log(result);
+      return result;
+    }
+  };
 
-			if (googleUserName && googleUserMail) {
-				const user = await checkExistingUser(googleUserName, googleUserMail);
+  const signInWithGoogle = async () => {
+    try {
+      const provider = new GoogleAuthProvider();
+      const result = await signInWithPopup(auth, provider);
 
-				if (user) {
-					sessionStorage.setItem('user', JSON.stringify(user));
-					setLoggedIn(true);
-					navigate(`/profile/${(user as unknown as User).id}`);
-				} else throw new Error();
-			}
-		} catch (error) {
-			alert('Error, try again');
-			console.log(error);
-		}
-	};
+      const googleUserName = result.user.displayName;
+      const googleUserMail = result.user.email;
 
-	return (
-		<div className='form-container'>
-			<div>Sign in</div>
-			<form className='login-container' onSubmit={onSubmitHandler}>
-				<label className='signInLabel'>Email</label>
-				<input
-					required
-					className='signInInput'
-					type='text'
-					name='email'
-					placeholder='Insert your email'
-				/>
-				<label className='signInLabel'>Password</label>
-				<input
-					required
-					className='signInInput'
-					type='password'
-					name='password'
-					placeholder='Insert your password'
-				/>
-				<button className='signInBtn' onClick={() => setLoggedIn(true)}>
-					Sign In
-				</button>
-			</form>
-			<GoogleButton className='googleBtn' onClick={signInWithGoogle} />
-			<p>
-				Don't have an account?
-				<Link to='/register'>Sign up</Link>
-			</p>
-		</div>
-	);
+      if (googleUserName && googleUserMail) {
+        const user = await checkExistingUser(googleUserName, googleUserMail);
+
+        if (user) {
+          sessionStorage.setItem('user', JSON.stringify(user));
+          setLoggedIn(true);
+          navigate(`/profile/${(user as unknown as User).id}`);
+        } else throw new Error();
+      }
+    } catch (error) {
+      alert('Error, try again');
+      console.log(error);
+    }
+  };
+
+  return (
+    <div className='form-container'>
+      <div>Sign in</div>
+      <form className='login-container' onSubmit={onSubmitHandler}>
+        <label htmlFor='email' className='signInLabel'>
+          Email
+        </label>
+        <input
+          required
+          className='signInInput'
+          type='text'
+          name='email'
+          placeholder='Insert your email'
+        />
+        <label htmlFor='password' className='signInLabel'>
+          Password
+        </label>
+        <input
+          required
+          className='signInInput'
+          type='password'
+          name='password'
+          placeholder='Insert your password'
+        />
+        <button className='signInBtn' onClick={() => setLoggedIn(true)}>
+          Sign In
+        </button>
+      </form>
+      <GoogleButton className='googleBtn' onClick={signInWithGoogle} />
+      <p>
+        Don't have an account?
+        <Link to='/register'>Sign up</Link>
+      </p>
+    </div>
+  );
 };
 
 export default Home;

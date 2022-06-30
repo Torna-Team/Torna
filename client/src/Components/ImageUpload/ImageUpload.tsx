@@ -1,5 +1,6 @@
 import { useRef, useState } from 'react';
 import './ImageUpload.css';
+import { uuidv4 } from '@firebase/util';
 
 function ImageUpload({ setNewImage }: any) {
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -64,9 +65,9 @@ function ImageUpload({ setNewImage }: any) {
                 const file = el;
                 handleClick(file);
               }}
-              key={indx}
+              key={uuidv4()}
               src={el.preview}
-              alt={indx.toString()}
+              alt={'not uploaded'}
               style={{ height: '88px' }}
             ></img>
           );
