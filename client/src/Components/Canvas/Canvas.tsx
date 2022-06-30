@@ -101,6 +101,7 @@ function Canvas() {
   const [showColorPicker, setShowColorPicker] = useState<boolean>(false);
   const [showStrokePicker, setShowStrokePicker] = useState<boolean>(false);
   const [height, setHeight] = useState(1200);
+  const [width, setWidth] = useState(window.innerWidth - 90);
   const [selectedId, selectShape] = useState<any>(null);
   const [newImage, setNewImage] = useState<any>(null);
   const [font, setFont] = useState<string>('Ubuntu');
@@ -112,6 +113,10 @@ function Canvas() {
   useEffect(() => {
     getAlbumInfo();
   }, []);
+
+  useEffect(() => {
+    setWidth(window.innerWidth - 90);
+  }, [window.innerWidth]);
 
   useEffect(() => {
     if (newImage !== null) {
@@ -470,7 +475,7 @@ function Canvas() {
         {/* style={{ background: backgroundColor }} */}
         <div>
           <Stage
-            width={window.innerWidth * 0.98}
+            width={width}
             height={height}
             onWheel={handleWheel}
             onTouchMove={handleWheel}
