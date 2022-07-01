@@ -82,6 +82,7 @@ const Viewer = (props: Props) => {
               return (
                 <Shape
                   key={el.id}
+                  render={true}
                   element={el}
                   canvaElements={canvaElements}
                   setCanvaElements={setCanvaElements}

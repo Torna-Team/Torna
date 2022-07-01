@@ -32,6 +32,7 @@ import { uuidv4 } from '@firebase/util';
 import { useParams } from 'react-router-dom';
 import { saveAlbum, getAlbum } from '../../Services/Server-Client';
 import { text } from 'stream/consumers';
+import GifSearcher from '../GifSearcher/GifSearcher';
 
 function splitTextFromGenericShapes(shapeList) {
   return shapeList.reduce(
@@ -93,9 +94,6 @@ function Canvas() {
   const albumId = useParams().id;
   const [album, setAlbum] = useState<any>();
   const [canvaElements, setCanvaElements] = useState<any[]>([]);
-  const [backgroundColor, setBackGroundColor] = useState<string>(
-    'rgba(255, 255, 255)'
-  );
   const [color, setColor] = useState<string>('rgba(241, 241, 246)');
   const [textColor, setTextColor] = useState<string>('rgba(0, 0, 0, 1)');
   const [stroke, setStroke] = useState<string>('rgba(0, 0, 0, 1)');
@@ -105,8 +103,12 @@ function Canvas() {
   const [selectedId, selectShape] = useState<any>(null);
   const [newImage, setNewImage] = useState<any>(null);
   const [font, setFont] = useState<string>('Ubuntu');
-  const [newGif, setNewGif] = useState<any>(null);
+  const [newGif, setNewGif] = useState(null as null as string);
   const [toolOption, setToolOption] = useState<toggleTool>(toggleTool);
+  const [render, setRender] = useState<boolean>(true);
+  const [backgroundColor, setBackGroundColor] = useState<string>(
+    'rgba(255, 255, 255)'
+  );
 
   const fontAPI = process.env.REACT_APP_GOOGLEAPI as string;
 
@@ -155,7 +157,7 @@ function Canvas() {
         else return [newCanvaElement];
       });
     }
-  }, [newImage, newGif]);
+  }, [newImage, newGif, render]);
 
   function handleClick(e: any) {
     e.preventDefault();
@@ -388,13 +390,13 @@ function Canvas() {
               </button>
 
               {/* GIF */}
-              {/* <button
-              className='drawButtons'
-              onClick={handleToggle}
-              value='gifTool'
-            >
-              <MdGif />
-            </button> */}
+              <button
+                className='drawButtons'
+                onClick={handleToggle}
+                value='gifTool'
+              >
+                <MdGif />
+              </button>
               {/* DELETE  */}
               <button className='drawButtons' onClick={handleDelete}>
                 <FiTrash2 />
@@ -450,36 +452,39 @@ function Canvas() {
               )}
 
               {toggleTool.animatedTextTool && <AnimatedText />}
-            </div>
-            {toggleTool.colorTool && (
-              <div className='toolContainer'>
-                <div className='colorPickers'>
-                  <div className='fillAndStroke'>
-                    <label>Fill</label>
-                    <ChromePicker
-                      color={color}
-                      onChange={(updatedColor) => {
-                        const res = updatedColor.rgb;
-                        const string = `rgba(${res.r}, ${res.g}, ${res.b}, ${res.a})`;
-                        setTextColor(string);
-                        return setColor(string);
-                      }}
-                    ></ChromePicker>
-                  </div>
-                  <div className='fillAndStroke'>
-                    <label>Stroke</label>
-                    <ChromePicker
-                      color={stroke}
-                      onChange={(updatedColor) => {
-                        const res = updatedColor.rgb;
-                        const string = `rgba(${res.r}, ${res.g}, ${res.b}, ${res.a})`;
-                        return setStroke(string);
-                      }}
-                    ></ChromePicker>
+              {toggleTool.colorTool && (
+                <div className='toolContainer'>
+                  <div className='colorPickers'>
+                    <div className='fillAndStroke'>
+                      <label>Fill</label>
+                      <ChromePicker
+                        color={color}
+                        onChange={(updatedColor) => {
+                          const res = updatedColor.rgb;
+                          const string = `rgba(${res.r}, ${res.g}, ${res.b}, ${res.a})`;
+                          setTextColor(string);
+                          return setColor(string);
+                        }}
+                      ></ChromePicker>
+                    </div>
+                    <div className='fillAndStroke'>
+                      <label>Stroke</label>
+                      <ChromePicker
+                        color={stroke}
+                        onChange={(updatedColor) => {
+                          const res = updatedColor.rgb;
+                          const string = `rgba(${res.r}, ${res.g}, ${res.b}, ${res.a})`;
+                          return setStroke(string);
+                        }}
+                      ></ChromePicker>
+                    </div>
                   </div>
                 </div>
-              </div>
-            )}
+              )}
+              {toggleTool.gifTool && (
+                <GifSearcher setNewGif={setNewGif} setRender={setRender} />
+              )}
+            </div>
           </div>
         </Draggable>
         {/* style={{ background: backgroundColor }} */}
@@ -498,6 +503,8 @@ function Canvas() {
                 if (!el || !Shape) return null;
                 return (
                   <Shape
+                    render={render}
+                    setRender={setRender}
                     key={el.id}
                     element={el}
                     canvaElements={canvaElements}
@@ -506,6 +513,7 @@ function Canvas() {
                     handleDragEnd={() => handleDragEnd(el)}
                     isSelected={el.id === selectedId}
                     onSelect={() => {
+                      setRender(false);
                       selectShape(el.id);
                     }}
                   />

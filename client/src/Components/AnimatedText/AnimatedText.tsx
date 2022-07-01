@@ -48,7 +48,7 @@ const AnimatedText = ({ setNewGif }: Props) => {
         <button onClick={handleSubmit}>SEARCH TEXT</button>
       </div>
 
-      <div className='gifResult-container'>
+      <div className='TextResult-container'>
         {results &&
           !err &&
           results.map((gif, index) => {

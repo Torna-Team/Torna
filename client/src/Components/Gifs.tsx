@@ -9,6 +9,8 @@ function Gifs({
   handleDragEnd,
   isSelected,
   onSelect,
+  render,
+  setRender,
 }: any) {
   const trRef: any = React.useRef();
   const imageRef = React.useRef(null as any);
@@ -23,21 +25,26 @@ function Gifs({
       trRef.current.nodes([imageRef.current]);
       trRef.current.getLayer().batchDraw();
     }
-    let an: any;
-    window.gifler(element.src.src).get((a: any) => {
-      an = a;
-      an.animateInCanvas(canvas);
-      an.onDrawFrame = (ctx: any, frame: any) => {
-        ctx.drawImage(frame.buffer, frame.x, frame.y);
-        if (imageRef.current) {
-          imageRef.current.getLayer().draw();
-        }
-      };
-    });
-    if (an) {
-      return () => an.stop();
+    console.log(render);
+
+    if (render) {
+      let an: any;
+      console.log(element.src, 'gifler');
+      window.gifler(element.src).get((a: any) => {
+        an = a;
+        an.animateInCanvas(canvas);
+        an.onDrawFrame = (ctx: any, frame: any) => {
+          ctx.drawImage(frame.buffer, frame.x, frame.y);
+          if (imageRef.current) {
+            imageRef.current.getLayer().draw();
+          }
+        };
+      });
+      if (an) {
+        return () => an.stop();
+      }
     }
-  }, [isSelected, element.src, canvas]);
+  }, [isSelected, element, canvas]);
 
   const imageProps = {
     type: 'image',
@@ -70,7 +77,7 @@ function Gifs({
         }}
         stroke='black'
         onClick={onSelect}
-        onTap={onSelect}
+        // onTap={onSelect}
         onTransformEnd={(e: any) => {
           const node = imageRef.current;
           const scaleX = node.scaleX();

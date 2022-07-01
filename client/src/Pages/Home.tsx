@@ -28,6 +28,7 @@ const Home = () => {
     };
 
     const logged = await login(user as LoggingUser);
+    console.log(logged, 'logged');
 
     if ((logged && (logged as any).id) === undefined) {
       alert('Invalid Email or Password');
