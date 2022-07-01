@@ -1,37 +1,40 @@
-.gifpicker-container {
-  border: 1px solid #c05746;
-  border-radius: 40px;
-  width: 15vw;
-  height: 50vh;
+.animated-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin: 12px;
+  gap: 12px;
+  height: 400px;
 }
-h3 {
-  font-family: 'Ubuntu';
+
+.search-animated {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border-radius: 4px;
+  font-size: 16px;
+  background-color: transparent;
+  gap: 12px;
+  /* border: 3px solid greenyellow; */
 }
-input {
-  width: 10vw;
-  border-radius: 40px;
-  border: 1px solid #132830;
+
+.search-animated input {
+  height: 44px;
+  width: 220px;
+  background-color: #d6d7e5;
+  border-radius: 4px;
+  border: 2px solid #132830;
+  font-size: 16px;
+  box-shadow: 0.2px 0.2px 1px #132830;
+  padding-left: 4px;
 }
-/* button {
-  border-radius: 60px;
-  border: 1px solid #132830;
-  background-color: white;
-} */
+
+.search-animated button {
+  margin-bottom: 12px;
+  max-width: 226px;
+}
 
 .gifResult-container {
-  height: 40vh;
   overflow: auto;
-}
-body ::-webkit-scrollbar {
-  margin-top: 2px;
-  width: 8px;
-  height: 8px;
-}
-body ::-webkit-scrollbar-track {
-  background: none; /* color of the tracking area */
-}
-body ::-webkit-scrollbar-thumb {
-  background-color: #c05746; /* color of the scroll thumb */
-  border-radius: 20px; /* roundness of the scroll thumb */
-  width: 8px;
+  height: 100%;
 }

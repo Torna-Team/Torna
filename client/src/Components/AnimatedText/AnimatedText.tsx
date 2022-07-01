@@ -36,32 +36,36 @@ const AnimatedText = ({ setNewGif }: Props) => {
   };
 
   return (
-    <>
-      <div className='gifpicker-container'>
-        <div className='search-container'>
-          <h3>Animated Text</h3>
-          <input value={text} onChange={handleInput} />
-          <button onClick={handleSubmit}>🖌️</button>
-        </div>
-        <div className='gifResult-container'>
-          {results &&
-            !err &&
-            results.map((gif, index) => {
-              return (
-                <img
-                  src={gif.url}
-                  width={width}
-                  key={index}
-                  alt={index.toString()}
-                  onClick={() => {
-                    setNewGif(gif);
-                  }}
-                />
-              );
-            })}
-        </div>
+    <div className='animated-container'>
+      <div className='search-animated'>
+        <label>Animated Text</label>
+        <input
+          className='addTextAnimated'
+          value={text}
+          onChange={handleInput}
+          placeholder='Type here'
+        />
+        <button onClick={handleSubmit}>SEARCH TEXT</button>
       </div>
-    </>
+
+      <div className='gifResult-container'>
+        {results &&
+          !err &&
+          results.map((gif, index) => {
+            return (
+              <img
+                src={gif.url}
+                width={width}
+                key={index}
+                alt={index.toString()}
+                onClick={() => {
+                  setNewGif(gif);
+                }}
+              />
+            );
+          })}
+      </div>
+    </div>
   );
 };
 
