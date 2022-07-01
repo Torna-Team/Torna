@@ -32,7 +32,9 @@ const Home = () => {
     if ((logged && (logged as any).id) === undefined) {
       alert('Invalid Email or Password');
     } else {
+      setLoggedIn(true);
       sessionStorage.setItem('user', JSON.stringify(logged));
+      sessionStorage.setItem('email', email);
       navigate(`/profile/${(logged as unknown as any).id}`);
     }
   };
@@ -58,6 +60,7 @@ const Home = () => {
 
         if (user) {
           sessionStorage.setItem('user', JSON.stringify(user));
+          sessionStorage.setItem('email', googleUserMail);
           setLoggedIn(true);
           navigate(`/profile/${(user as unknown as User).id}`);
         } else throw new Error();
@@ -99,9 +102,7 @@ const Home = () => {
             />
           </div>
           <div className='signInContainer'>
-            <button className='signInBtn' onClick={() => setLoggedIn(true)}>
-              Sign In
-            </button>
+            <button className='signInBtn'>Sign In</button>
           </div>
         </form>
         <GoogleButton className='googleBtn' onClick={signInWithGoogle} />

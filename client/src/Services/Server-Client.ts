@@ -17,21 +17,22 @@ export interface LoggingUser {
 }
 
 export const getUser = async (displayName: string, email: string) => {
-	try {
-		const result = await fetch(`${BASE_URL}/user/`, {
-			method: 'POST',
-			headers: { 'Content-type': 'application/json' },
-			body: JSON.stringify({
-				firstName: displayName,
-				lastName: '',
-				email: email,
-			}),
-		});
-		const json = await result.json();
-		return json;
-	} catch (error) {
-		console.log(error);
-	}
+  try {
+    const result = await fetch(`${BASE_URL}/user/`, {
+      method: 'POST',
+      headers: { 'Content-type': 'application/json' },
+      body: JSON.stringify({
+        firstName: displayName,
+        lastName: '',
+        email: email,
+      }),
+    });
+    const json = await result.json();
+    console.log(json);
+    return json;
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 export const login = async (user: LoggingUser) => {

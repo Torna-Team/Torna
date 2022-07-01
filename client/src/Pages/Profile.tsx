@@ -5,6 +5,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import '../Styles/Profile.css';
 import { createAlbum } from '../Services/Server-Client';
 import Album from '../Components/Album/Album';
+import { getUser } from '../Services/Server-Client';
 
 function Profile() {
   const navigate = useNavigate();
@@ -16,9 +17,20 @@ function Profile() {
     if (sessionStorage && sessionStorage.getItem('user')) {
       const res = JSON.parse(sessionStorage.getItem('user') as string);
       setUser(res);
+      const email = sessionStorage.getItem('email');
+      checkExistingUser(res.firstName, email as string);
       setLoggedIn(true);
     }
-  }, [loggedIn]);
+  }, []);
+
+  const checkExistingUser = async (displayName: string, email: string) => {
+    if (displayName && email) {
+      const result = await getUser(displayName, email);
+      setUser(result);
+      console.log(user);
+      return result;
+    }
+  };
 
   const editAlbum = (album: any) => {
     navigate(`/album/${album.id}/edit`);

@@ -28,6 +28,8 @@ const Register = () => {
     try {
       const registration = await register(newUser as User);
       if (registration) {
+        setLoggedIn(true);
+        sessionStorage.setItem('email', target.email.value);
         sessionStorage.setItem('user', JSON.stringify(registration));
         navigate(`/profile/${(registration as User).id}`);
       } else throw new Error();
@@ -77,9 +79,7 @@ const Register = () => {
             placeholder='Insert your email'
           />
           <div className='signInContainer'>
-            <button className='registerBtn' onClick={() => setLoggedIn(true)}>
-              Create an account
-            </button>
+            <button className='registerBtn'>Create an account</button>
           </div>
         </form>
 
