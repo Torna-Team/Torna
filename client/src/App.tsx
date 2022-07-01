@@ -7,7 +7,6 @@ import Profile from './Pages/Profile';
 import ErrorPage from './Pages/ErrorPage';
 import { LoginContext } from './Utils/Context';
 import Canvas from './Components/Canvas/Canvas';
-import GifSearch from './components/GifSearcher';
 import Viewer from './Components/Viewer/Viewer';
 import './';
 
