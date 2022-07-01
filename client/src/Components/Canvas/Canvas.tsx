@@ -59,17 +59,6 @@ function splitTextFromGenericShapes(shapeList: CanvaElement[]) {
 //   onSelect: () => void;
 // }
 
-interface ShapeProps {
-  key: number;
-  element: CanvaElement;
-  CanvaElements: CanvaElement[];
-  setCanvaElements: Dispatch<SetStateAction<CanvaElement>>;
-  handleDragStart: () => void;
-  handleDragEnd: () => number;
-  isSelected: boolean;
-  onSelect: () => void;
-}
-
 type ShapeType =
   | typeof Stars
   | typeof Arrows
@@ -524,7 +513,7 @@ function Canvas() {
                   <Shape
                     key={el.id}
                     element={el}
-                    canvaElements={canvaElements}
+                    canvaElements={canvaElements as CanvaElement[]}
                     setCanvaElements={setCanvaElements}
                     handleDragStart={handleDragStart}
                     handleDragEnd={() => handleDragEnd(el)}

@@ -1,4 +1,5 @@
 import { Dispatch, SetStateAction } from 'react';
+import { Interface } from 'readline';
 
 export interface CanvaElement {
   type: string;
@@ -40,4 +41,24 @@ export interface Album {
 
 export interface UploadImageProps {
   setNewImage: Dispatch<SetStateAction<string | null>>;
+}
+
+// export interface ShapeProps {
+//   element: CanvaElement;
+//   canvaElements: CanvaElement[];
+//   setCanvaElements: Dispatch<SetStateAction<CanvaElement>>;
+//   handleDragEnd: () => number;
+//   isSelected: boolean;
+//   onSelect: () => void;
+// }
+
+export interface ShapeProps {
+  key: string;
+  element: CanvaElement;
+  canvaElements: CanvaElement[];
+  setCanvaElements?: Dispatch<SetStateAction<CanvaElement[] | undefined>>;
+  handleDragStart: () => void;
+  handleDragEnd: () => number;
+  isSelected: boolean;
+  onSelect: () => void;
 }
