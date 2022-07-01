@@ -28,6 +28,7 @@ export const getUser = async (displayName: string, email: string) => {
       }),
     });
     const json = await result.json();
+    console.log(json);
     return json;
   } catch (error) {
     console.log(error);

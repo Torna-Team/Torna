@@ -119,9 +119,9 @@ function Canvas() {
 
   async function getAlbumInfo() {
     const album = await getAlbum(albumId);
-    //if template
-    album?.background && setBackGroundColor(album.background);
     album?.template && setCanvaElements([...JSON.parse(album.template)]);
+    console.log(album, 'aaaaaaaaaaaaaaaaaaaaaaaa');
+    album?.background && setBackGroundColor(album.background);
     album && setAlbum(album);
   }
 
@@ -155,17 +155,6 @@ function Canvas() {
       });
     }
   }, [newImage, newGif]);
-
-  async function getAlbumInfo() {
-    const album = await getAlbum(albumId);
-    //if template
-    if (album) {
-      const template = JSON.parse(album.template);
-      console.log(template);
-    }
-    album?.template && setCanvaElements([...JSON.parse(album.template)]);
-    album && setAlbum(album);
-  }
 
   function handleClick(e: any) {
     e.preventDefault();
