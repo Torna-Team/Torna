@@ -4,6 +4,7 @@
   justify-content: space-between;
   margin: 12px;
   gap: 12px;
+  height: 400px;
 }
 
 .search-animated {
@@ -14,12 +15,7 @@
   font-size: 16px;
   background-color: transparent;
   gap: 12px;
-}
-
-label {
-  font-size: 16px;
-  font-weight: bold;
-  font-family: 'Ubuntu';
+  /* border: 3px solid greenyellow; */
 }
 
 .search-animated input {
@@ -39,6 +35,6 @@ label {
 }
 
 .gifResult-container {
-  height: 300px;
   overflow: auto;
+  height: 100%;
 }

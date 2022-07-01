@@ -378,6 +378,14 @@ function Canvas() {
               <TbTextResize />
             </button>
 
+            <button
+              className='drawButtons'
+              onClick={handleToggle}
+              value='colorTool'
+            >
+              <MdOutlineColorLens />
+            </button>
+
             {/* GIF */}
             {/* <button
               className='drawButtons'
@@ -424,7 +432,6 @@ function Canvas() {
                     ADD
                   </button>
                 </form>
-
                 <div className='fontStroke'>
                   <label>STROKE</label>
                   <input
@@ -434,7 +441,6 @@ function Canvas() {
                     }}
                   />
                 </div>
-
                 <FontPicker
                   apiKey={fontAPI as string}
                   activeFontFamily={font}
@@ -445,48 +451,33 @@ function Canvas() {
 
             {toggleTool.animatedTextTool && <AnimatedText />}
           </div>
-        </div>
-
-        <div className='colorContainer'>
-          <button
-            className='drawButtons'
-            onClick={handleToggle}
-            value='colorTool'
-          >
-            <MdOutlineColorLens />
-          </button>
-
-          {/* COLOR LOGIC */}
           {toggleTool.colorTool && (
-            <div className='colorPickers'>
-              {/* FIll */}
-              {/* <div className='fillAndStroke'> */}
-              <label>Fill</label>
-              {toggleTool && (
-                <ChromePicker
-                  color={color}
-                  onChange={(updatedColor) => {
-                    const res = updatedColor.rgb;
-                    const string = `rgba(${res.r}, ${res.g}, ${res.b}, ${res.a})`;
-                    setTextColor(string);
-                    return setColor(string);
-                  }}
-                ></ChromePicker>
-              )}
-              {/* </div> */}
-              {/* <div className='fillAndStroke'> */}
-              <label>Stroke</label>
-              {toggleTool && (
-                <ChromePicker
-                  color={stroke}
-                  onChange={(updatedColor) => {
-                    const res = updatedColor.rgb;
-                    const string = `rgba(${res.r}, ${res.g}, ${res.b}, ${res.a})`;
-                    return setStroke(string);
-                  }}
-                ></ChromePicker>
-              )}
-              {/* </div> */}
+            <div className='toolContainer'>
+              <div className='colorPickers'>
+                <div className='fillAndStroke'>
+                  <label>Fill</label>
+                  <ChromePicker
+                    color={color}
+                    onChange={(updatedColor) => {
+                      const res = updatedColor.rgb;
+                      const string = `rgba(${res.r}, ${res.g}, ${res.b}, ${res.a})`;
+                      setTextColor(string);
+                      return setColor(string);
+                    }}
+                  ></ChromePicker>
+                </div>
+                <div className='fillAndStroke'>
+                  <label>Stroke</label>
+                  <ChromePicker
+                    color={stroke}
+                    onChange={(updatedColor) => {
+                      const res = updatedColor.rgb;
+                      const string = `rgba(${res.r}, ${res.g}, ${res.b}, ${res.a})`;
+                      return setStroke(string);
+                    }}
+                  ></ChromePicker>
+                </div>
+              </div>
             </div>
           )}
         </div>

@@ -86,6 +86,7 @@
   flex-direction: column;
   align-items: center;
   width: fit-content;
+  height: 100%;
   /* border: 3px solid brown; */
 }
 
@@ -93,8 +94,9 @@
   margin: 4px;
   padding: 2px;
   border-radius: 4px;
-  height: 50px;
-  width: 50px;
+  height: 40px;
+  width: 40px;
+  /* border: 3px solid darkblue; */
 }
 
 .drawButtons > * {
@@ -114,12 +116,6 @@
   justify-content: space-between;
   margin: 12px;
   gap: 12px;
-}
-
-.toolLabel {
-  font-size: 16px;
-  font-weight: bold;
-  font-family: 'Ubuntu';
 }
 
 .huePicker {
@@ -156,13 +152,6 @@
   margin: 4px;
 }
 
-/* CONTAINER */
-.fontStroke label {
-  font-size: 16px;
-  font-weight: bold;
-  font-family: 'Ubuntu';
-}
-
 .fontStroke input {
   width: 16px;
   height: 16px;
@@ -170,7 +159,7 @@
   cursor: pointer;
 }
 
-.colorContainer {
+/* .colorContainer {
   display: flex;
   position: fixed;
   margin: 18px;
@@ -181,26 +170,28 @@
   border-radius: 6px;
   box-shadow: 0.4px 0.4px 2px #132830;
   width: fit-content;
-  top: 620px;
-}
+  top: 600px;
+} */
 
 .colorPickers {
   display: flex;
-  border: 3px solid blueviolet;
+  /* border: 3px solid blueviolet; */
 }
 
 .chrome-picker {
-  border: 2px solid indianred;
+  /* border: 2px solid indianred; */
   width: 360px;
-  height: 200px;
+  height: 240px;
 }
 
 .fillAndStroke {
   display: flex;
   flex-direction: column;
+  margin: 12px;
+  gap: 12px;
 }
 
-.flexbox-fix input {
+/* .flexbox-fix input {
   display: none;
 }
 
@@ -210,4 +201,4 @@
 
 .flexbox-fix svg {
   display: none !important;
-}
+} */

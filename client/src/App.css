@@ -53,3 +53,9 @@ body ::-webkit-scrollbar-thumb {
   border-radius: 20px; /* roundness of the scroll thumb */
   width: 8px;
 }
+
+label {
+  font-size: 16px;
+  font-weight: bold;
+  font-family: 'Ubuntu';
+}
