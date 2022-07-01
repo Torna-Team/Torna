@@ -1,6 +1,6 @@
 import tornaLogo from '../images/tornalogo.png';
 
-const BASE_URL = 'http://localhost:3001';
+const BASE_URL = 'https://torna-backend.herokuapp.com';
 
 export interface User {
   id: string;
