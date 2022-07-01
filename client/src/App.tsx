@@ -7,6 +7,9 @@ import Profile from './Pages/Profile';
 import ErrorPage from './Pages/ErrorPage';
 import { LoginContext } from './Utils/Context';
 import Canvas from './Components/Canvas/Canvas';
+import GifSearch from './components/GifSearcher';
+import Viewer from './Components/Viewer/Viewer';
+import './';
 
 type loggedIn = boolean;
 
@@ -22,6 +25,7 @@ function App() {
           <Route path='/profile/:id' element={<Profile />} />
           <Route path='/album/:id/edit' element={<Canvas />} />
           <Route path='/album/:id' element={<Canvas />} />
+          <Route path='/album/:id/view' element={<Viewer />} />
           <Route path='*' element={<ErrorPage />} />
         </Routes>
       </Router>
