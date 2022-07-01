@@ -10,6 +10,7 @@ function ImageUpload({ setNewImage }: any) {
     e.preventDefault();
     fileInputRef.current?.click();
   };
+
   const handleClick = async (imageClicked: any) => {
     const formData = new FormData();
     formData.append('file', imageClicked);
@@ -29,7 +30,7 @@ function ImageUpload({ setNewImage }: any) {
 
   return (
     <div className='uploadContainer'>
-      <form className='navbarForm'>
+      <form className='imageForm'>
         <input
           type='file'
           multiple={true}
@@ -55,9 +56,11 @@ function ImageUpload({ setNewImage }: any) {
             }
           }}
         />
-        <button onClick={handleSubmit}>Upload images</button>
+        <button className='buttonUploadImages' onClick={handleSubmit}>
+          UPLOAD IMAGES
+        </button>
       </form>
-      <div className='navbarImages'>
+      <div className='imagesScroll'>
         {imageObj?.map((el: any, indx: any) => {
           return (
             <img
