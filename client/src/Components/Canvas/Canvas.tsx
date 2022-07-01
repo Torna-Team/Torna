@@ -1,4 +1,4 @@
-import React, { SetStateAction, useEffect, useState } from 'react';
+import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { ChromePicker, CompactPicker } from 'react-color';
 import { Layer, Stage } from 'react-konva';
 import FontPicker from 'font-picker-react';
@@ -36,6 +36,7 @@ import {
   ToggleTool,
   Album,
 } from '../../types/Canvas.interface';
+import { KonvaEventObject } from 'konva/lib/Node';
 
 function splitTextFromGenericShapes(shapeList: CanvaElement[]) {
   return shapeList.reduce(
@@ -47,15 +48,26 @@ function splitTextFromGenericShapes(shapeList: CanvaElement[]) {
     { genericItems: [], textItems: [] }
   );
 }
+// interface ShapeProps {
+//   id: string | number;
+//   type: string;
+//   element: CanvaElement;
+//   canvaElements: CanvaElement[];
+//   handleDragStart: () => void;
+//   handleDragEnd: () => number;
+//   isSelected: boolean;
+//   onSelect: () => void;
+// }
+
 interface ShapeProps {
-  id: string | number;
-  type: any;
-  element: any;
-  canvaElements: any;
-  handleDragStart: any;
-  handleDragEnd: any;
-  isSelected: any;
-  onSelect: any;
+  key: number;
+  element: CanvaElement;
+  CanvaElements: CanvaElement[];
+  setCanvaElements: Dispatch<SetStateAction<CanvaElement>>;
+  handleDragStart: () => void;
+  handleDragEnd: () => number;
+  isSelected: boolean;
+  onSelect: () => void;
 }
 
 type ShapeType =
@@ -97,7 +109,7 @@ function Canvas() {
   const [textColor, setTextColor] = useState<string>('rgba(0, 0, 0, 1)');
   const [stroke, setStroke] = useState<string>('rgba(0, 0, 0, 1)');
   const [strokedText, setStrokedText] = useState<boolean>(false);
-  const [height, setHeight] = useState<number>(1200);
+  const [height, setHeight] = useState<number>(600);
   const [width, setWidth] = useState<number>(window.innerWidth - 60);
   const [selectedId, selectShape] = useState<number | null>(null);
   const [newImage, setNewImage] = useState<string | null>(null);
@@ -154,11 +166,15 @@ function Canvas() {
     }
   }, [newImage, newGif]);
 
-  function handleClick(e: any) {
+  function handleClick(
+    e:
+      | React.ChangeEvent<HTMLInputElement | HTMLButtonElement>
+      | React.MouseEvent<HTMLButtonElement>
+  ) {
     e.preventDefault();
-    const type = e.target.value;
+    const type = (e.target as HTMLInputElement).value;
     const elementId = uuidv4();
-    let newCanvaElement!: any;
+    let newCanvaElement!: CanvaElement;
     if (type.includes('.gif')) {
       newCanvaElement = checkCanvaElement(
         'gif',
@@ -166,7 +182,7 @@ function Canvas() {
         color,
         stroke,
         type
-      );
+      ) as CanvaElement;
     } else if (type.includes('http://res.cloudinary.com')) {
       newCanvaElement = checkCanvaElement(
         'image',
@@ -174,27 +190,32 @@ function Canvas() {
         color,
         stroke,
         type
-      );
+      ) as CanvaElement;
     } else {
-      newCanvaElement = checkCanvaElement(type, elementId, color, stroke);
+      newCanvaElement = checkCanvaElement(
+        type,
+        elementId,
+        color,
+        stroke
+      ) as CanvaElement;
     }
-    setCanvaElements((prev: any) => {
-      console.log(newCanvaElement);
+    setCanvaElements((prev) => {
       if (prev) return [...prev, newCanvaElement];
       else return [newCanvaElement];
     });
   }
 
-  const editAlbum = async (e) => {
+  const editAlbum = async (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
     const title = e.target.albumTitle.value;
     let frontImage;
-    for (let i = 0; i < canvaElements.length; i++) {
-      if (canvaElements[i].type === 'image') {
-        frontImage = canvaElements[i].imageSrc;
-        break;
+    if (canvaElements)
+      for (let i = 0; i < canvaElements.length; i++) {
+        if (canvaElements[i].type === 'image') {
+          frontImage = canvaElements[i].imageSrc;
+          break;
+        }
       }
-    }
 
     const savedAlbum = {
       title: title,
@@ -206,18 +227,18 @@ function Canvas() {
     saveAlbum(savedAlbum);
   };
 
-  const handleWheel = (e: any) => {
-    if (e.evt.deltaY > 0) {
+  const handleWheel = (e: KonvaEventObject<WheelEvent | TouchEvent>) => {
+    if ((e.evt as WheelEvent).deltaY > 0) {
       setHeight(height * 1.05);
     }
-    if (e.evt.deltaY < 0) {
+    if ((e.evt as WheelEvent).deltaY < 0) {
       if (height >= 1200) {
         setHeight(height / 1.05);
       }
     }
   };
 
-  const checkDeselect = (e: any) => {
+  const checkDeselect = (e: KonvaEventObject<MouseEvent | TouchEvent>) => {
     const clickedOnEmpty = e.target === e.target.getStage();
     if (clickedOnEmpty) {
       selectShape(null);
@@ -225,16 +246,17 @@ function Canvas() {
   };
 
   const handleDragStart = () => {};
-  const handleDragEnd = (el: any) => {
+  const handleDragEnd = (el: CanvaElement) => {
     let indx!: number;
-    for (let i = 0; i < canvaElements.length; i++) {
-      if (canvaElements[i].id === el.id) {
-        indx = i;
-        break;
+    if (canvaElements)
+      for (let i = 0; i < canvaElements.length; i++) {
+        if (canvaElements[i].id === el.id) {
+          indx = i;
+          break;
+        }
       }
-    }
 
-    setCanvaElements((prev: any) => {
+    setCanvaElements((prev) => {
       if (prev) {
         const arr1 = prev.slice(0, indx);
         const arr2 = prev.slice(indx + 1, prev.length);
@@ -242,11 +264,10 @@ function Canvas() {
         return result;
       } else return [el];
     });
-    console.log(indx);
     return indx;
   };
 
-  function handleSubmit(e: any) {
+  function handleSubmit(e: React.ChangeEvent<HTMLFormElement>) {
     e.preventDefault();
     const newText = {
       type: 'text',
@@ -259,30 +280,31 @@ function Canvas() {
       font: font,
     };
 
-    setCanvaElements((prev: any) => {
-      if (prev) return [...prev, newText];
-      else return [newText];
+    setCanvaElements((prev) => {
+      if (prev) return [...prev, newText] as CanvaElement[];
+      else return [newText] as CanvaElement[];
     });
     e.target.reset();
   }
 
-  function handleToggle(e: any) {
+  function handleToggle(e: React.MouseEvent<HTMLButtonElement>) {
     e.preventDefault();
     for (let key in toggleTool) {
-      if (key === e.target.value) {
-        toggleTool[key] = !toggleTool[key];
+      if (key === (e.target as HTMLInputElement).value) {
+        toggleTool[key as keyof ToggleTool] =
+          !toggleTool[key as keyof ToggleTool];
       } else {
-        toggleTool[key] = false;
+        toggleTool[key as keyof ToggleTool] = false;
       }
     }
     setToolOption({ ...toggleTool });
   }
 
-  function handleDelete(e: any) {
+  function handleDelete(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
     e.preventDefault();
-    if (selectedId !== null) {
-      const arr = canvaElements.filter((el) => {
-        return el.id !== selectedId;
+    if (canvaElements && selectedId !== null) {
+      const arr = canvaElements.filter((el: CanvaElement) => {
+        return el.id !== (selectedId as number | string);
       });
       setCanvaElements([...arr]);
     }
@@ -427,7 +449,7 @@ function Canvas() {
                       name='textInput'
                       placeholder='Type here'
                     />
-                    <button classname='buttonFont' type='submit'>
+                    <button className='buttonFont' type='submit'>
                       ADD
                     </button>
                   </form>
@@ -448,7 +470,9 @@ function Canvas() {
                 </div>
               )}
 
-              {toggleTool.animatedTextTool && <AnimatedText />}
+              {toggleTool.animatedTextTool && (
+                <AnimatedText setNewGif={setNewGif} />
+              )}
             </div>
             {toggleTool.colorTool && (
               <div className='toolContainer'>
@@ -481,7 +505,6 @@ function Canvas() {
             )}
           </div>
         </Draggable>
-        {/* style={{ background: backgroundColor }} */}
         <div>
           <Stage
             width={width}
@@ -492,8 +515,10 @@ function Canvas() {
             onTouchStart={checkDeselect}
           >
             <Layer>
-              {genericItems?.map((el) => {
-                const Shape = shapeType[el?.type];
+              {genericItems?.map((el: CanvaElement) => {
+                const Shape = shapeType[
+                  el?.type as keyof ShapeType
+                ] as ShapeType;
                 if (!el || !Shape) return null;
                 return (
                   <Shape
@@ -503,16 +528,16 @@ function Canvas() {
                     setCanvaElements={setCanvaElements}
                     handleDragStart={handleDragStart}
                     handleDragEnd={() => handleDragEnd(el)}
-                    isSelected={el.id === selectedId}
+                    isSelected={el.id === (selectedId as number | string)}
                     onSelect={() => {
-                      selectShape(el.id);
+                      selectShape(el.id as unknown as number);
                     }}
                   />
                 );
               })}
             </Layer>
             <Layer>
-              {textItems?.map((el) => (
+              {textItems?.map((el: CanvaElement) => (
                 <Texts
                   key={el.id}
                   element={el}
@@ -520,9 +545,9 @@ function Canvas() {
                   setCanvaElements={setCanvaElements}
                   handleDragStart={handleDragStart}
                   handleDragEnd={() => handleDragEnd(el)}
-                  isSelected={el.id === selectedId}
+                  isSelected={el.id === (selectedId as number | string)}
                   onSelect={() => {
-                    selectShape(el.id);
+                    selectShape(el.id as unknown as number);
                   }}
                 />
               ))}

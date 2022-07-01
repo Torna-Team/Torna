@@ -5,7 +5,7 @@ export interface CanvaElement {
   id: string;
   x: number;
   y: number;
-  color: string;
+  color?: string;
   stroke?: string;
   scaleX?: number;
   scaleY?: number;
@@ -13,6 +13,7 @@ export interface CanvaElement {
   imageSrc?: string;
   text?: string;
   font?: string;
+  src?: HTMLImageElement;
 }
 
 export interface ToggleTool {
@@ -38,5 +39,5 @@ export interface Album {
 }
 
 export interface UploadImageProps {
-  setNewImage: Dispatch<SetStateAction<string>>;
+  setNewImage: Dispatch<SetStateAction<string | null>>;
 }
