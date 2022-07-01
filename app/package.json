@@ -7,8 +7,7 @@
 		"test": "echo \"Error: no test specified\" && exit 1",
 		"build": "tsc && npm run build-db",
 		"build-server": "tsc",
-		"build-db": "npx prisma db push --accept-data-loss && npx prisma migrate reset -f",
-		"build-db-dev": "npx prisma migrate dev --name init && npx prisma migrate reset -f",
+		"build-db": "npx prisma db push --accept-data-loss && npx prisma migrate reset -f && npx prisma migrate dev --name init",
 		"start": "node index.js"
 	},
 	"author": "",
