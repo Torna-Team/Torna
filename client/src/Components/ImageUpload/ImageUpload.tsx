@@ -10,6 +10,7 @@ function ImageUpload({ setNewImage }: any) {
     e.preventDefault();
     fileInputRef.current?.click();
   };
+
   const handleClick = async (imageClicked: any) => {
     const formData = new FormData();
     formData.append('file', imageClicked);

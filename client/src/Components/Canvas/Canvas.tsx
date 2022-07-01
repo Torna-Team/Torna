@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { ChromePicker, CompactPicker } from 'react-color';
 import { Layer, Stage } from 'react-konva';
 import FontPicker from 'font-picker-react';
+import Draggable from 'react-draggable';
 import checkCanvaElement from '../../Services/utils';
 import Arrows from '../Arrows';
 import Circles from '../Circles';
@@ -292,6 +293,7 @@ function Canvas() {
   }
   if (canvaElements) {
   }
+
   const { genericItems, textItems } = splitTextFromGenericShapes(canvaElements);
 
   return (
@@ -317,66 +319,75 @@ function Canvas() {
       </div>
 
       <div className='canvasEditor' style={{ background: backgroundColor }}>
-        <div className='sidebarContainer'>
-          <div className='toolsContainer'>
-            {/* BACKGROUND */}
-            <button
-              className='drawButtons'
-              onClick={handleToggle}
-              value='backgroundTool'
-            >
-              <IoMdColorFill />
-            </button>
+        <Draggable>
+          <div className='sidebarContainer'>
+            <div className='toolsContainer'>
+              {/* BACKGROUND */}
+              <button
+                className='drawButtons'
+                onClick={handleToggle}
+                value='backgroundTool'
+              >
+                <IoMdColorFill />
+              </button>
 
-            <button className='drawButtons' value='star' onClick={handleClick}>
-              <FiStar />
-            </button>
-            <button
-              className='drawButtons'
-              value='circle'
-              onClick={handleClick}
-            >
-              <FiCircle />
-            </button>
-            <button
-              className='drawButtons'
-              value='square'
-              onClick={handleClick}
-            >
-              <FiSquare />
-            </button>
-            <button className='drawButtons' value='arrow' onClick={handleClick}>
-              <FiArrowUpRight />
-            </button>
+              <button
+                className='drawButtons'
+                value='star'
+                onClick={handleClick}
+              >
+                <FiStar />
+              </button>
+              <button
+                className='drawButtons'
+                value='circle'
+                onClick={handleClick}
+              >
+                <FiCircle />
+              </button>
+              <button
+                className='drawButtons'
+                value='square'
+                onClick={handleClick}
+              >
+                <FiSquare />
+              </button>
+              <button
+                className='drawButtons'
+                value='arrow'
+                onClick={handleClick}
+              >
+                <FiArrowUpRight />
+              </button>
 
-            {/* TEXT */}
-            <button
-              className='drawButtons'
-              onClick={handleToggle}
-              value='textTool'
-            >
-              <RiText />
-            </button>
+              {/* TEXT */}
+              <button
+                className='drawButtons'
+                onClick={handleToggle}
+                value='textTool'
+              >
+                <RiText />
+              </button>
 
-            {/* ANIMATED TEXT */}
-            <button
-              className='drawButtons'
-              onClick={handleToggle}
-              value='animatedTextTool'
-            >
-              <TbTextResize />
-            </button>
+              {/* ANIMATED TEXT */}
+              <button
+                className='drawButtons'
+                onClick={handleToggle}
+                value='animatedTextTool'
+              >
+                <TbTextResize />
+              </button>
 
-            <button
-              className='drawButtons'
-              onClick={handleToggle}
-              value='colorTool'
-            >
-              <MdOutlineColorLens />
-            </button>
+              <button
+                className='drawButtons'
+                onClick={handleToggle}
+                value='colorTool'
+              >
+                <MdOutlineColorLens />
+              </button>
 
-            {/* GIF */}
-            {/* <button
+              {/* GIF */}
+              {/* <button
               className='drawButtons'
               onClick={handleToggle}
               value='gifTool'
@@ -384,92 +395,93 @@ function Canvas() {
               <MdGif />
             </button> */}
 
-            {/* DELETE  */}
-            <button className='drawButtons' onClick={handleDelete}>
-              <FiTrash2 />
-            </button>
-          </div>
-
-          <div className='logicContainer'>
-            {toggleTool.backgroundTool && (
-              <div className='toolContainer'>
-                <label className='toolLabel'>Background color</label>
-                <CompactPicker
-                  className='huePicker'
-                  color={backgroundColor}
-                  onChange={(updatedColor) => {
-                    const res = updatedColor.rgb;
-                    const string = `rgba(${res.r}, ${res.g}, ${res.b}, ${res.a})`;
-                    return setBackGroundColor(string);
-                  }}
-                ></CompactPicker>
-              </div>
-            )}
-
-            {toggleTool.textTool && (
-              <div className='toolContainer'>
-                <label className='toolLabel'>Text Editor</label>
-                <form className='formFont' onSubmit={handleSubmit}>
-                  <input
-                    className='addTextFont'
-                    type='text'
-                    id='text'
-                    name='textInput'
-                    placeholder='Type here'
-                  />
-                  <button classname='buttonFont' type='submit'>
-                    ADD
-                  </button>
-                </form>
-                <div className='fontStroke'>
-                  <label>STROKE</label>
-                  <input
-                    type='checkbox'
-                    onClick={() => {
-                      setStrokedText(!strokedText);
-                    }}
-                  />
-                </div>
-                <FontPicker
-                  apiKey={fontAPI as string}
-                  activeFontFamily={font}
-                  onChange={(nextFont) => setFont(nextFont.family)}
-                />
-              </div>
-            )}
-
-            {toggleTool.animatedTextTool && <AnimatedText />}
-          </div>
-          {toggleTool.colorTool && (
-            <div className='toolContainer'>
-              <div className='colorPickers'>
-                <div className='fillAndStroke'>
-                  <label>Fill</label>
-                  <ChromePicker
-                    color={color}
-                    onChange={(updatedColor) => {
-                      const res = updatedColor.rgb;
-                      const string = `rgba(${res.r}, ${res.g}, ${res.b}, ${res.a})`;
-                      setTextColor(string);
-                      return setColor(string);
-                    }}
-                  ></ChromePicker>
-                </div>
-                <div className='fillAndStroke'>
-                  <label>Stroke</label>
-                  <ChromePicker
-                    color={stroke}
-                    onChange={(updatedColor) => {
-                      const res = updatedColor.rgb;
-                      const string = `rgba(${res.r}, ${res.g}, ${res.b}, ${res.a})`;
-                      return setStroke(string);
-                    }}
-                  ></ChromePicker>
-                </div>
-              </div>
+              {/* DELETE  */}
+              <button className='drawButtons' onClick={handleDelete}>
+                <FiTrash2 />
+              </button>
             </div>
-          )}
-        </div>
+
+            <div className='logicContainer'>
+              {toggleTool.backgroundTool && (
+                <div className='toolContainer'>
+                  <label className='toolLabel'>Background color</label>
+                  <CompactPicker
+                    className='huePicker'
+                    color={backgroundColor}
+                    onChange={(updatedColor) => {
+                      const res = updatedColor.rgb;
+                      const string = `rgba(${res.r}, ${res.g}, ${res.b}, ${res.a})`;
+                      return setBackGroundColor(string);
+                    }}
+                  ></CompactPicker>
+                </div>
+              )}
+
+              {toggleTool.textTool && (
+                <div className='toolContainer'>
+                  <label className='toolLabel'>Text Editor</label>
+                  <form className='formFont' onSubmit={handleSubmit}>
+                    <input
+                      className='addTextFont'
+                      type='text'
+                      id='text'
+                      name='textInput'
+                      placeholder='Type here'
+                    />
+                    <button classname='buttonFont' type='submit'>
+                      ADD
+                    </button>
+                  </form>
+                  <div className='fontStroke'>
+                    <label>STROKE</label>
+                    <input
+                      type='checkbox'
+                      onClick={() => {
+                        setStrokedText(!strokedText);
+                      }}
+                    />
+                  </div>
+                  <FontPicker
+                    apiKey={fontAPI as string}
+                    activeFontFamily={font}
+                    onChange={(nextFont) => setFont(nextFont.family)}
+                  />
+                </div>
+              )}
+
+              {toggleTool.animatedTextTool && <AnimatedText />}
+            </div>
+            {toggleTool.colorTool && (
+              <div className='toolContainer'>
+                <div className='colorPickers'>
+                  <div className='fillAndStroke'>
+                    <label>Fill</label>
+                    <ChromePicker
+                      color={color}
+                      onChange={(updatedColor) => {
+                        const res = updatedColor.rgb;
+                        const string = `rgba(${res.r}, ${res.g}, ${res.b}, ${res.a})`;
+                        setTextColor(string);
+                        return setColor(string);
+                      }}
+                    ></ChromePicker>
+                  </div>
+                  <div className='fillAndStroke'>
+                    <label>Stroke</label>
+                    <ChromePicker
+                      color={stroke}
+                      onChange={(updatedColor) => {
+                        const res = updatedColor.rgb;
+                        const string = `rgba(${res.r}, ${res.g}, ${res.b}, ${res.a})`;
+                        return setStroke(string);
+                      }}
+                    ></ChromePicker>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+        </Draggable>
 
         {/* style={{ background: backgroundColor }} */}
         <div>
