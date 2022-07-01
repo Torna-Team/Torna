@@ -7,15 +7,7 @@ import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import { login, getUser, User } from '../Services/Server-Client';
 import { LoggingUser } from '../Services/Server-Client';
 import { LoginContext } from '../Utils/Context';
-
-// type LoginProps = {
-// 	setUserId: React.Dispatch<React.SetStateAction<string>>;
-// 	setUserMail: React.Dispatch<React.SetStateAction<string>>;
-// 	setUserName: React.Dispatch<React.SetStateAction<string>>;
-// 	userId: string;
-// 	userMail: string;
-// 	userName: string;
-// };
+import tornaLogo from '../images/tornalogo.png';
 
 const Home = () => {
   const { loggedIn, setLoggedIn } = useContext(LoginContext as any);
@@ -40,7 +32,9 @@ const Home = () => {
     if ((logged && (logged as any).id) === undefined) {
       alert('Invalid Email or Password');
     } else {
+      setLoggedIn(true);
       sessionStorage.setItem('user', JSON.stringify(logged));
+      sessionStorage.setItem('email', email);
       navigate(`/profile/${(logged as unknown as any).id}`);
     }
   };
@@ -66,6 +60,7 @@ const Home = () => {
 
         if (user) {
           sessionStorage.setItem('user', JSON.stringify(user));
+          sessionStorage.setItem('email', googleUserMail);
           setLoggedIn(true);
           navigate(`/profile/${(user as unknown as User).id}`);
         } else throw new Error();
@@ -77,38 +72,47 @@ const Home = () => {
   };
 
   return (
-    <div className='form-container'>
-      <div>Sign in</div>
-      <form className='login-container' onSubmit={onSubmitHandler}>
-        <label htmlFor='email' className='signInLabel'>
-          Email
-        </label>
-        <input
-          required
-          className='signInInput'
-          type='text'
-          name='email'
-          placeholder='Insert your email'
-        />
-        <label htmlFor='password' className='signInLabel'>
-          Password
-        </label>
-        <input
-          required
-          className='signInInput'
-          type='password'
-          name='password'
-          placeholder='Insert your password'
-        />
-        <button className='signInBtn' onClick={() => setLoggedIn(true)}>
-          Sign In
-        </button>
-      </form>
-      <GoogleButton className='googleBtn' onClick={signInWithGoogle} />
-      <p>
-        Don't have an account?
-        <Link to='/register'>Sign up</Link>
-      </p>
+    <div className='backgroundContainer'>
+      <div className='form-container'>
+        <div className='loginWelcome'>
+          <img src={tornaLogo} alt='torna logo' />
+          <span>Please enter your details</span>
+        </div>
+        <form className='login-container' onSubmit={onSubmitHandler}>
+          <div className='formInputsContainer'>
+            <label htmlFor='email' className='signInLabel'>
+              Email
+            </label>
+            <input
+              required
+              className='signInInput'
+              type='text'
+              name='email'
+              placeholder='Insert your email'
+            />
+            <label htmlFor='password' className='signInLabel'>
+              Password
+            </label>
+            <input
+              required
+              className='signInInput'
+              type='password'
+              name='password'
+              placeholder='Insert your password'
+            />
+          </div>
+          <div className='signInContainer'>
+            <button className='signInBtn'>Sign In</button>
+          </div>
+        </form>
+        <GoogleButton className='googleBtn' onClick={signInWithGoogle} />
+        <p>
+          Don't have an account?
+          <span className='singUpLink'>
+            <Link to='/register'>Sign up</Link>
+          </span>
+        </p>
+      </div>
     </div>
   );
 };
