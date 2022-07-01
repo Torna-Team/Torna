@@ -33,7 +33,6 @@ import { saveAlbum, getAlbum } from '../../Services/Server-Client';
 import { text } from 'stream/consumers';
 
 function splitTextFromGenericShapes(shapeList) {
-  console.log(shapeList);
   return shapeList.reduce(
     (res, el) => {
       if (el.type === 'text') res.textItems.push(el);
@@ -121,7 +120,6 @@ function Canvas() {
   async function getAlbumInfo() {
     const album = await getAlbum(albumId);
     album?.template && setCanvaElements([...JSON.parse(album.template)]);
-    console.log(album, 'aaaaaaaaaaaaaaaaaaaaaaaa');
     album?.background && setBackGroundColor(album.background);
     album && setAlbum(album);
   }
@@ -157,12 +155,12 @@ function Canvas() {
     }
   }, [newImage, newGif]);
 
+
   function handleClick(e: any) {
     e.preventDefault();
     const type = e.target.value;
     const elementId = uuidv4();
     let newCanvaElement!: any;
-
     if (type.includes('.gif')) {
       newCanvaElement = checkCanvaElement(
         'gif',
@@ -394,7 +392,6 @@ function Canvas() {
             >
               <MdGif />
             </button> */}
-
               {/* DELETE  */}
               <button className='drawButtons' onClick={handleDelete}>
                 <FiTrash2 />
@@ -482,7 +479,6 @@ function Canvas() {
             )}
           </div>
         </Draggable>
-
         {/* style={{ background: backgroundColor }} */}
         <div>
           <Stage
