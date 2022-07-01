@@ -15,6 +15,7 @@ import AnimatedText from '../AnimatedText/AnimatedText';
 import ImageUpload from '../ImageUpload/ImageUpload';
 import Gifs from '../Gifs';
 import './Canvas.css';
+import { Link } from 'react-router-dom';
 import tornaLogo from '../../images/tornalogo.png';
 import {
   FiStar,
@@ -119,6 +120,7 @@ function Canvas() {
 
   async function getAlbumInfo() {
     const album = await getAlbum(albumId);
+    console.log(album);
     album?.template && setCanvaElements([...JSON.parse(album.template)]);
     album?.background && setBackGroundColor(album.background);
     album && setAlbum(album);
@@ -154,7 +156,6 @@ function Canvas() {
       });
     }
   }, [newImage, newGif]);
-
 
   function handleClick(e: any) {
     e.preventDefault();
@@ -298,7 +299,9 @@ function Canvas() {
     <div className='mainContainer'>
       {/* NAVBAR */}
       <div className='navbar'>
-        <img className='navbarLogo' src={tornaLogo} alt='Torna logo' />
+        <Link to={`/profile/${album?.authorId}`}>
+          <img className='navbarLogo' src={tornaLogo} alt='Torna logo' />
+        </Link>
         <div className='navbarImgs'>
           <ImageUpload setNewImage={setNewImage}></ImageUpload>
         </div>
