@@ -1,5 +1,4 @@
-//@ts-nocheck
-import React, { useEffect, useState } from 'react';
+import React, { SetStateAction, useEffect, useState } from 'react';
 import { ChromePicker, CompactPicker } from 'react-color';
 import { Layer, Stage } from 'react-konva';
 import FontPicker from 'font-picker-react';
@@ -31,45 +30,41 @@ import { TbTextResize } from 'react-icons/tb';
 import { uuidv4 } from '@firebase/util';
 import { useParams } from 'react-router-dom';
 import { saveAlbum, getAlbum } from '../../Services/Server-Client';
-import { text } from 'stream/consumers';
+import {
+  CanvaElement,
+  SplitTextFromGenericShapesReducer,
+  ToggleTool,
+  Album,
+} from '../../types/Canvas.interface';
 
-function splitTextFromGenericShapes(shapeList) {
+function splitTextFromGenericShapes(shapeList: CanvaElement[]) {
   return shapeList.reduce(
-    (res, el) => {
-      if (el.type === 'text') res.textItems.push(el);
+    (res: SplitTextFromGenericShapesReducer, el: CanvaElement) => {
+      if (el.type === 'text') res.textItems.push(el as CanvaElement);
       else res.genericItems.push(el);
       return res;
     },
     { genericItems: [], textItems: [] }
   );
 }
+interface ShapeProps {
+  id: string | number;
+  type: any;
+  element: any;
+  canvaElements: any;
+  handleDragStart: any;
+  handleDragEnd: any;
+  isSelected: any;
+  onSelect: any;
+}
 
-// interface ShapeProps {
-//   id: string | number;
-//   type: any;
-//   element: any;
-//   canvaElements: any;
-//   handleDragStart: any;
-//   handleDragEnd: any;
-//   isSelected: any;
-//   onSelect: any;
-// }
-
-// type ShapeType =
-//   | typeof Stars
-//   | typeof Arrows
-//   | typeof Circles
-//   | typeof Squares
-//   | typeof Images
-//   | typeof Texts;
-
-// type toggleTool = {
-//   backgroundTool: boolean,
-//   textTool: boolean,
-//   animatedTextTool: boolean,
-//   colorTool: boolean,
-//   gifTool: boolean,
-// }
+type ShapeType =
+  | typeof Stars
+  | typeof Arrows
+  | typeof Circles
+  | typeof Squares
+  | typeof Images
+  | typeof Texts;
 
 const shapeType = {
   star: Stars,
@@ -90,9 +85,11 @@ const toggleTool = {
 };
 
 function Canvas() {
-  const albumId = useParams().id;
-  const [album, setAlbum] = useState<any>();
-  const [canvaElements, setCanvaElements] = useState<any[]>([]);
+  const albumId: string | undefined = useParams().id;
+  const [album, setAlbum] = useState<Album>();
+  const [canvaElements, setCanvaElements] = useState<
+    CanvaElement[] | undefined
+  >([]);
   const [backgroundColor, setBackGroundColor] = useState<string>(
     'rgba(255, 255, 255)'
   );
@@ -100,13 +97,14 @@ function Canvas() {
   const [textColor, setTextColor] = useState<string>('rgba(0, 0, 0, 1)');
   const [stroke, setStroke] = useState<string>('rgba(0, 0, 0, 1)');
   const [strokedText, setStrokedText] = useState<boolean>(false);
-  const [height, setHeight] = useState(1200);
-  const [width, setWidth] = useState(window.innerWidth - 60);
-  const [selectedId, selectShape] = useState<any>(null);
-  const [newImage, setNewImage] = useState<any>(null);
+  const [height, setHeight] = useState<number>(1200);
+  const [width, setWidth] = useState<number>(window.innerWidth - 60);
+  const [selectedId, selectShape] = useState<number | null>(null);
+  const [newImage, setNewImage] = useState<string | null>(null);
   const [font, setFont] = useState<string>('Ubuntu');
+  const [toolOption, setToolOption] = useState<ToggleTool>(toggleTool);
+
   const [newGif, setNewGif] = useState<any>(null);
-  const [toolOption, setToolOption] = useState<toggleTool>(toggleTool);
 
   const fontAPI = process.env.REACT_APP_GOOGLEAPI as string;
 
@@ -119,8 +117,7 @@ function Canvas() {
   }, [window.innerWidth]);
 
   async function getAlbumInfo() {
-    const album = await getAlbum(albumId);
-    console.log(album);
+    const album = await getAlbum(Number(albumId));
     album?.template && setCanvaElements([...JSON.parse(album.template)]);
     album?.background && setBackGroundColor(album.background);
     album && setAlbum(album);
@@ -136,9 +133,9 @@ function Canvas() {
         stroke,
         newImage
       );
-      setCanvaElements((prev: any) => {
-        if (prev) return [...prev, newCanvaElement];
-        else return [newCanvaElement];
+      setCanvaElements((prev) => {
+        if (prev) return [...prev, newCanvaElement] as CanvaElement[];
+        else return [newCanvaElement] as CanvaElement[];
       });
     }
     if (newGif !== null) {
@@ -150,9 +147,9 @@ function Canvas() {
         stroke,
         newGif
       );
-      setCanvaElements((prev: any) => {
-        if (prev) return [...prev, newCanvaElement];
-        else return [newCanvaElement];
+      setCanvaElements((prev) => {
+        if (prev) return [...prev, newCanvaElement] as CanvaElement[];
+        else return [newCanvaElement] as CanvaElement[];
       });
     }
   }, [newImage, newGif]);
@@ -293,7 +290,9 @@ function Canvas() {
   if (canvaElements) {
   }
 
-  const { genericItems, textItems } = splitTextFromGenericShapes(canvaElements);
+  const { genericItems, textItems } = splitTextFromGenericShapes(
+    canvaElements as CanvaElement[]
+  );
 
   return (
     <div className='mainContainer'>

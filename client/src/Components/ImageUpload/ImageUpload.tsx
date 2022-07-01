@@ -1,8 +1,9 @@
 import { useRef, useState } from 'react';
 import './ImageUpload.css';
 import { uuidv4 } from '@firebase/util';
+import { UploadImageProps } from '../../types/Canvas.interface';
 
-function ImageUpload({ setNewImage }: any) {
+function ImageUpload({ setNewImage }: UploadImageProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [imageObj, setImageObj] = useState<any>();
 
