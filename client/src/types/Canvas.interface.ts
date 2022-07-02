@@ -65,4 +65,6 @@ export interface ShapeProps {
   handleDragEnd: () => number;
   isSelected: boolean;
   onSelect: () => void;
+  imageUpload?: boolean;
+  uploadingImages?: boolean;
 }
