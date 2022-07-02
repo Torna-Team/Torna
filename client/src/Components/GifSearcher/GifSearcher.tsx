@@ -1,8 +1,12 @@
 import React, { useEffect, useState } from 'react';
+import './GifSearcher.css';
 
-type Props = {};
+type Props = {
+  setNewGif: any;
+  setRender: any;
+};
 
-const GifSearcher = (props: Props) => {
+const GifSearcher = ({ setNewGif, setRender }: Props) => {
   const [searchValue, setSearchValue] = useState<string>('');
   const [error, setError] = useState<boolean>(false);
   const [gifs, setGifs] = useState<any[]>([]);
@@ -14,7 +18,6 @@ const GifSearcher = (props: Props) => {
   const searchQuery: string = `&q=${search}`;
   const queryLimit = '&limit=20';
   const url = giphySearchEndpoint + giphyApiKey + searchQuery + queryLimit + '';
-  console.log(url, 'url');
 
   const searchGif = (e: any) => {
     e.preventDefault();
@@ -23,7 +26,6 @@ const GifSearcher = (props: Props) => {
     }
     setSearch(searchValue);
     setError(false);
-    console.log();
     setSearchValue('');
   };
 
@@ -32,14 +34,10 @@ const GifSearcher = (props: Props) => {
       let fetched = flag;
       try {
         let res = await fetch(url);
-        console.log('fetching');
         setFlag(fetched + 1);
         let jsonRes = await res.json();
-        console.log(jsonRes);
         setGifs(jsonRes.data);
-      } catch (error) {
-        console.log(error);
-      }
+      } catch (error) {}
     } else {
       console.log('you fetched more than 10 times already');
     }
@@ -49,22 +47,29 @@ const GifSearcher = (props: Props) => {
     fetchGiphy();
   }, [search]);
 
-  const handleClick = () => {};
+  const handleClick = (gifClicked: any) => {
+    setNewGif(gifClicked.images.downsized_medium.url);
+    setRender(true);
+  };
 
   return (
-    <div className='search-container'>
-      <form onSubmit={searchGif}>
-        <input
-          type='text'
-          placeholder='Search Gifs'
-          value={searchValue}
-          onChange={(e) => setSearchValue(e.target.value)}
-        ></input>
-        <button>🔍️</button>
-      </form>
+    <div className='searchGif-container'>
+      <div className='search-gif'>
+        <form onSubmit={searchGif}>
+          <label>Gif Searcher</label>
+          <input
+            type='text'
+            placeholder='Type here'
+            value={searchValue}
+            onChange={(e) => setSearchValue(e.target.value)}
+          ></input>
+          <button>SEARCH GIF</button>
+        </form>
+      </div>
+
       {error ? <p className='error'> The search field cannot be empty </p> : ''}
 
-      <div className='gif-container'>
+      <div className='gifResult-container'>
         {gifs &&
           !error &&
           gifs.map((gif, index) => {
@@ -73,9 +78,9 @@ const GifSearcher = (props: Props) => {
                 src={gif.images.downsized_medium.url}
                 key={index.toString()}
                 alt={'not loaded'}
-                height={150}
+                width={230}
                 onClick={() => {
-                  handleClick();
+                  return handleClick(gif);
                 }}
               />
             );

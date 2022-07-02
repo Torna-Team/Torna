@@ -79,46 +79,45 @@ export const getAlbum = async (id: number) => {
 	}
 };
 
-export const saveAlbum = async (album: any) => {
-	try {
-		console.log(album);
-		const result = await fetch(`${BASE_URL}/album/${album.id}`, {
-			method: 'PUT',
-			headers: { 'Content-type': 'application/json' },
-			body: JSON.stringify(album),
-		});
-		// console.log(result);
-		const res = await result.json();
-		// console.log(res);
-		return res as any;
-	} catch (error) {
-		console.error(error);
-	}
+export const saveAlbum = async (album: Album) => {
+  try {
+    console.log(album);
+    const result = await fetch(`${BASE_URL}/album/${album.id}`, {
+      method: 'PUT',
+      headers: { 'Content-type': 'application/json' },
+      body: JSON.stringify(album),
+    });
+    // console.log(result);
+    const res = await result.json();
+    // console.log(res);
+    return res as Album;
+  } catch (error) {
+    console.error(error);
+  }
 };
 
-export const createAlbum = async (user: any) => {
-	try {
-		console.log(user);
-		const album = {
-			title: 'new album',
-			template: '',
-			background: 'rgba(255, 255, 255)',
-			frontPage: tornaLogo,
-			author: user.id,
-		};
-		const result = await fetch(`${BASE_URL}/album/`, {
-			method: 'POST',
-			headers: { 'Content-type': 'application/json' },
-			body: JSON.stringify(album),
-		});
-		// console.log(result);
-		const res = await result.json();
-		// console.log(res);
-		return res as any;
-	} catch (error) {
-		console.error(error);
-	}
-};
+export const createAlbum = async (user: User) => {
+  try {
+    console.log(user);
+    const album = {
+      title: 'new album',
+      template: '',
+      background: 'rgba(255, 255, 255)',
+      frontPage: tornaLogo,
+      author: user.id,
+    };
+    const result = await fetch(`${BASE_URL}/album/`, {
+      method: 'POST',
+      headers: { 'Content-type': 'application/json' },
+      body: JSON.stringify(album),
+    });
+    // console.log(result);
+    const res = await result.json();
+    // console.log(res);
+    return res as User;
+  } catch (error) {
+    console.error(error);
+  }
 
 export const deleteAlbum = async (album: any) => {
 	try {
@@ -134,4 +133,5 @@ export const deleteAlbum = async (album: any) => {
 	} catch (error) {
 		console.error(error);
 	}
+
 };

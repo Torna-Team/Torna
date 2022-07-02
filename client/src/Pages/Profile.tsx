@@ -1,6 +1,6 @@
 import Navbar from '../Components/Navbar';
 import React, { useState, useContext, useEffect } from 'react';
-import { LoginContext } from '../Utils/Context';
+import { LoginContext, LoginContextType } from '../Utils/Context';
 import { useNavigate, useParams } from 'react-router-dom';
 import '../Styles/Profile.css';
 import { User } from '../Services/Server-Client';
@@ -9,10 +9,11 @@ import Album from '../Components/Album/Album';
 import { getUser } from '../Services/Server-Client';
 
 function Profile() {
-	const navigate = useNavigate();
-	// let { id } = useParams();
-	const { loggedIn, setLoggedIn } = useContext(LoginContext as any);
-	const [user, setUser] = useState<User>();
+  const navigate = useNavigate();
+  // let { id } = useParams();
+  const { loggedIn, setLoggedIn } = useContext<LoginContextType>(LoginContext);
+  const [user, setUser] = useState<any>();
+
 
 	useEffect(() => {
 		if (sessionStorage && sessionStorage.getItem('user')) {
@@ -37,11 +38,13 @@ function Profile() {
 		navigate(`/album/${album.id}/edit`);
 	};
 
+
 	const createNewAlbum = async (user: User) => {
 		const newAlbum = await createAlbum(user);
 		console.log(newAlbum);
 		navigate(`/album/${newAlbum.id}/edit`);
 	};
+
 
 	return (
 		<div className='ProfileMainContainer'>

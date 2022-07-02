@@ -6,11 +6,11 @@ import { auth } from '../Services/Firebase';
 import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import { login, getUser, User } from '../Services/Server-Client';
 import { LoggingUser } from '../Services/Server-Client';
-import { LoginContext } from '../Utils/Context';
+import { LoginContext, LoginContextType } from '../Utils/Context';
 import tornaLogo from '../images/tornalogo.png';
 
 const Home = () => {
-  const { loggedIn, setLoggedIn } = useContext(LoginContext as any);
+  const { loggedIn, setLoggedIn } = useContext<LoginContextType>(LoginContext);
   const navigate = useNavigate();
 
   const onSubmitHandler = async (event: React.FormEvent) => {
@@ -28,14 +28,15 @@ const Home = () => {
     };
 
     const logged = await login(user as LoggingUser);
+    console.log(logged, 'logged');
 
-    if ((logged && (logged as any).id) === undefined) {
+    if ((logged && (logged as unknown as User).id) === undefined) {
       alert('Invalid Email or Password');
     } else {
       setLoggedIn(true);
       sessionStorage.setItem('user', JSON.stringify(logged));
       sessionStorage.setItem('email', email);
-      navigate(`/profile/${(logged as unknown as any).id}`);
+      navigate(`/profile/${(logged as unknown as User).id}`);
     }
   };
 

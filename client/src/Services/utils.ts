@@ -17,6 +17,7 @@ const checkCanvaElement = (
         color: color,
         stroke: stroke,
       };
+
       return star as CanvaElement;
     case 'circle':
       const circle = {
@@ -61,19 +62,19 @@ const checkCanvaElement = (
     case 'gif':
       const newGif = new window.Image();
       newGif.src = imageSrc as string;
-
       const gif = {
         type: 'gif',
         id: elementId,
         x: window.innerWidth / 2,
         y: window.innerHeight / 2,
-        src: newGif,
-        scaleX: 0.5,
-        scaleY: 0.5,
+        src: imageSrc,
+        scaleX: 1,
+        scaleY: 1,
       };
-      return gif as CanvaElement;
+      return gif;
     default:
       return undefined;
+
   }
 };
 
