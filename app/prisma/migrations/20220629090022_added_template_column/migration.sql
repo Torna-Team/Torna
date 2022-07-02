@@ -18,7 +18,6 @@ CREATE TABLE "Album" (
     "background" TEXT NOT NULL,
     "frontPage" TEXT NOT NULL,
 
-
     CONSTRAINT "Album_pkey" PRIMARY KEY ("id")
 );
 
