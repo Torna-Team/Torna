@@ -226,7 +226,7 @@ const postAlbum = async (req: Request, res: Response) => {
 const editAlbum = async (req: Request, res: Response) => {
 	try {
 		const id = req.params.id;
-		const { title, template, background, frontPage } = req.body;
+		const { title, template, background, frontPage, height } = req.body;
 		const album = await prisma.album.update({
 			where: {
 				id: Number(id),
@@ -236,6 +236,7 @@ const editAlbum = async (req: Request, res: Response) => {
 				template,
 				background,
 				frontPage,
+				height,
 			},
 		});
 		res.status(200);
