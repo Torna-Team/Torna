@@ -1,14 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { GifSearcherProps } from '../../types/Canvas.interface';
 import './GifSearcher.css';
-
-type Gif = {
-  images: {
-    downsized_medium: {
-      url: string;
-    };
-  };
-};
+import { Gif } from '../../types/GifSearcher.interface';
 
 const GifSearcher = ({ setNewGif, setRender }: GifSearcherProps) => {
   const [searchValue, setSearchValue] = useState<string>('');
