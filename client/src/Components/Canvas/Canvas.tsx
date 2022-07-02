@@ -17,15 +17,15 @@ import './Canvas.css';
 import { Link } from 'react-router-dom';
 import tornaLogo from '../../images/tornalogo.png';
 import {
-	FiStar,
-	FiCircle,
-	FiSquare,
-	FiArrowUpRight,
-	FiTrash2,
+  FiStar,
+  FiCircle,
+  FiSquare,
+  FiArrowUpRight,
+  FiTrash2,
 } from 'react-icons/fi';
 import { IoMdColorFill } from 'react-icons/io';
 import { RiText } from 'react-icons/ri';
-import { MdOutlineColorLens } from 'react-icons/md';
+import { MdGif, MdOutlineColorLens } from 'react-icons/md';
 import { TbTextResize } from 'react-icons/tb';
 import { uuidv4 } from '@firebase/util';
 import { useParams } from 'react-router-dom';
@@ -60,21 +60,21 @@ type ShapeType =
   | typeof Texts;
 
 const shapeType = {
-	star: Stars,
-	arrow: Arrows,
-	circle: Circles,
-	square: Squares,
-	image: Images,
-	text: Texts,
-	gif: Gifs,
+  star: Stars,
+  arrow: Arrows,
+  circle: Circles,
+  square: Squares,
+  image: Images,
+  text: Texts,
+  gif: Gifs,
 };
 
 const toggleTool = {
-	backgroundTool: false,
-	textTool: false,
-	animatedTextTool: false,
-	colorTool: false,
-	gifTool: false,
+  backgroundTool: false,
+  textTool: false,
+  animatedTextTool: false,
+  colorTool: false,
+  gifTool: false,
 };
 
 function Canvas() {
@@ -99,7 +99,6 @@ function Canvas() {
   const [toolOption, setToolOption] = useState<ToggleTool>(toggleTool);
 
   const [newGif, setNewGif] = useState<any>(null);
-
 
   const fontAPI = process.env.REACT_APP_GOOGLEAPI as string;
 
