@@ -1,6 +1,6 @@
 import Navbar from '../Components/Navbar';
 import React, { useState, useContext, useEffect } from 'react';
-import { LoginContext } from '../Utils/Context';
+import { LoginContext, LoginContextType } from '../Utils/Context';
 import { useNavigate, useParams } from 'react-router-dom';
 import '../Styles/Profile.css';
 import { createAlbum } from '../Services/Server-Client';
@@ -10,7 +10,7 @@ import { getUser } from '../Services/Server-Client';
 function Profile() {
   const navigate = useNavigate();
   // let { id } = useParams();
-  const { loggedIn, setLoggedIn } = useContext(LoginContext as any);
+  const { loggedIn, setLoggedIn } = useContext<LoginContextType>(LoginContext);
   const [user, setUser] = useState<any>();
 
   useEffect(() => {
@@ -37,7 +37,7 @@ function Profile() {
   };
 
   const createNewAlbum = async (user: any) => {
-    const newAlbum = await createAlbum(user);
+    const newAlbum: any = await createAlbum(user);
     console.log(newAlbum);
     navigate(`/album/${newAlbum.id}/edit`);
   };
