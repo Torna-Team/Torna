@@ -56,7 +56,7 @@ function Stars({
         }}
         onClick={onSelect}
         onTap={onSelect}
-        onTransformEnd={(e: any) => {
+        onTransformEnd={() => {
           const node = shapeRef.current;
           const scaleX = node?.scaleX();
           const scaleY = node?.scaleY();
@@ -70,7 +70,7 @@ function Stars({
       {isSelected && (
         <Transformer
           ref={trRef}
-          boundBoxFunc={(oldBox: any, newBox: any) => {
+          boundBoxFunc={(oldBox, newBox) => {
             // limit resize
             if (newBox.width < 5 || newBox.height < 5) {
               return oldBox;

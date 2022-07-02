@@ -58,7 +58,7 @@ function Texts({
         }}
         onClick={onSelect}
         onTap={onSelect}
-        onTransformEnd={(e: any) => {
+        onTransformEnd={() => {
           const node = shapeRef.current;
           const scaleX = node?.scaleX();
           const scaleY = node?.scaleY();
