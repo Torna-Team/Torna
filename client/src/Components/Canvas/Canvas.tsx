@@ -39,6 +39,7 @@ import {
   Album,
 } from '../../types/Canvas.interface';
 import { KonvaEventObject } from 'konva/lib/Node';
+import { IGif } from '@giphy/js-types';
 
 function splitTextFromGenericShapes(shapeList: CanvaElement[]) {
   return shapeList.reduce(
@@ -98,7 +99,7 @@ function Canvas() {
   const [render, setRender] = useState<boolean>(true);
   const [toolOption, setToolOption] = useState<ToggleTool>(toggleTool);
 
-  const [newGif, setNewGif] = useState<any>(null);
+  const [newGif, setNewGif] = useState<IGif | null>(null);
 
   const fontAPI = process.env.REACT_APP_GOOGLEAPI as string;
 
@@ -189,7 +190,7 @@ function Canvas() {
 
   const editAlbum = async (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const title = e.target.albumTitle.value;
+    const title = e.target.albumTitle.value as string;
     let frontImage;
     if (canvaElements)
       for (let i = 0; i < canvaElements.length; i++) {
@@ -205,8 +206,9 @@ function Canvas() {
       template: JSON.stringify(canvaElements),
       frontPage: frontImage ? frontImage : tornaLogo,
       id: albumId,
+      authorId: album?.authorId as number,
     };
-    saveAlbum(savedAlbum);
+    saveAlbum(savedAlbum as unknown as Album);
   };
 
   const handleWheel = (e: KonvaEventObject<WheelEvent | TouchEvent>) => {
@@ -451,7 +453,9 @@ function Canvas() {
                   />
                 </div>
               )}
-              {toggleTool.animatedTextTool && <AnimatedText />}
+              {toggleTool.animatedTextTool && (
+                <AnimatedText setNewGif={setNewGif} />
+              )}
               {toggleTool.colorTool && (
                 <div className='toolContainer'>
                   <div className='colorPickers'>

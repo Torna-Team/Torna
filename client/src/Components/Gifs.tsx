@@ -1,7 +1,8 @@
 import { Transformer, Image } from 'react-konva';
 import React from 'react';
-import { useState } from 'react';
 import 'gifler';
+import { ShapeProps } from '../types/Canvas.interface';
+import Konva from 'konva';
 
 function Gifs({
   element,
@@ -11,32 +12,30 @@ function Gifs({
   onSelect,
   render,
   setRender,
-}: any) {
-  const trRef: any = React.useRef();
-  const imageRef = React.useRef(null as any);
+}: ShapeProps) {
+  const imageRef = React.useRef<Konva.Image | null>(null);
+  const trRef = React.useRef<Konva.Transformer | null>(null);
   const canvas = React.useMemo(() => {
     const node = document.createElement('canvas');
     return node;
   }, []);
 
   React.useEffect(() => {
-    if (isSelected) {
+    if (isSelected && imageRef.current) {
       // we need to attach transformer manually
-      trRef.current.nodes([imageRef.current]);
-      trRef.current.getLayer().batchDraw();
+      trRef.current?.nodes([imageRef.current]);
+      trRef.current?.getLayer()?.batchDraw();
     }
-    console.log(render);
 
     if (render) {
       let an: any;
-      console.log(element.src, 'gifler');
       window.gifler(element.src).get((a: any) => {
         an = a;
         an.animateInCanvas(canvas);
         an.onDrawFrame = (ctx: any, frame: any) => {
           ctx.drawImage(frame.buffer, frame.x, frame.y);
           if (imageRef.current) {
-            imageRef.current.getLayer().draw();
+            imageRef.current.getLayer()?.draw();
           }
         };
       });
@@ -78,11 +77,11 @@ function Gifs({
         stroke='black'
         onClick={onSelect}
         // onTap={onSelect}
-        onTransformEnd={(e: any) => {
+        onTransformEnd={() => {
           const node = imageRef.current;
-          const scaleX = node.scaleX();
-          const scaleY = node.scaleY();
-          const rotation = node.rotation();
+          const scaleX = node?.scaleX();
+          const scaleY = node?.scaleY();
+          const rotation = node?.rotation();
           const indx = handleDragEnd();
           canvaElements[indx].scaleX = scaleX;
           canvaElements[indx].scaleY = scaleY;
@@ -92,7 +91,7 @@ function Gifs({
       {isSelected && (
         <Transformer
           ref={trRef}
-          boundBoxFunc={(oldBox: any, newBox: any) => {
+          boundBoxFunc={(oldBox, newBox) => {
             // limit resize
             if (newBox.width < 5 || newBox.height < 5) {
               return oldBox;

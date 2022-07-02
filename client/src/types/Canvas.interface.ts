@@ -1,3 +1,4 @@
+import { IGif } from '@giphy/js-types';
 import { Dispatch, SetStateAction } from 'react';
 
 export interface CanvaElement {
@@ -14,6 +15,7 @@ export interface CanvaElement {
   text?: string;
   font?: string;
   src?: HTMLImageElement;
+  newGif?: IGif | string;
 }
 
 export interface ToggleTool {
@@ -60,4 +62,15 @@ export interface ShapeProps {
   handleDragEnd: () => number;
   isSelected: boolean;
   onSelect: () => void;
+  render?: boolean;
+  setRender?: Dispatch<SetStateAction<boolean>>;
+}
+
+export interface User {
+  id: number;
+  firstName: string;
+  lastName: string;
+  password: string;
+  email: string;
+  albums: Album[];
 }
