@@ -7,7 +7,7 @@ export interface User {
   firstName: string;
   lastName?: string;
   password?: string;
-  albums?: any[];
+  albums?: Album[];
   email: string;
 }
 
@@ -73,7 +73,7 @@ export const getAlbum = async (id: number) => {
     // console.log(result);
     const res = await result.json();
     // console.log(res);
-    return res as any;
+    return res as Album;
   } catch (error) {
     console.error(error);
   }
@@ -119,7 +119,7 @@ export const createAlbum = async (user: User) => {
     console.error(error);
   }
 };
-export const deleteAlbum = async (album: any) => {
+export const deleteAlbum = async (album: Album) => {
   try {
     console.log(album);
     const result = await fetch(`${BASE_URL}/album/${album.id}`, {
