@@ -38,15 +38,15 @@
 
 .deleteButton {
   position: absolute;
-  width: 32px;
-  height: 32px;
+  width: 36px;
+  height: 36px;
   cursor: pointer;
   top: 260px;
   left: 440px;
   /* bordr: 2px solid white; */
-  color: rgb(133, 81, 81);
+  color: white;
 }
 .deleteButton:hover {
-  transform: scale(1.2);
+  transform: scale(1.5);
   color: #ffb140;
 }
