@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { TiDelete } from 'react-icons/ti';
 import { deleteAlbum } from '../../Services/Server-Client';
 import { AlbumProps } from '../../types/Album.Interfact';
-import { Album, User } from '../../types/Canvas.interface';
+import { AlbumInterface } from '../../types/Canvas.interface';
+import { User } from '../../types/ServerClient.interface';
 import './Album.css';
 
 const Album = ({ element, editAlbum, setUser }: AlbumProps) => {
@@ -15,19 +16,21 @@ const Album = ({ element, editAlbum, setUser }: AlbumProps) => {
     setVisibilityOnTitle(false);
   };
 
-  const deleteOneAlbum = async function (album: Album) {
-    setUser((user: User) => {
-      let updatedAlbums = user.albums.filter((e) => {
-        return e.id !== album.id;
-      });
-      return { ...user, albums: updatedAlbums };
+  const deleteOneAlbum = async function (album: AlbumInterface) {
+    setUser((prevUser?: User) => {
+      if (prevUser) {
+        let updatedAlbums = prevUser.albums?.filter((e) => {
+          return e.id !== album.id;
+        });
+        return { ...prevUser, albums: updatedAlbums };
+      }
     });
     return await deleteAlbum(album);
   };
 
   return (
     <div
-      className='albumFrontPage'
+      className='albumFrontPage singleAlbum'
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >

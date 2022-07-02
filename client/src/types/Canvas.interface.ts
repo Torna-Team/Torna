@@ -31,7 +31,7 @@ export interface SplitTextFromGenericShapesReducer {
   textItems: CanvaElement[];
 }
 
-export interface Album {
+export interface AlbumInterface {
   authorId: number;
   background: string;
   frontPage: string;
@@ -46,7 +46,7 @@ export interface UploadImageProps {
 
 export interface GifSearcherProps {
   setNewGif: Dispatch<SetStateAction<string | null>>;
-  setRender: Dispatch<SetStateAction<boolean | null>>;
+  setRender: Dispatch<SetStateAction<boolean>>;
 }
 
 // export interface ShapeProps {
@@ -71,13 +71,4 @@ export interface ShapeProps {
   uploadingImages?: boolean;
   render?: boolean;
   setRender?: Dispatch<SetStateAction<boolean>>;
-}
-
-export interface User {
-  id: number;
-  firstName: string;
-  lastName: string;
-  password: string;
-  email: string;
-  albums: Album[];
 }

@@ -54,9 +54,9 @@ const AnimatedText = ({ setNewGif }: AnimatedTextProps) => {
                 width={width}
                 key={index}
                 alt={index.toString()}
-                onClick={() => {
-                  setNewGif(gif);
-                }}
+                // onClick={() => {
+                //   setNewGif(gif);
+                // }}
               />
             );
           })}

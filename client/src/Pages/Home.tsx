@@ -4,10 +4,11 @@ import '../Styles/Home.css';
 import GoogleButton from 'react-google-button';
 import { auth } from '../Services/Firebase';
 import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
-import { login, getUser, User } from '../Services/Server-Client';
-import { LoggingUser } from '../Services/Server-Client';
+import { login, getUser } from '../Services/Server-Client';
+
 import { LoginContext, LoginContextType } from '../Utils/Context';
 import tornaLogo from '../images/tornalogo.png';
+import { LoggingUser, User } from '../types/ServerClient.interface';
 
 const Home = () => {
   const { loggedIn, setLoggedIn } = useContext<LoginContextType>(LoginContext);

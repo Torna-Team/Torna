@@ -1,8 +1,9 @@
 import { Dispatch, SetStateAction } from 'react';
-import { Album, User } from './Canvas.interface';
+import { AlbumInterface } from './Canvas.interface';
+import { User } from './ServerClient.interface';
 
 export interface AlbumProps {
-  element: Album;
-  editAlbum: (arg0: Album) => void;
-  setUser: Dispatch<SetStateAction<User>>;
+  element: AlbumInterface;
+  editAlbum: (arg0: AlbumInterface) => void;
+  setUser: Dispatch<SetStateAction<User | undefined>>;
 }

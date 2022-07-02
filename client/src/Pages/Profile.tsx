@@ -3,10 +3,11 @@ import React, { useState, useContext, useEffect } from 'react';
 import { LoginContext, LoginContextType } from '../Utils/Context';
 import { useNavigate, useParams } from 'react-router-dom';
 import '../Styles/Profile.css';
-import { User } from '../Services/Server-Client';
 import { createAlbum } from '../Services/Server-Client';
 import Album from '../Components/Album/Album';
 import { getUser } from '../Services/Server-Client';
+import { AlbumInterface } from '../types/Canvas.interface';
+import { User } from '../types/ServerClient.interface';
 
 function Profile() {
   const navigate = useNavigate();
@@ -33,7 +34,7 @@ function Profile() {
     }
   };
 
-  const editAlbum = (album: Album) => {
+  const editAlbum = (album: AlbumInterface) => {
     navigate(`/album/${album.id}/edit`);
   };
 
@@ -45,18 +46,17 @@ function Profile() {
 
   return (
     <div className='ProfileMainContainer'>
-      <Navbar user={user} />
+      <Navbar user={user as User} />
       <div className='albumsContainer'>
         {loggedIn ? (
           <>
             <div className='albumList'>
               {user && user.albums && user.albums.length !== 0 ? (
-                user.albums.map((el: Album) => {
+                user.albums.map((el: AlbumInterface) => {
                   return (
                     <>
                       <Album
                         setUser={setUser}
-                        className='singleAlbum'
                         element={el}
                         editAlbum={editAlbum}
                       />

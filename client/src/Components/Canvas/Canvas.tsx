@@ -36,7 +36,7 @@ import {
   CanvaElement,
   SplitTextFromGenericShapesReducer,
   ToggleTool,
-  Album,
+  AlbumInterface,
 } from '../../types/Canvas.interface';
 import { KonvaEventObject } from 'konva/lib/Node';
 import { IGif } from '@giphy/js-types';
@@ -80,7 +80,7 @@ const toggleTool = {
 
 function Canvas() {
   const albumId: string | undefined = useParams().id;
-  const [album, setAlbum] = useState<Album>();
+  const [album, setAlbum] = useState<AlbumInterface>();
   const [canvaElements, setCanvaElements] = useState<
     CanvaElement[] | undefined
   >([]);
@@ -99,7 +99,7 @@ function Canvas() {
   const [render, setRender] = useState<boolean>(true);
   const [toolOption, setToolOption] = useState<ToggleTool>(toggleTool);
 
-  const [newGif, setNewGif] = useState<IGif | null>(null);
+  const [newGif, setNewGif] = useState<string | null>(null);
 
   const fontAPI = process.env.REACT_APP_GOOGLEAPI as string;
 
@@ -208,7 +208,7 @@ function Canvas() {
       id: albumId,
       authorId: album?.authorId as number,
     };
-    saveAlbum(savedAlbum as unknown as Album);
+    saveAlbum(savedAlbum as unknown as AlbumInterface);
   };
 
   const handleWheel = (e: KonvaEventObject<WheelEvent | TouchEvent>) => {

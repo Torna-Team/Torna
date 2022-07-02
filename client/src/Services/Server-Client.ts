@@ -1,21 +1,8 @@
 import tornaLogo from '../images/tornalogo.png';
-import { Album } from '../types/Canvas.interface';
+import { AlbumInterface } from '../types/Canvas.interface';
+import { LoggingUser, User } from '../types/ServerClient.interface';
 
 const BASE_URL = 'https://torna-backend.herokuapp.com';
-
-export interface User {
-  id: string;
-  firstName: string;
-  lastName?: string;
-  password?: string;
-  albums?: Album[];
-  email: string;
-}
-
-export interface LoggingUser {
-  email: string;
-  password: string;
-}
 
 export const getUser = async (displayName: string, email: string) => {
   try {
@@ -74,13 +61,13 @@ export const getAlbum = async (id: number) => {
     // console.log(result);
     const res = await result.json();
     // console.log(res);
-    return res as Album;
+    return res as AlbumInterface;
   } catch (error) {
     console.error(error);
   }
 };
 
-export const saveAlbum = async (album: Album) => {
+export const saveAlbum = async (album: AlbumInterface) => {
   try {
     console.log(album);
     const result = await fetch(`${BASE_URL}/album/${album.id}`, {
@@ -91,7 +78,7 @@ export const saveAlbum = async (album: Album) => {
     // console.log(result);
     const res = await result.json();
     // console.log(res);
-    return res as Album;
+    return res as AlbumInterface;
   } catch (error) {
     console.error(error);
   }
@@ -120,9 +107,9 @@ export const createAlbum = async (user: User) => {
     console.error(error);
   }
 };
-export const deleteAlbum = async (album: Album) => {
+export const deleteAlbum = async (album: AlbumInterface) => {
   try {
-    const result = await fetch(`${BASE_URL}/album/${album.id}`, {
+    await fetch(`${BASE_URL}/album/${album.id}`, {
       method: 'DELETE',
       headers: { 'Content-type': 'application/json' },
       body: JSON.stringify(album),
