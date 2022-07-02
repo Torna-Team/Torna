@@ -1,4 +1,5 @@
 import tornaLogo from '../images/tornalogo.png';
+import { Album } from '../types/Canvas.interface';
 
 const BASE_URL = 'https://torna-backend.herokuapp.com';
 
@@ -121,7 +122,6 @@ export const createAlbum = async (user: User) => {
 };
 export const deleteAlbum = async (album: Album) => {
   try {
-    console.log(album);
     const result = await fetch(`${BASE_URL}/album/${album.id}`, {
       method: 'DELETE',
       headers: { 'Content-type': 'application/json' },

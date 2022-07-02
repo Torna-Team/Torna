@@ -1,3 +1,4 @@
+import { IGif } from '@giphy/js-types';
 import { CanvaElement } from '../types/Canvas.interface';
 
 const checkCanvaElement = (
@@ -5,7 +6,7 @@ const checkCanvaElement = (
   elementId: string,
   color: string,
   stroke: string,
-  imageSrc?: string
+  imageSrc?: string | IGif
 ) => {
   switch (type) {
     case 'star':
@@ -74,7 +75,6 @@ const checkCanvaElement = (
       return gif;
     default:
       return undefined;
-
   }
 };
 
