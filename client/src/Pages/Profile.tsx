@@ -12,7 +12,7 @@ function Profile() {
   const navigate = useNavigate();
   // let { id } = useParams();
   const { loggedIn, setLoggedIn } = useContext<LoginContextType>(LoginContext);
-  const [user, setUser] = useState<any>();
+  const [user, setUser] = useState<User>();
 
   useEffect(() => {
     if (sessionStorage && sessionStorage.getItem('user')) {

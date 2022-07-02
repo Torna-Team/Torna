@@ -12,6 +12,7 @@ import Gifs from '../Gifs';
 import tornaLogo from '../../images/tornalogo.png';
 import { useParams } from 'react-router-dom';
 import { saveAlbum, getAlbum } from '../../Services/Server-Client';
+import { CanvaElement } from '../../types/Canvas.interface';
 import './Viewer.css';
 
 // import splitTextFromGenericShapes from '../Canvas/Canvas';
@@ -47,8 +48,8 @@ const Viewer = (props: Props) => {
   const albumId = useParams().id;
   const height = 1200;
   const [width, setWidth] = useState(window.innerWidth - 60);
-  const [canvaElements, setCanvaElements] = useState<any[]>([]);
-  const [album, setAlbum] = useState<any>({});
+  const [canvaElements, setCanvaElements] = useState<CanvaElement[]>([]);
+  const [album, setAlbum] = useState<Album>({});
   const [backgroundColor, setBackGroundColor] = useState<string>(
     'rgba(255, 255, 255)'
   );
@@ -76,7 +77,7 @@ const Viewer = (props: Props) => {
       <div className='canvasViewer' style={{ background: backgroundColor }}>
         <Stage width={width} height={height}>
           <Layer>
-            {genericItems?.map((el: any) => {
+            {genericItems?.map((el: CanvaElement) => {
               const Shape = shapeType[el?.type];
               if (!el || !Shape) return null;
               return (

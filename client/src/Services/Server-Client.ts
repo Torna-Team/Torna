@@ -74,7 +74,7 @@ export const getAlbum = async (id: number) => {
     // console.log(result);
     const res = await result.json();
     // console.log(res);
-    return res as any;
+    return res as Album;
   } catch (error) {
     console.error(error);
   }

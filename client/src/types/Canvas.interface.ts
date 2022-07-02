@@ -44,6 +44,11 @@ export interface UploadImageProps {
   setNewImage: Dispatch<SetStateAction<string | null>>;
 }
 
+export interface GifSearcherProps {
+  setNewGif: Dispatch<SetStateAction<string | null>>;
+  setRender: Dispatch<SetStateAction<boolean | null>>;
+}
+
 // export interface ShapeProps {
 //   element: CanvaElement;
 //   canvaElements: CanvaElement[];
@@ -62,6 +67,8 @@ export interface ShapeProps {
   handleDragEnd: () => number;
   isSelected: boolean;
   onSelect: () => void;
+  imageUpload?: boolean;
+  uploadingImages?: boolean;
   render?: boolean;
   setRender?: Dispatch<SetStateAction<boolean>>;
 }
