@@ -1,3 +1,5 @@
+import { CanvaElement } from '../types/Canvas.interface';
+
 const checkCanvaElement = (
   type: string,
   elementId: string,
@@ -15,7 +17,8 @@ const checkCanvaElement = (
         color: color,
         stroke: stroke,
       };
-      return star;
+
+      return star as CanvaElement;
     case 'circle':
       const circle = {
         type: 'circle',
@@ -25,7 +28,7 @@ const checkCanvaElement = (
         color: color,
         stroke: stroke,
       };
-      return circle;
+      return circle as CanvaElement;
     case 'square':
       const square = {
         type: 'square',
@@ -35,7 +38,7 @@ const checkCanvaElement = (
         color: color,
         stroke: stroke,
       };
-      return square;
+      return square as CanvaElement;
     case 'arrow':
       const arrow = {
         type: 'arrow',
@@ -44,7 +47,7 @@ const checkCanvaElement = (
         y: window.innerHeight / 2,
         color: color,
       };
-      return arrow;
+      return arrow as CanvaElement;
     case 'image':
       const image = {
         type: 'image',
@@ -55,11 +58,10 @@ const checkCanvaElement = (
         scaleY: 0.1,
         imageSrc,
       };
-      return image;
+      return image as CanvaElement;
     case 'gif':
-      // const newGif = new window.Image();
-      // newGif.src = imageSrc as string;
-      // console.log(newGif, 'newgf');
+      const newGif = new window.Image();
+      newGif.src = imageSrc as string;
       const gif = {
         type: 'gif',
         id: elementId,
@@ -71,7 +73,8 @@ const checkCanvaElement = (
       };
       return gif;
     default:
-      return {};
+      return undefined;
+
   }
 };
 

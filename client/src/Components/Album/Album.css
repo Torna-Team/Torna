@@ -1,35 +1,39 @@
 .albumFrontPage {
-  border-radius: 6px;
-  margin-left: 40px;
-  margin-right: 40px;
-  height: 250px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  position: relative;
+	border-radius: 6px;
+	margin-left: 40px;
+	margin-right: 40px;
+	height: 250px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	position: relative;
 }
 .albumFrontImage {
-  border-radius: 6px;
-  max-height: 300px;
-  transition: transform 300ms ease;
+	border-radius: 6px;
+	max-height: 300px;
+	transition: transform 300ms ease;
 }
 .albumFrontPage:hover .albumFrontImage {
-  transform: scale(1.2);
+	transform: scale(1.2);
 }
 .albumTitle {
-  -webkit-text-fill-color: white;
-  -webkit-text-stroke-color: black;
-  -webkit-text-stroke-width: 0.8px;
-  font-size: 40px;
-  z-index: 1;
-  position: absolute;
-  text-align: center;
-  user-select: none;
-  -webkit-touch-callout: none !important;
-  -webkit-user-select: none !important;
-  -khtml-user-select: none !important;
-  -moz-user-select: none !important;
-  -ms-user-select: none !important;
-  user-select: none !important;
+	-webkit-text-fill-color: white;
+	-webkit-text-stroke-color: black;
+	-webkit-text-stroke-width: 0.8px;
+	font-size: 40px;
+	z-index: 1;
+	position: absolute;
+	text-align: center;
+	user-select: none;
+	-webkit-touch-callout: none !important;
+	-webkit-user-select: none !important;
+	-khtml-user-select: none !important;
+	-moz-user-select: none !important;
+	-ms-user-select: none !important;
+	user-select: none !important;
+}
+
+.lala {
+	z-index: 10;
 }

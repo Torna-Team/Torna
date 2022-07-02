@@ -1,5 +1,7 @@
 import { Transformer, Arrow } from 'react-konva';
 import React from 'react';
+import { ShapeProps } from '../types/Canvas.interface';
+import Konva from 'konva';
 
 function Arrows({
   element,
@@ -7,14 +9,14 @@ function Arrows({
   handleDragEnd,
   isSelected,
   onSelect,
-}: any) {
-  const shapeRef: any = React.useRef();
-  const trRef: any = React.useRef();
+}: ShapeProps) {
+  const shapeRef = React.useRef<Konva.Arrow | null>(null);
+  const trRef = React.useRef<Konva.Transformer | null>(null);
 
   React.useEffect(() => {
-    if (isSelected) {
-      trRef.current.nodes([shapeRef.current]);
-      trRef.current.getLayer().batchDraw();
+    if (isSelected && shapeRef.current) {
+      trRef.current?.nodes([shapeRef.current]);
+      trRef.current?.getLayer()?.batchDraw();
     }
   }, [isSelected]);
   const arrow = {
@@ -52,11 +54,11 @@ function Arrows({
         strokeWidth={4}
         onClick={onSelect}
         onTap={onSelect}
-        onTransformEnd={(e: any) => {
+        onTransformEnd={() => {
           const node = shapeRef.current;
-          const scaleX = node.scaleX();
-          const scaleY = node.scaleY();
-          const rotation = node.rotation();
+          const scaleX = node?.scaleX();
+          const scaleY = node?.scaleY();
+          const rotation = node?.rotation();
           const indx = handleDragEnd();
           canvaElements[indx].scaleX = scaleX;
           canvaElements[indx].scaleY = scaleY;
@@ -67,8 +69,7 @@ function Arrows({
       {isSelected && (
         <Transformer
           ref={trRef}
-          boundBoxFunc={(oldBox: any, newBox: any) => {
-            // limit resize
+          boundBoxFunc={(oldBox, newBox) => {
             if (newBox.width < 5 || newBox.height < 5) {
               return oldBox;
             }

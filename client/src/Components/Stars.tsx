@@ -1,5 +1,7 @@
 import React from 'react';
 import { Transformer, Star } from 'react-konva';
+import { ShapeProps } from '../types/Canvas.interface';
+import Konva from 'konva';
 
 function Stars({
   element,
@@ -7,18 +9,16 @@ function Stars({
   handleDragEnd,
   isSelected,
   onSelect,
-}: any) {
-  const shapeRef: any = React.useRef();
-  const trRef: any = React.useRef();
+}: ShapeProps) {
+  const shapeRef = React.useRef<Konva.Star | null>(null);
+  const trRef = React.useRef<Konva.Transformer | null>(null);
 
   React.useEffect(() => {
-    if (isSelected) {
-      // we need to attach transformer manually
-      trRef.current.nodes([shapeRef.current]);
-      trRef.current.getLayer().batchDraw();
+    if (isSelected && shapeRef.current) {
+      trRef.current?.nodes([shapeRef.current]);
+      trRef.current?.getLayer()?.batchDraw();
     }
   }, [isSelected]);
-
   const star = {
     type: 'star',
     id: element ? element.id : canvaElements.length - 1,
@@ -56,11 +56,11 @@ function Stars({
         }}
         onClick={onSelect}
         onTap={onSelect}
-        onTransformEnd={(e: any) => {
+        onTransformEnd={() => {
           const node = shapeRef.current;
-          const scaleX = node.scaleX();
-          const scaleY = node.scaleY();
-          const rotation = node.rotation();
+          const scaleX = node?.scaleX();
+          const scaleY = node?.scaleY();
+          const rotation = node?.rotation();
           const indx = handleDragEnd();
           canvaElements[indx].scaleX = scaleX;
           canvaElements[indx].scaleY = scaleY;
@@ -70,7 +70,7 @@ function Stars({
       {isSelected && (
         <Transformer
           ref={trRef}
-          boundBoxFunc={(oldBox: any, newBox: any) => {
+          boundBoxFunc={(oldBox, newBox) => {
             // limit resize
             if (newBox.width < 5 || newBox.height < 5) {
               return oldBox;
