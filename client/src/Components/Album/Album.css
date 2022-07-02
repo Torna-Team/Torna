@@ -13,6 +13,7 @@
   border-radius: 6px;
   max-height: 300px;
   transition: transform 300ms ease;
+  cursor: pointer;
 }
 .albumFrontPage:hover .albumFrontImage {
   transform: scale(1.2);
@@ -32,8 +33,20 @@
   -moz-user-select: none !important;
   -ms-user-select: none !important;
   user-select: none !important;
+  cursor: pointer;
 }
 
 .deleteButton {
-  z-index: 10;
+  position: absolute;
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+  top: 260px;
+  left: 440px;
+  /* bordr: 2px solid white; */
+  color: rgb(133, 81, 81);
+}
+.deleteButton:hover {
+  transform: scale(1.2);
+  color: #ffb140;
 }
