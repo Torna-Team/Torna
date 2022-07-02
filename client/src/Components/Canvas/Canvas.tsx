@@ -17,11 +17,11 @@ import './Canvas.css';
 import { Link } from 'react-router-dom';
 import tornaLogo from '../../images/tornalogo.png';
 import {
-  FiStar,
-  FiCircle,
-  FiSquare,
-  FiArrowUpRight,
-  FiTrash2,
+	FiStar,
+	FiCircle,
+	FiSquare,
+	FiArrowUpRight,
+	FiTrash2,
 } from 'react-icons/fi';
 import { IoMdColorFill } from 'react-icons/io';
 import { RiText } from 'react-icons/ri';
@@ -58,21 +58,21 @@ type ShapeType =
   | typeof Texts;
 
 const shapeType = {
-  star: Stars,
-  arrow: Arrows,
-  circle: Circles,
-  square: Squares,
-  image: Images,
-  text: Texts,
-  gif: Gifs,
+	star: Stars,
+	arrow: Arrows,
+	circle: Circles,
+	square: Squares,
+	image: Images,
+	text: Texts,
+	gif: Gifs,
 };
 
 const toggleTool = {
-  backgroundTool: false,
-  textTool: false,
-  animatedTextTool: false,
-  colorTool: false,
-  gifTool: false,
+	backgroundTool: false,
+	textTool: false,
+	animatedTextTool: false,
+	colorTool: false,
+	gifTool: false,
 };
 
 function Canvas() {
