@@ -1,25 +1,29 @@
 import React, { useEffect, useState } from 'react';
+import { GifSearcherProps } from '../../types/Canvas.interface';
 import './GifSearcher.css';
 
-type Props = {
-  setNewGif: any;
-  setRender: any;
+type Gif = {
+  images: {
+    downsized_medium: {
+      url: string;
+    };
+  };
 };
 
-const GifSearcher = ({ setNewGif, setRender }: Props) => {
+const GifSearcher = ({ setNewGif, setRender }: GifSearcherProps) => {
   const [searchValue, setSearchValue] = useState<string>('');
   const [error, setError] = useState<boolean>(false);
-  const [gifs, setGifs] = useState<any[]>([]);
+  const [gifs, setGifs] = useState<Gif[]>([]);
   const [flag, setFlag] = useState<number>(0);
   const [search, setSearch] = useState<string>('');
 
   const giphySearchEndpoint: string = 'https://api.giphy.com/v1/gifs/search?';
-  const giphyApiKey: any = 'api_key=' + process.env.REACT_APP_GIPHY_KEY;
+  const giphyApiKey: string = 'api_key=' + process.env.REACT_APP_GIPHY_KEY;
   const searchQuery: string = `&q=${search}`;
   const queryLimit = '&limit=20';
   const url = giphySearchEndpoint + giphyApiKey + searchQuery + queryLimit + '';
 
-  const searchGif = (e: any) => {
+  const searchGif = (e: React.FormEvent) => {
     e.preventDefault();
     if (searchValue === '') {
       setError(true);
@@ -47,7 +51,7 @@ const GifSearcher = ({ setNewGif, setRender }: Props) => {
     fetchGiphy();
   }, [search]);
 
-  const handleClick = (gifClicked: any) => {
+  const handleClick = (gifClicked: Gif) => {
     setNewGif(gifClicked.images.downsized_medium.url);
     setRender(true);
   };
@@ -80,7 +84,7 @@ const GifSearcher = ({ setNewGif, setRender }: Props) => {
                 alt={'not loaded'}
                 width={230}
                 onClick={() => {
-                  return handleClick(gif);
+                  return handleClick(gif as unknown as Gif);
                 }}
               />
             );
