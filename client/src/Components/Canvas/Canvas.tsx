@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ChromePicker, CompactPicker } from 'react-color';
 import { Layer, Stage } from 'react-konva';
 import FontPicker from 'font-picker-react';
@@ -25,7 +25,7 @@ import {
 } from 'react-icons/fi';
 import { IoMdColorFill } from 'react-icons/io';
 import { RiText } from 'react-icons/ri';
-import { MdOutlineColorLens, MdGif } from 'react-icons/md';
+import { MdOutlineColorLens } from 'react-icons/md';
 import { TbTextResize } from 'react-icons/tb';
 import { uuidv4 } from '@firebase/util';
 import { useParams } from 'react-router-dom';
@@ -48,16 +48,6 @@ function splitTextFromGenericShapes(shapeList: CanvaElement[]) {
     { genericItems: [], textItems: [] }
   );
 }
-// interface ShapeProps {
-//   id: string | number;
-//   type: string;
-//   element: CanvaElement;
-//   canvaElements: CanvaElement[];
-//   handleDragStart: () => void;
-//   handleDragEnd: () => number;
-//   isSelected: boolean;
-//   onSelect: () => void;
-// }
 
 type ShapeType =
   | typeof Stars
@@ -494,7 +484,7 @@ function Canvas() {
             )}
           </div>
         </Draggable>
-        <div>
+        <div className='canvaContainer'>
           <Stage
             width={width}
             height={height}
@@ -530,7 +520,7 @@ function Canvas() {
                 <Texts
                   key={el.id}
                   element={el}
-                  canvaElements={canvaElements}
+                  canvaElements={canvaElements as CanvaElement[]}
                   setCanvaElements={setCanvaElements}
                   handleDragStart={handleDragStart}
                   handleDragEnd={() => handleDragEnd(el)}

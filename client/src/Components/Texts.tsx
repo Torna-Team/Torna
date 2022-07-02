@@ -1,5 +1,7 @@
 import { Transformer, Text } from 'react-konva';
 import React from 'react';
+import { ShapeProps } from '../types/Canvas.interface';
+import Konva from 'konva';
 
 function Texts({
   element,
@@ -7,9 +9,16 @@ function Texts({
   handleDragEnd,
   isSelected,
   onSelect,
-}: any) {
-  const shapeRef: any = React.useRef();
-  const trRef: any = React.useRef();
+}: ShapeProps) {
+  const shapeRef = React.useRef<Konva.Text | null>(null);
+  const trRef = React.useRef<Konva.Transformer | null>(null);
+
+  React.useEffect(() => {
+    if (isSelected && shapeRef.current) {
+      trRef.current?.nodes([shapeRef.current]);
+      trRef.current?.getLayer()?.batchDraw();
+    }
+  }, [isSelected]);
 
   const text = {
     type: 'text',
@@ -24,14 +33,6 @@ function Texts({
     stroke: element ? element.stroke : 'rgb(0, 0, 0, 1)',
     font: element ? element.font : 'Ubuntu',
   };
-
-  React.useEffect(() => {
-    if (isSelected) {
-      // we need to attach transformer manually
-      trRef.current.nodes([shapeRef.current]);
-      trRef.current.getLayer().batchDraw();
-    }
-  }, [isSelected]);
 
   return (
     <>
@@ -51,7 +52,7 @@ function Texts({
         fontFamily={text.font}
         id={text.id.toString()}
         onDragEnd={(e) => {
-          const indx = handleDragEnd(text);
+          const indx = handleDragEnd();
           canvaElements[indx].x = e.target.x();
           canvaElements[indx].y = e.target.y();
         }}
@@ -59,9 +60,9 @@ function Texts({
         onTap={onSelect}
         onTransformEnd={(e: any) => {
           const node = shapeRef.current;
-          const scaleX = node.scaleX();
-          const scaleY = node.scaleY();
-          const rotation = node.rotation();
+          const scaleX = node?.scaleX();
+          const scaleY = node?.scaleY();
+          const rotation = node?.rotation();
           const indx = handleDragEnd();
           canvaElements[indx].scaleX = scaleX;
           canvaElements[indx].scaleY = scaleY;
@@ -71,8 +72,7 @@ function Texts({
       {isSelected && (
         <Transformer
           ref={trRef}
-          boundBoxFunc={(oldBox: any, newBox: any) => {
-            // limit resize
+          boundBoxFunc={(oldBox, newBox) => {
             if (newBox.width < 5 || newBox.height < 5) {
               return oldBox;
             }

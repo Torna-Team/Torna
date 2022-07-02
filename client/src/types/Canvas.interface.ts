@@ -1,5 +1,4 @@
 import { Dispatch, SetStateAction } from 'react';
-import { Interface } from 'readline';
 
 export interface CanvaElement {
   type: string;
