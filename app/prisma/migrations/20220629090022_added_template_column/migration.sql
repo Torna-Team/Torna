@@ -17,8 +17,7 @@ CREATE TABLE "Album" (
     "authorId" INTEGER NOT NULL,
     "background" TEXT NOT NULL,
     "frontPage" TEXT NOT NULL,
-    "height" INTEGER NOT NULL,
-    "width" INTEGER NOT NULL
+
 
     CONSTRAINT "Album_pkey" PRIMARY KEY ("id")
 );
