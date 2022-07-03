@@ -31,7 +31,6 @@ import { uuidv4 } from '@firebase/util';
 import { useParams } from 'react-router-dom';
 import { saveAlbum, getAlbum } from '../../Services/Server-Client';
 import GifSearcher from '../GifSearcher/GifSearcher';
-
 import {
   CanvaElement,
   SplitTextFromGenericShapesReducer,
