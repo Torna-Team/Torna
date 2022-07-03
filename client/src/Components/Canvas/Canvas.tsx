@@ -39,7 +39,6 @@ import {
   AlbumInterface,
 } from '../../types/Canvas.interface';
 import { KonvaEventObject } from 'konva/lib/Node';
-import { IGif } from '@giphy/js-types';
 
 function splitTextFromGenericShapes(shapeList: CanvaElement[]) {
   return shapeList.reduce(
@@ -91,7 +90,7 @@ function Canvas() {
   const [textColor, setTextColor] = useState<string>('rgba(0, 0, 0, 1)');
   const [stroke, setStroke] = useState<string>('rgba(0, 0, 0, 1)');
   const [strokedText, setStrokedText] = useState<boolean>(false);
-  const [height, setHeight] = useState<number>(600);
+  const [height, setHeight] = useState<number | null>(null);
   const [width, setWidth] = useState<number>(window.innerWidth - 60);
   const [selectedId, selectShape] = useState<number | null>(null);
   const [newImage, setNewImage] = useState<string | null>(null);
@@ -105,6 +104,7 @@ function Canvas() {
 
   useEffect(() => {
     getAlbumInfo();
+    if (!height) setHeight(600);
   }, []);
 
   useEffect(() => {
@@ -113,8 +113,10 @@ function Canvas() {
 
   async function getAlbumInfo() {
     const album = await getAlbum(Number(albumId));
+    console.log(album);
     album?.template && setCanvaElements([...JSON.parse(album.template)]);
     album?.background && setBackGroundColor(album.background);
+    album?.height && setHeight(album.height);
     album && setAlbum(album);
   }
 
@@ -190,6 +192,16 @@ function Canvas() {
 
   const editAlbum = async (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
+    let maxHeightPoint = 0;
+    for (const element of canvaElements as CanvaElement[]) {
+      if (element.y > maxHeightPoint) {
+        maxHeightPoint = element.y;
+      }
+    }
+    setHeight(maxHeightPoint + 1400);
+
+    //save inside object and inside BE
+
     const title = e.target.albumTitle.value as string;
     let frontImage;
     if (canvaElements)
@@ -207,17 +219,20 @@ function Canvas() {
       frontPage: frontImage ? frontImage : tornaLogo,
       id: albumId,
       authorId: album?.authorId as number,
+      height: maxHeightPoint + 1400,
     };
     saveAlbum(savedAlbum as unknown as AlbumInterface);
   };
 
   const handleWheel = (e: KonvaEventObject<WheelEvent | TouchEvent>) => {
-    if ((e.evt as WheelEvent).deltaY > 0) {
-      setHeight(height * 1.05);
-    }
-    if ((e.evt as WheelEvent).deltaY < 0) {
-      if (height >= 1200) {
-        setHeight(height / 1.05);
+    if (height) {
+      if ((e.evt as WheelEvent).deltaY > 0) {
+        setHeight(height * 1.05);
+      }
+      if ((e.evt as WheelEvent).deltaY < 0) {
+        if (height >= 1200) {
+          setHeight(height / 1.05);
+        }
       }
     }
   };
@@ -494,7 +509,7 @@ function Canvas() {
         <div className='canvaContainer'>
           <Stage
             width={width}
-            height={height}
+            height={height as number}
             onWheel={handleWheel}
             onTouchMove={handleWheel}
             onMouseDown={checkDeselect}
