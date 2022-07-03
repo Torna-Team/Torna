@@ -198,7 +198,7 @@ function Canvas() {
         maxHeightPoint = element.y;
       }
     }
-    setHeight(maxHeightPoint + 1400);
+    setHeight(Math.floor(maxHeightPoint + 1400));
 
     //save inside object and inside BE
 
