@@ -10,7 +10,7 @@ html {
 
 button {
   background-color: transparent;
-  border: 2px solid #132830;
+  border: 1.2px solid #132830;
   border-radius: 4px;
   color: #132830;
   cursor: pointer;
@@ -38,6 +38,7 @@ button:disabled {
 button:hover {
   color: #132830;
   background-color: #ffb140;
+  border: 1px solid #132830;
 }
 
 body ::-webkit-scrollbar {

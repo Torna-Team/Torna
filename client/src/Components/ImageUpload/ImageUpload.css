@@ -21,6 +21,9 @@
   cursor: pointer;
   /* border: 3px solid black; */
 }
+.imagesScrollOnImage:hover {
+  transform: scale(1.2);
+}
 
 .buttonUploadImages {
   width: 100px;
