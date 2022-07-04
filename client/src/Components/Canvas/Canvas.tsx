@@ -248,8 +248,6 @@ function Canvas() {
       selectShape(null);
     }
   };
-
-  const handleDragStart = () => {};
   const handleDragEnd = (el: CanvaElement) => {
     let indx!: number;
     if (canvaElements)
@@ -268,7 +266,6 @@ function Canvas() {
         return result;
       } else return [el];
     });
-    console.log(canvaElements);
     return indx;
   };
 
@@ -543,7 +540,6 @@ function Canvas() {
                     element={el}
                     canvaElements={canvaElements as CanvaElement[]}
                     setCanvaElements={setCanvaElements}
-                    handleDragStart={handleDragStart}
                     handleDragEnd={() => handleDragEnd(el)}
                     isSelected={el.id === (selectedId as number | string)}
                     onSelect={() => {
@@ -561,7 +557,6 @@ function Canvas() {
                   element={el}
                   canvaElements={canvaElements as CanvaElement[]}
                   setCanvaElements={setCanvaElements}
-                  handleDragStart={handleDragStart}
                   handleDragEnd={() => handleDragEnd(el)}
                   isSelected={el.id === (selectedId as number | string)}
                   onSelect={() => {

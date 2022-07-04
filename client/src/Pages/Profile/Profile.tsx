@@ -8,12 +8,13 @@ import Album from '../../Components/Album/Album';
 import { getUser } from '../../Services/Server-Client';
 import { AlbumInterface } from '../../Types/Canvas.interface';
 import { User } from '../../Types/ServerClient.interface';
+import { HiSortAscending, HiSortDescending } from 'react-icons/hi';
 
 function Profile() {
   const navigate = useNavigate();
-  // let { id } = useParams();
   const { loggedIn, setLoggedIn } = useContext<LoginContextType>(LoginContext);
   const [user, setUser] = useState<User>();
+  const [oldToNewOrder, setOldToNewOrder] = useState<boolean>(false);
 
   useEffect(() => {
     if (sessionStorage && sessionStorage.getItem('user')) {
@@ -28,10 +29,41 @@ function Profile() {
   const checkExistingUser = async (displayName: string, email: string) => {
     if (displayName && email) {
       const result = await getUser(displayName, email);
+      result?.albums?.sort((a: AlbumInterface, b: AlbumInterface) => {
+        return a.id - b.id;
+      });
       setUser(result);
-      console.log(user);
+      console.log(result);
       return result;
     }
+  };
+
+  const sortAlbums = () => {
+    let sortedUserAlbums: AlbumInterface[] = [];
+    if (user?.albums) {
+      if (!oldToNewOrder) {
+        sortedUserAlbums = user?.albums?.sort(
+          (a: AlbumInterface, b: AlbumInterface) => {
+            return b.id - a.id;
+          }
+        );
+        setOldToNewOrder(true);
+      } else {
+        sortedUserAlbums = user?.albums?.sort(
+          (a: AlbumInterface, b: AlbumInterface) => {
+            return a.id - b.id;
+          }
+        );
+        setOldToNewOrder(false);
+      }
+    }
+    const sortedUser = {
+      id: user?.id,
+      firstName: user?.firstName,
+      lastName: user?.lastName,
+      albums: sortedUserAlbums,
+    };
+    setUser(sortedUser as User);
   };
 
   const editAlbum = (album: AlbumInterface) => {
@@ -50,22 +82,31 @@ function Profile() {
       <div className='albumsContainer'>
         {loggedIn ? (
           <>
-            <div className='albumList'>
-              {user && user.albums && user.albums.length !== 0 ? (
-                user.albums.map((el: AlbumInterface) => {
-                  return (
-                    <>
-                      <Album
-                        setUser={setUser}
-                        element={el}
-                        editAlbum={editAlbum}
-                      />
-                    </>
-                  );
-                })
-              ) : (
-                <p>You don't have albums yet</p>
-              )}
+            <div className='profileContainer'>
+              <div className='sortBtnsContainer'>
+                {oldToNewOrder ? (
+                  <HiSortAscending className='sortBtn' onClick={sortAlbums} />
+                ) : (
+                  <HiSortDescending className='sortBtn' onClick={sortAlbums} />
+                )}
+              </div>
+              <div className='albumList'>
+                {user && user.albums && user.albums.length !== 0 ? (
+                  user.albums.map((el: AlbumInterface) => {
+                    return (
+                      <>
+                        <Album
+                          setUser={setUser}
+                          element={el}
+                          editAlbum={editAlbum}
+                        />
+                      </>
+                    );
+                  })
+                ) : (
+                  <p>You don't have albums yet</p>
+                )}
+              </div>
             </div>
           </>
         ) : (
