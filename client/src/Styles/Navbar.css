@@ -1,0 +1,36 @@
+.navBarContainer {
+  background-color: #d6d7e5;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  height: 100px;
+  align-items: center;
+}
+.navBarLogo {
+  height: 110px;
+  margin-left: 30px;
+}
+.welcomeContainer {
+  display: flex;
+  justify-content: space-evenly;
+  flex-direction: row;
+  width: 500px;
+}
+.welcome {
+  display: flex;
+  justify-self: flex-end;
+  justify-content: flex-end;
+}
+
+.logOutBtn {
+  margin-right: 50px;
+}
+
+.noLogin {
+  width: 100%;
+  height: 90%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+}

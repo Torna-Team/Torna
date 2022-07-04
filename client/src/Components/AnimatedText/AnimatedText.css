@@ -1,0 +1,40 @@
+.animated-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin: 12px;
+  gap: 12px;
+  height: 400px;
+}
+
+.search-animated {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border-radius: 4px;
+  font-size: 16px;
+  background-color: transparent;
+  gap: 12px;
+  /* border: 3px solid greenyellow; */
+}
+
+.search-animated input {
+  height: 44px;
+  width: 220px;
+  background-color: #d6d7e5;
+  border-radius: 4px;
+  border: 2px solid #132830;
+  font-size: 16px;
+  box-shadow: 0.2px 0.2px 1px #132830;
+  padding-left: 4px;
+}
+
+.search-animated button {
+  margin-bottom: 12px;
+  max-width: 226px;
+}
+
+.gifResult-container {
+  overflow: auto;
+  height: 100%;
+}

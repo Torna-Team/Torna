@@ -1,25 +1,34 @@
-import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import React, { useState } from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import Home from './Pages/Home';
+import Register from './Pages/Register';
+import Profile from './Pages/Profile';
+import ErrorPage from './Pages/ErrorPage';
+import { LoginContext } from './Utils/Context';
+import Canvas from './Components/Canvas/Canvas';
+import Viewer from './Components/Viewer/Viewer';
+import './';
+
+type loggedIn = boolean;
 
 function App() {
+  const [loggedIn, setLoggedIn] = React.useState<loggedIn>(false);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <LoginContext.Provider value={{ loggedIn, setLoggedIn }}>
+      <Router>
+        <Routes>
+          <Route path='/' element={<Home />} />
+          <Route path='/register' element={<Register />} />
+          <Route path='/profile/:id' element={<Profile />} />
+          <Route path='/album/:id/edit' element={<Canvas />} />
+          <Route path='/album/:id' element={<Canvas />} />
+          <Route path='/album/:id/view' element={<Viewer />} />
+          <Route path='*' element={<ErrorPage />} />
+        </Routes>
+      </Router>
+    </LoginContext.Provider>
   );
 }
 
