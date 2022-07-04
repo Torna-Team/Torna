@@ -13,6 +13,7 @@ const Home = () => {
 	const { loggedIn, setLoggedIn } = useContext(LoginContext as any);
 	const navigate = useNavigate();
 
+
 	const onSubmitHandler = async (event: React.FormEvent) => {
 		event.preventDefault();
 		const target = event.target as typeof event.target & {
@@ -26,9 +27,7 @@ const Home = () => {
 			email: email,
 			password: password,
 		};
-
 		const logged = await login(user as LoggingUser);
-
 		if ((logged && (logged as any).id) === undefined) {
 			alert('Invalid Email or Password');
 		} else {
@@ -38,6 +37,7 @@ const Home = () => {
 			navigate(`/profile/${(logged as unknown as any).id}`);
 		}
 	};
+
 
 	const checkExistingUser = async (displayName: string, email: string) => {
 		if (displayName && email) {

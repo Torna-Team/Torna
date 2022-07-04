@@ -1,10 +1,11 @@
 import React, { useContext } from 'react';
 import '../Styles/Register.css';
-import { User } from '../Services/Server-Client';
 import { register } from '../Services/Server-Client';
 import { useNavigate, Link } from 'react-router-dom';
 import { LoginContext } from '../Utils/Context';
 import tornaLogo from '../images/TORNA png flecha amarilla.png';
+import { User } from '../types/ServerClient.interface';
+
 
 const Register = () => {
 	const navigate = useNavigate();

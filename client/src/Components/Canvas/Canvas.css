@@ -59,14 +59,15 @@
 }
 
 .canvasEditor {
-	display: flex;
-	align-self: center;
-	margin-left: 30px;
-	/* border: 6px solid violet; */
-	margin-top: 120px;
-	margin-right: 30px;
-	position: relative;
-	border-radius: 6px;
+  display: flex;
+  align-self: center;
+  margin-left: 30px;
+  /* border: 6px solid violet; */
+  margin-top: 120px;
+  margin-right: 30px;
+  position: relative;
+  border-radius: 6px;
+  margin-bottom: 100px;
 }
 
 .sidebarContainer {

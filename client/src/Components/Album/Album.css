@@ -33,3 +33,7 @@
   -ms-user-select: none !important;
   user-select: none !important;
 }
+
+.deleteButton {
+  z-index: 10;
+}

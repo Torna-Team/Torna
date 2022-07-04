@@ -1,17 +1,22 @@
 import { useRef, useState } from 'react';
 import './ImageUpload.css';
 import { uuidv4 } from '@firebase/util';
+import { UploadImageProps } from '../../types/Canvas.interface';
+import { Image } from '../../types/ImageUpload.interface';
+import Loader from '../Loader/Loader';
 
-function ImageUpload({ setNewImage }: any) {
+function ImageUpload({ setNewImage }: UploadImageProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const [imageObj, setImageObj] = useState<any>();
+  const [imageObj, setImageObj] = useState<Image[]>();
+  const [imageLoading, setImageLoading] = useState<boolean>(false);
 
-  const handleSubmit = (e: any) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     fileInputRef.current?.click();
   };
 
   const handleClick = async (imageClicked: any) => {
+    setImageLoading(true);
     const formData = new FormData();
     formData.append('file', imageClicked);
     formData.append('upload_preset', 'yvorzt4q');
@@ -19,6 +24,7 @@ function ImageUpload({ setNewImage }: any) {
     const upload = await fetch(url, { method: 'POST', body: formData });
     const res = await upload.json();
     setNewImage(res.url);
+    setImageLoading(false);
   };
 
   const updatePreview = (file: any) => {
@@ -37,11 +43,12 @@ function ImageUpload({ setNewImage }: any) {
           accept='image/*'
           style={{ display: 'none' }}
           ref={fileInputRef}
-          onChange={(e) => {
-            if (e.target.files) {
-              const files = e.target.files;
+          onChange={(e: React.FormEvent<HTMLInputElement>) => {
+            if (e.currentTarget.files) {
+              //probar e.currentTarget.files
+              const files = e.currentTarget.files; //probar e.currentTarget.files
               setImageObj((prev: any) => {
-                let arr: any = [];
+                let arr: Element[] | null = [];
                 for (const indx in files) {
                   if (files.hasOwnProperty(indx)) {
                     const element = updatePreview(files[indx]);
@@ -59,9 +66,12 @@ function ImageUpload({ setNewImage }: any) {
         <button className='buttonUploadImages' onClick={handleSubmit}>
           UPLOAD IMAGES
         </button>
+        <div className='loaderContainer'>
+          {imageLoading && <Loader></Loader>}
+        </div>
       </form>
       <div className='imagesScroll'>
-        {imageObj?.map((el: any, indx: any) => {
+        {imageObj?.map((el: Image, indx: Number) => {
           return (
             <img
               onClick={() => {

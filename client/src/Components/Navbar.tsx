@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { LoginContext } from '../Utils/Context';
+import { LoginContext, LoginContextType } from '../Utils/Context';
 import '../Styles/Navbar.css';
 import tornaLogo from '../images/TORNA png flecha amarilla.png';
 
 function Navbar({ user }: any) {
 	const { loggedIn, setLoggedIn } = useContext(LoginContext as any);
+
 
 	return (
 		<div className='navBarContainer'>

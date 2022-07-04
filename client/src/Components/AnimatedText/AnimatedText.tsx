@@ -1,33 +1,29 @@
-import React, { useEffect } from 'react';
 import { useState } from 'react';
 import { GiphyFetch } from '@giphy/js-fetch-api';
 import './AnimatedText.css';
+import { AnimatedTextProps } from '../../types/AnimatedText.interface';
+import { IGif } from '@giphy/js-types';
 
-const giphyKey: any = process.env.REACT_APP_GIPHY_KEY;
+const giphyKey = process.env.REACT_APP_GIPHY_KEY as string;
 const giphy = new GiphyFetch(giphyKey);
-type Props = {
-  setNewGif: any;
-};
 
-const AnimatedText = ({ setNewGif }: Props) => {
+const AnimatedText = ({ setNewGif }: AnimatedTextProps) => {
   const [text, setText] = useState<string>('');
-  const [results, setResults] = useState<any[]>([]);
+  const [results, setResults] = useState<IGif[]>([]);
   const [err, setErr] = useState<boolean>(false);
   const [width, setWidth] = useState<number>((window.innerWidth / 100) * 14);
   // const [height, setHeight] = useState<number>(window.innerHeight);
 
-  const handleInput = (e: any) => {
+  const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setText(e.target.value);
   };
-  const handleSubmit = (e: any) => {
+  const handleSubmit = () => {
     if (text.length === 0) {
-      console.log('lenght is 0, please add text before submiting');
       setErr(true);
       return;
     }
     const apiCall = async () => {
       const res = await giphy.animate(text, { limit: 25 });
-      console.log(res, 'res');
       setResults(res.data);
     };
     apiCall();
@@ -48,7 +44,7 @@ const AnimatedText = ({ setNewGif }: Props) => {
         <button onClick={handleSubmit}>SEARCH TEXT</button>
       </div>
 
-      <div className='gifResult-container'>
+      <div className='TextResult-container'>
         {results &&
           !err &&
           results.map((gif, index) => {
@@ -58,9 +54,9 @@ const AnimatedText = ({ setNewGif }: Props) => {
                 width={width}
                 key={index}
                 alt={index.toString()}
-                onClick={() => {
-                  setNewGif(gif);
-                }}
+                // onClick={() => {
+                //   setNewGif(gif);
+                // }}
               />
             );
           })}

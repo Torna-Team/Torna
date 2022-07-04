@@ -26,3 +26,9 @@
   width: 100px;
   font-size: 14px;
 }
+
+.loaderContainer {
+  height: 30px;
+  width: 30px;
+  margin-top: 8px;
+}

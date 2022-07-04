@@ -1,5 +1,8 @@
 import { Transformer, Image } from 'react-konva';
 import React from 'react';
+import Loader from '../Components/Loader/Loader';
+import { ShapeProps, CanvaElement } from '../types/Canvas.interface';
+import Konva from 'konva';
 
 function Images({
   element,
@@ -7,15 +10,17 @@ function Images({
   handleDragEnd,
   isSelected,
   onSelect,
-}: any) {
-  const shapeRef: any = React.useRef();
-  const trRef: any = React.useRef();
+  imageUpload,
+  uploadingImages,
+}: ShapeProps) {
+  const shapeRef = React.useRef<Konva.Image | null>(null);
+  const trRef = React.useRef<Konva.Transformer | null>(null);
 
   React.useEffect(() => {
-    if (isSelected) {
+    if (isSelected && shapeRef.current) {
       // we need to attach transformer manually
-      trRef.current.nodes([shapeRef.current]);
-      trRef.current.getLayer().batchDraw();
+      trRef.current?.nodes([shapeRef.current]);
+      trRef.current?.getLayer()?.batchDraw();
     }
   }, [isSelected]);
   const imageProps = {
@@ -32,49 +37,55 @@ function Images({
 
   return (
     <>
-      <Image
-        type={imageProps.type}
-        key={imageProps.id}
-        id={imageProps.id.toString()}
-        x={imageProps.x}
-        y={imageProps.y}
-        scaleX={imageProps.scaleX}
-        scaleY={imageProps.scaleY}
-        ref={shapeRef}
-        rotation={imageProps.rotation}
-        image={newImage}
-        draggable={true}
-        onDragEnd={(e) => {
-          const indx = handleDragEnd();
-          canvaElements[indx].x = e.target.x();
-          canvaElements[indx].y = e.target.y();
-        }}
-        stroke='black'
-        onClick={onSelect}
-        onTap={onSelect}
-        onTransformEnd={(e: any) => {
-          const node = shapeRef.current;
-          const scaleX = node.scaleX();
-          const scaleY = node.scaleY();
-          const rotation = node.rotation();
-          const indx = handleDragEnd();
-          canvaElements[indx].scaleX = scaleX;
-          canvaElements[indx].scaleY = scaleY;
-          canvaElements[indx].rotation = rotation;
-        }}
-      />
-      {isSelected && (
-        <Transformer
-          ref={trRef}
-          boundBoxFunc={(oldBox: any, newBox: any) => {
-            // limit resize
-            if (newBox.width < 5 || newBox.height < 5) {
-              return oldBox;
-            }
-            return newBox;
+      {/*  {imageUpload ? (  */}
+      <>
+        <Image
+          type={imageProps.type}
+          key={imageProps.id}
+          id={imageProps.id.toString()}
+          x={imageProps.x}
+          y={imageProps.y}
+          scaleX={imageProps.scaleX}
+          scaleY={imageProps.scaleY}
+          ref={shapeRef}
+          rotation={imageProps.rotation}
+          image={newImage}
+          draggable={true}
+          onDragEnd={(e) => {
+            const indx = handleDragEnd();
+            canvaElements[indx].x = e.target.x();
+            canvaElements[indx].y = e.target.y();
+          }}
+          stroke='black'
+          onClick={onSelect}
+          onTap={onSelect}
+          onTransformEnd={() => {
+            const node = shapeRef.current;
+            const scaleX = node?.scaleX();
+            const scaleY = node?.scaleY();
+            const rotation = node?.rotation();
+            const indx = handleDragEnd();
+            canvaElements[indx].scaleX = scaleX;
+            canvaElements[indx].scaleY = scaleY;
+            canvaElements[indx].rotation = rotation;
           }}
         />
-      )}
+        {isSelected && (
+          <Transformer
+            ref={trRef}
+            boundBoxFunc={(oldBox, newBox) => {
+              // limit resize
+              if (newBox.width < 5 || newBox.height < 5) {
+                return oldBox;
+              }
+              return newBox;
+            }}
+          />
+        )}
+      </>
+      {/* ) : (
+				<Loader />
+			)} */}
     </>
   );
 }
