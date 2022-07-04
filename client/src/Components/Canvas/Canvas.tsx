@@ -134,6 +134,7 @@ function Canvas() {
         if (prev) return [...prev, newCanvaElement] as CanvaElement[];
         else return [newCanvaElement] as CanvaElement[];
       });
+      setNewImage(null);
     }
     if (newGif !== null) {
       const elementId = uuidv4();
@@ -148,6 +149,7 @@ function Canvas() {
         if (prev) return [...prev, newCanvaElement] as CanvaElement[];
         else return [newCanvaElement] as CanvaElement[];
       });
+      setNewGif(null);
     }
   }, [newImage, newGif, render]);
 
