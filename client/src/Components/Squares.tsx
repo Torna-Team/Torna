@@ -61,7 +61,6 @@ function Squares({
           const scaleY = node?.scaleY();
           const rotation = node?.rotation();
           const indx = handleDragEnd();
-          console.log(indx, canvaElements, canvaElements[indx]);
           canvaElements[indx].scaleX = scaleX;
           canvaElements[indx].scaleY = scaleY;
           canvaElements[indx].rotation = rotation;

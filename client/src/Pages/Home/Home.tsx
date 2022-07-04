@@ -40,7 +40,6 @@ const Home = () => {
   const checkExistingUser = async (displayName: string, email: string) => {
     if (displayName && email) {
       const result = await getUser(displayName, email);
-      console.log(result);
       return result;
     }
   };
