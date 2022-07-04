@@ -2,6 +2,10 @@
 	"name": "client",
 	"version": "0.1.0",
 	"private": true,
+	"engines": {
+		"node": "18.4",
+		"npm": "8.12.1"
+	},
 	"dependencies": {
 		"@giphy/js-fetch-api": "^4.2.2",
 		"@testing-library/jest-dom": "^5.16.4",
