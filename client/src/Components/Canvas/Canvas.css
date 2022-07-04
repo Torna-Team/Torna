@@ -33,54 +33,53 @@
 }
 
 .navbarImgs {
-	display: flex;
-	flex: start;
-	align-self: center;
-	width: 60%;
-
-	/* border: 3px solid palevioletred; */
+  display: flex;
+  flex: start;
+  align-self: center;
+  width: 60%;
+  /* border: 3px solid palevioletred; */
 }
 
 .navbarInput {
-	align-self: center;
-	height: 44px;
-	width: 220px;
-	background-color: #d6d7e5;
-	border-radius: 4px;
-	border: 2px solid #132830;
-	font-size: 16px;
-	box-shadow: 0.2px 0.2px 1px #132830;
-	padding-left: 4px;
-	/* border: 3px solid firebrick; */
+  align-self: center;
+  height: 40px;
+  width: 220px;
+  background-color: #d6d7e5;
+  border-radius: 4px;
+  border: 2px solid #132830;
+  font-size: 16px;
+  box-shadow: 0.2px 0.2px 1px #132830;
+  padding-left: 4px;
+  /* border: 3px solid firebrick; */
 }
 
 .buttonSave {
-	width: 100px;
+  width: 120px;
 }
 
 .canvasEditor {
   display: flex;
   align-self: center;
-  margin-left: 30px;
+  margin-left: 36px;
   /* border: 6px solid violet; */
   margin-top: 120px;
-  margin-right: 30px;
+  margin-right: 36px;
   position: relative;
   border-radius: 6px;
   margin-bottom: 100px;
 }
 
 .sidebarContainer {
-	display: flex;
-	position: fixed;
-	margin: 18px;
-	padding: 8px;
-	z-index: 10;
-	border: 1px solid #132830;
-	background-color: #d6d7e582;
-	border-radius: 6px;
-	box-shadow: 0.4px 0.4px 2px #132830;
-	width: fit-content;
+  display: flex;
+  position: fixed;
+  margin: 20px;
+  padding: 8px;
+  z-index: 10;
+  border: 1px solid #132830;
+  background-color: #d6d7e582;
+  border-radius: 6px;
+  box-shadow: 0.4px 0.4px 2px #132830;
+  width: fit-content;
 }
 
 .toolsContainer {
@@ -93,16 +92,18 @@
 }
 
 .drawButtons {
-	margin: 4px;
-	padding: 2px;
-	border-radius: 4px;
-	height: 40px;
-	width: 40px;
-	/* border: 3px solid darkblue; */
+  margin: 4px;
+  border-radius: 4px;
+  height: 40px;
+  width: 40px;
+  /* border: 3px solid darkblue; */
 }
 
 .drawButtons > * {
-	pointer-events: none;
+  pointer-events: none;
+  margin-top: 3px;
+  font-size: 19px;
+
 }
 
 .logicContainer {
@@ -138,14 +139,14 @@
 }
 
 .addTextFont {
-	height: 44px;
-	width: 220px;
-	background-color: #d6d7e5;
-	border-radius: 4px;
-	border: 2px solid #132830;
-	font-size: 16px;
-	box-shadow: 0.2px 0.2px 1px #132830;
-	padding-left: 4px;
+  height: 40px;
+  width: 220px;
+  background-color: #d6d7e5;
+  border-radius: 4px;
+  border: 2px solid #132830;
+  font-size: 16px;
+  box-shadow: 0.2px 0.2px 1px #132830;
+  padding-left: 4px;
 }
 
 .fontStroke {
@@ -155,52 +156,20 @@
 }
 
 .fontStroke input {
-	width: 16px;
-	height: 16px;
-	border-radius: 5px;
-	cursor: pointer;
-}
-
-/* .colorContainer {
-  display: flex;
-  position: fixed;
-  margin: 18px;
-  padding: 8px;
-  z-index: 10;
-  border: 1px solid #132830;
-  background-color: #d6d7e582;
-  border-radius: 6px;
-  box-shadow: 0.4px 0.4px 2px #132830;
-  width: fit-content;
-  top: 600px;
-} */
-
-.colorPickers {
-	display: flex;
-	/* border: 3px solid blueviolet; */
-}
-
-.chrome-picker {
-	/* border: 2px solid indianred; */
-	width: 360px;
-	height: 240px;
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
+  cursor: pointer;
 }
 
 .fillAndStroke {
-	display: flex;
-	flex-direction: column;
-	margin: 12px;
-	gap: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
-/* .flexbox-fix input {
-  display: none;
+.fillAndStroke label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
-
-.flexbox-fix label {
-  display: none !important;
-}
-
-.flexbox-fix svg {
-  display: none !important;
-} */

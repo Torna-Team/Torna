@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ChromePicker, CompactPicker } from 'react-color';
+import { BlockPicker, CompactPicker } from 'react-color';
 import { Layer, Stage } from 'react-konva';
 import FontPicker from 'font-picker-react';
 import Draggable from 'react-draggable';
@@ -352,6 +352,7 @@ function Canvas() {
                 <IoMdColorFill />
               </button>
 
+              {/* STAR */}
               <button
                 className='drawButtons'
                 value='star'
@@ -359,6 +360,8 @@ function Canvas() {
               >
                 <FiStar />
               </button>
+
+              {/* CIRCLE */}
               <button
                 className='drawButtons'
                 value='circle'
@@ -366,6 +369,8 @@ function Canvas() {
               >
                 <FiCircle />
               </button>
+
+              {/* SQUARE */}
               <button
                 className='drawButtons'
                 value='square'
@@ -373,6 +378,8 @@ function Canvas() {
               >
                 <FiSquare />
               </button>
+
+              {/* ARROW */}
               <button
                 className='drawButtons'
                 value='arrow'
@@ -399,14 +406,6 @@ function Canvas() {
                 <TbTextResize />
               </button>
 
-              <button
-                className='drawButtons'
-                onClick={handleToggle}
-                value='colorTool'
-              >
-                <MdOutlineColorLens />
-              </button>
-
               {/* GIF */}
               <button
                 className='drawButtons'
@@ -415,6 +414,16 @@ function Canvas() {
               >
                 <MdGif />
               </button>
+
+              {/* COLORS */}
+              <button
+                className='drawButtons'
+                onClick={handleToggle}
+                value='colorTool'
+              >
+                <MdOutlineColorLens />
+              </button>
+
               {/* DELETE  */}
               <button className='drawButtons' onClick={handleDelete}>
                 <FiTrash2 />
@@ -471,41 +480,40 @@ function Canvas() {
               {toggleTool.animatedTextTool && (
                 <AnimatedText setNewGif={setNewGif} />
               )}
+
               {toggleTool.colorTool && (
                 <div className='toolContainer'>
-                  <div className='colorPickers'>
-                    <div className='fillAndStroke'>
-                      <label>Fill</label>
-                      <ChromePicker
-                        color={color}
-                        onChange={(updatedColor) => {
-                          const res = updatedColor.rgb;
-                          const string = `rgba(${res.r}, ${res.g}, ${res.b}, ${res.a})`;
-                          setTextColor(string);
-                          return setColor(string);
-                        }}
-                      ></ChromePicker>
-                    </div>
-                    <div className='fillAndStroke'>
-                      <label>Stroke</label>
-                      <ChromePicker
-                        color={stroke}
-                        onChange={(updatedColor) => {
-                          const res = updatedColor.rgb;
-                          const string = `rgba(${res.r}, ${res.g}, ${res.b}, ${res.a})`;
-                          return setStroke(string);
-                        }}
-                      ></ChromePicker>
-                    </div>
+                  <div className='fillAndStroke'>
+                    <label>Fill</label>
+                    <BlockPicker
+                      color={color}
+                      onChange={(updatedColor) => {
+                        const res = updatedColor.rgb;
+                        const string = `rgba(${res.r}, ${res.g}, ${res.b}, ${res.a})`;
+                        setTextColor(string);
+                        return setColor(string);
+                      }}
+                    ></BlockPicker>
+                    <label>Stroke</label>
+                    <BlockPicker
+                      color={stroke}
+                      onChange={(updatedColor) => {
+                        const res = updatedColor.rgb;
+                        const string = `rgba(${res.r}, ${res.g}, ${res.b}, ${res.a})`;
+                        return setStroke(string);
+                      }}
+                    ></BlockPicker>
                   </div>
                 </div>
               )}
+
               {toggleTool.gifTool && (
                 <GifSearcher setNewGif={setNewGif} setRender={setRender} />
               )}
             </div>
           </div>
         </Draggable>
+
         <div className='canvaContainer'>
           <Stage
             width={width}
