@@ -30,10 +30,10 @@ function Navbar({ user }: any) {
       ) : (
         <div className='noLogin'>
           <Link to='/'>
-            <button>Log in</button>
+            <button className='loginRegister'>Log in</button>
           </Link>
           <Link to='/register'>
-            <button>Register</button>
+            <button className='loginRegister'>Register</button>
           </Link>
         </div>
       )}

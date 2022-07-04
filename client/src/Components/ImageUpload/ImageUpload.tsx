@@ -19,7 +19,6 @@ function ImageUpload({ setNewImage }: UploadImageProps) {
     setImageLoading(true);
 
     const formData = new FormData();
-    console.log(imageClicked, 'imgClicked');
     formData.append('file', imageClicked as Blob);
     formData.append('folder', 'userimg');
     formData.append('upload_preset', 'yvorzt4q');

@@ -29,7 +29,6 @@ function Profile() {
     if (displayName && email) {
       const result = await getUser(displayName, email);
       setUser(result);
-      console.log(user);
       return result;
     }
   };
@@ -40,7 +39,6 @@ function Profile() {
 
   const createNewAlbum = async (user: User) => {
     const newAlbum = await createAlbum(user);
-    console.log(newAlbum);
     navigate(`/album/${newAlbum?.id}/edit`);
   };
 
@@ -64,21 +62,26 @@ function Profile() {
                   );
                 })
               ) : (
-                <p>You don't have albums yet</p>
+                <h3 className='loginText'>You don't have albums yet</h3>
               )}
             </div>
           </>
         ) : (
-          <h3>Log in to see your albums or to create a new one </h3>
+          <h3 className='loginText'>
+            Log in to see your albums or to create a new one{' '}
+          </h3>
         )}
       </div>
+
       {loggedIn && (
-        <button
-          className='newAlbumButton'
-          onClick={() => createNewAlbum(user as unknown as User)}
-        >
-          Create a new Album
-        </button>
+        <div className='newAlbum'>
+          <button
+            className='newAlbumButton'
+            onClick={() => createNewAlbum(user as unknown as User)}
+          >
+            Create new Album
+          </button>
+        </div>
       )}
     </div>
   );

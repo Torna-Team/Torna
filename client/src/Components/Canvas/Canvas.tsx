@@ -112,7 +112,6 @@ function Canvas() {
 
   async function getAlbumInfo() {
     const album = await getAlbum(Number(albumId));
-    console.log(album);
     album?.template && setCanvaElements([...JSON.parse(album.template)]);
     album?.background && setBackGroundColor(album.background);
     album?.height && setHeight(album.height);

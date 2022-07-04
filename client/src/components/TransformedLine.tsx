@@ -9,7 +9,6 @@ type Props = {
 };
 
 const Rectangle = ({ shapeProps, isSelected, onSelect, onChange }: Props) => {
-  // console.log('inside the Rectangle component');
   const shapeRef: any = React.useRef();
   const trRef: any = React.useRef();
   React.useEffect(() => {
@@ -28,7 +27,6 @@ const Rectangle = ({ shapeProps, isSelected, onSelect, onChange }: Props) => {
         {...shapeProps}
         draggable
         onDragEnd={(e: any) => {
-          // console.log('inside the Rect Element. onDragend');
           onChange({
             ...shapeProps,
             x: e.target.x(),
