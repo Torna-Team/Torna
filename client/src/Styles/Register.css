@@ -1,40 +1,40 @@
 .register-container {
-  display: flex;
-  justify-content: space-between;
-  flex-direction: column;
-  width: 40vh;
-  height: 100vh;
+	display: flex;
+	justify-content: space-between;
+	flex-direction: column;
+	width: 40vh;
+	height: 100vh;
 }
 
 .registerLabel {
-  font-weight: bold;
+	font-weight: bold;
 }
 
 .registerInput {
-  border-radius: 5px;
-  height: 40px;
-  width: 100%;
-  padding-left: 10px;
+	border-radius: 5px;
+	height: 40px;
+	width: 100%;
+	padding-left: 10px;
 }
 
 .registerBtn {
-  background-color: grey;
-  color: rgb(255, 255, 255);
-  height: 50px;
-  width: 240px;
-  border: none;
-  text-align: center;
-  box-shadow: rgb(0 0 0 / 25%) 0px 2px 4px 0px;
-  font-size: 16px;
-  display: block;
-  align-self: flex-end;
-  border-radius: 1px;
-  transition: background-color 0.218s ease 0s, border-color 0.218s ease 0s,
-    box-shadow 0.218s ease 0s;
-  cursor: pointer;
-  /* user-select: none; */
+	background-color: grey;
+	color: rgb(255, 255, 255);
+	height: 50px;
+	width: 240px;
+	border: none;
+	text-align: center;
+	box-shadow: rgb(0 0 0 / 25%) 0px 2px 4px 0px;
+	font-size: 16px;
+	display: block;
+	align-self: flex-end;
+	border-radius: 1px;
+	transition: background-color 0.218s ease 0s, border-color 0.218s ease 0s,
+		box-shadow 0.218s ease 0s;
+	cursor: pointer;
+	/* user-select: none; */
 }
 
 .form-container p {
-  height: 10px;
+	height: 10px;
 }

@@ -1,34 +1,35 @@
 .mainContainer {
-  height: 100%;
-  width: 100%;
-  background-color: #d6d7e5;
-  position: absolute;
+	height: 100%;
+	width: 100%;
+	background-color: #d6d7e5;
+	position: absolute;
 }
 
 .navbar {
-  display: flex;
-  position: fixed;
-  z-index: 10;
-  justify-content: space-around;
-  background-color: inherit;
-  width: 100%;
-  height: 120px;
-  /* border: 3px solid red; */
+	display: flex;
+	position: fixed;
+	z-index: 10;
+	justify-content: space-around;
+	background-color: inherit;
+	width: 100%;
+	height: 120px;
+	/* border: 3px solid red; */
 }
 
 .navbarForm {
-  display: flex;
-  justify-content: flex-end;
-  align-self: center;
-  gap: 8px;
-  width: 30%;
-  margin-right: 32px;
-  /* border: 3px solid #ffff00; */
+	display: flex;
+	justify-content: flex-end;
+	align-self: center;
+	gap: 8px;
+	width: 30%;
+	margin-right: 32px;
+	/* border: 3px solid #ffff00; */
 }
 
 .navbarLogo {
-  margin-left: 32px;
-  height: 120px;
+	margin-top: 15px;
+	margin-left: 32px;
+	height: 80px;
 }
 
 .navbarImgs {
@@ -82,12 +83,12 @@
 }
 
 .toolsContainer {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: fit-content;
-  height: 100%;
-  /* border: 3px solid brown; */
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: fit-content;
+	height: 100%;
+	/* border: 3px solid brown; */
 }
 
 .drawButtons {
@@ -102,38 +103,39 @@
   pointer-events: none;
   margin-top: 3px;
   font-size: 19px;
+
 }
 
 .logicContainer {
-  display: flex;
-  flex-direction: column;
-  max-width: 280px;
-  /* border: 3px solid aquamarine; */
+	display: flex;
+	flex-direction: column;
+	max-width: 280px;
+	/* border: 3px solid aquamarine; */
 }
 
 .toolContainer {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  margin: 12px;
-  gap: 12px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	margin: 12px;
+	gap: 12px;
 }
 
 .huePicker {
-  /* border: 2px solid saddlebrown; */
-  border-radius: 4px;
-  border: 2px solid #132830;
-  box-shadow: 0.2px 0.2px 1px #132830;
+	/* border: 2px solid saddlebrown; */
+	border-radius: 4px;
+	border: 2px solid #132830;
+	box-shadow: 0.2px 0.2px 1px #132830;
 }
 
 .formFont {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  border-radius: 4px;
-  font-size: 16px;
-  background-color: transparent;
-  gap: 12px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	border-radius: 4px;
+	font-size: 16px;
+	background-color: transparent;
+	gap: 12px;
 }
 
 .addTextFont {
@@ -148,9 +150,9 @@
 }
 
 .fontStroke {
-  display: flex;
-  align-items: center;
-  margin: 4px;
+	display: flex;
+	align-items: center;
+	margin: 4px;
 }
 
 .fontStroke input {

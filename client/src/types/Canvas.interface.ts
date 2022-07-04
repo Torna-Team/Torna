@@ -38,6 +38,7 @@ export interface AlbumInterface {
   id: number;
   template: string;
   title: string;
+  height?: number;
 }
 
 export interface UploadImageProps {

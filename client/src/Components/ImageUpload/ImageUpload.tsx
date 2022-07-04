@@ -3,10 +3,12 @@ import './ImageUpload.css';
 import { uuidv4 } from '@firebase/util';
 import { UploadImageProps } from '../../types/Canvas.interface';
 import { Image } from '../../types/ImageUpload.interface';
+import Loader from '../Loader/Loader';
 
 function ImageUpload({ setNewImage }: UploadImageProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [imageObj, setImageObj] = useState<Image[]>();
+  const [imageLoading, setImageLoading] = useState<boolean>(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -14,16 +16,15 @@ function ImageUpload({ setNewImage }: UploadImageProps) {
   };
 
   const handleClick = async (imageClicked: any) => {
-    // setImageUpload(false);
+    setImageLoading(true);
     const formData = new FormData();
     formData.append('file', imageClicked);
     formData.append('upload_preset', 'yvorzt4q');
     const url = process.env.REACT_APP_CLOUDURL as string;
     const upload = await fetch(url, { method: 'POST', body: formData });
     const res = await upload.json();
-    // res && setImageUpload(true);
-    // setUploadingImages((prev: any) => [...prev, res.url]);
     setNewImage(res.url);
+    setImageLoading(false);
   };
 
   const updatePreview = (file: any) => {
@@ -65,6 +66,9 @@ function ImageUpload({ setNewImage }: UploadImageProps) {
         <button className='buttonUploadImages' onClick={handleSubmit}>
           UPLOAD IMAGES
         </button>
+        <div className='loaderContainer'>
+          {imageLoading && <Loader></Loader>}
+        </div>
       </form>
       <div className='imagesScroll'>
         {imageObj?.map((el: Image, indx: Number) => {
