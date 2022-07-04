@@ -91,7 +91,7 @@ const Viewer = (props: Props) => {
   }
 
   function handleTop() {
-    window.scrollTo(xCoord, yCoord);
+    window.scrollTo(0, 0);
   }
 
   useEffect(() => {
