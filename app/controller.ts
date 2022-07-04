@@ -230,6 +230,8 @@ const postAlbum = async (req: Request, res: Response) => {
         template,
         background,
         frontPage,
+        height: null,
+        width: null,
         author: { connect: { id: author } },
       },
       include: { author: true },
@@ -244,28 +246,29 @@ const postAlbum = async (req: Request, res: Response) => {
 };
 
 const editAlbum = async (req: Request, res: Response) => {
-	try {
-		const id = req.params.id;
-		const { title, template, background, frontPage, height } = req.body;
-		const album = await prisma.album.update({
-			where: {
-				id: Number(id),
-			},
-			data: {
-				title,
-				template,
-				background,
-				frontPage,
-				height,
-			},
-		});
-		res.status(200);
-		res.send(JSON.stringify(album));
-	} catch (error) {
-		res.status(500);
-		console.log(error);
-		res.end();
-	}
+  try {
+    const id = req.params.id;
+    const { title, template, background, frontPage, height } = req.body;
+    const album = await prisma.album.update({
+      where: {
+        id: Number(id),
+      },
+      data: {
+        title,
+        template,
+        background,
+        frontPage,
+        height,
+      },
+    });
+    res.status(200);
+    res.send(JSON.stringify(album));
+  } catch (error) {
+    res.status(500);
+    console.log(error);
+    res.send(error);
+    res.end();
+  }
 };
 
 const deleteAlbum = async (req: Request, res: Response) => {
@@ -276,8 +279,8 @@ const deleteAlbum = async (req: Request, res: Response) => {
         id: id,
       },
     });
-    res.status(200);
-    res.send(album);
+    res.status(204);
+    res.json(album);
   } catch (error) {
     res.status(500);
     console.log(error);
