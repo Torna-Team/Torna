@@ -37,12 +37,14 @@
 }
 
 .deleteButton {
-  position: absolute;
   width: 36px;
   height: 36px;
   cursor: pointer;
-  top: 260px;
-  left: 440px;
+  z-index: 1;
+  position: absolute;
+  user-select: none;
+  top: -17%;
+  right: -5%;
   /* bordr: 2px solid white; */
   color: white;
 }

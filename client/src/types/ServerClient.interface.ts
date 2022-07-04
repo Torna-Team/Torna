@@ -1,7 +1,7 @@
 import { AlbumInterface } from './Canvas.interface';
 
 export interface User {
-  id: string;
+  id?: string;
   firstName: string;
   lastName?: string;
   password?: string;

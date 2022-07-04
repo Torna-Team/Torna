@@ -1,100 +1,82 @@
 .backgroundContainer {
-	background-image: url('../Assets/sarandy-westfall-qqd8APhaOg4-unsplash.jpg');
-	background-repeat: no-repeat;
-	background-position-y: top;
-	background-size: cover;
-	background-position-x: center;
-	height: 100vh;
-	display: flex;
+  background-image: url('../Assets/sarandy-westfall-qqd8APhaOg4-unsplash.jpg');
+  background-repeat: no-repeat;
+  background-position-y: top;
+  background-size: cover;
+  background-position-x: center;
+  height: 100vh;
+  display: flex;
 }
 
 .form-container {
-	display: flex;
-	justify-content: space-evenly;
-	background-color: rgb(255, 255, 255, 0.9);
-	flex-direction: column;
-	align-items: center;
-	height: 74%;
-	width: 25%;
-	margin-left: 36%;
-	margin-top: 7%;
-	padding: 30px;
-	border-radius: 10px;
-	box-shadow: 0px 0px 10px 2px grey;
+  display: flex;
+  justify-content: space-evenly;
+  background-color: rgb(255, 255, 255, 0.9);
+  flex-direction: column;
+  align-items: center;
+  height: 74%;
+  width: 25%;
+  margin-left: 36%;
+  margin-top: 4.5%;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px 2px grey;
 }
 
 .login-container {
-	display: flex;
-	justify-content: space-evenly;
-	flex-direction: column;
-	width: 40vh;
-	height: 60%;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  width: 40vh;
+  height: 40%;
 }
 
 .signInLabel {
-	font-weight: bold;
+  font-weight: bold;
 }
 
 .signInInput {
-	border-radius: 5px;
-	height: 20%;
-	width: 100%;
-	padding-left: 10px;
+  border-radius: 5px;
+  height: 20%;
+  width: 100%;
+  padding-left: 10px;
 }
 .signInContainer {
-	align-self: center;
-	display: flex;
-	height: 15%;
-	justify-self: flex-end;
+  align-self: center;
+  display: flex;
+  height: 15%;
+  justify-self: flex-end;
 }
 .formInputsContainer {
-	display: flex;
-	flex-direction: column;
-	justify-content: space-between;
-	height: 170px;
-	/* justify-self: flex-start;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 170px;
+  /* justify-self: flex-start;
   align-self: flex-start; */
 }
 
 .signInBtn {
-	background-color: grey;
-	color: rgb(255, 255, 255);
-	height: 50px;
-	width: 240px;
-	border: none;
-	text-align: center;
-	box-shadow: rgb(0 0 0 / 25%) 0px 2px 4px 0px;
-	font-size: 16px;
-	display: block;
-	align-self: flex-end;
-	border-radius: 1px;
-	transition: background-color 0.218s ease 0s, border-color 0.218s ease 0s,
-		box-shadow 0.218s ease 0s;
-	cursor: pointer;
-	/* user-select: none; */
+  height: 50px;
+  width: 240px;
 }
 
 .loginWelcome {
-	display: flex;
-	flex-direction: column;
-	justify-content: space-around;
-	font-family: inherit;
-	width: 100%;
-	height: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  font-family: inherit;
+  width: 100%;
+  height: 150px;
+  margin-top: 30px;
 }
 
 .loginWelcome img {
-	height: 80px;
-	width: auto;
-	align-self: center;
-}
-
-.loginWelcome span {
-	font-size: 14px;
-	align-self: flex-start;
-	margin-left: 48px;
+  height: 90px;
+  width: auto;
+  align-self: center;
 }
 
 .singUpLink {
-	margin-left: 5px;
+  margin-left: 5px;
 }

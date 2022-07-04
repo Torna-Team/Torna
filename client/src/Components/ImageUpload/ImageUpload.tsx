@@ -15,12 +15,8 @@ function ImageUpload({ setNewImage }: UploadImageProps) {
     fileInputRef.current?.click();
   };
 
-
   const handleClick = async (imageClicked: string | Blob | Image) => {
-    // setImageUpload(false);
-
- // const handleClick = async (imageClicked: any) => {
-  //  setImageLoading(true);
+    setImageLoading(true);
 
     const formData = new FormData();
     console.log(imageClicked, 'imgClicked');

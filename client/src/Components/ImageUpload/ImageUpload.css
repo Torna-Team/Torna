@@ -9,6 +9,8 @@
   justify-content: left;
   margin-right: 20px;
   margin-left: 40px;
+  display: flex;
+  flex-direction: row;
 
   /* border: 3px solid orange; */
 }
@@ -19,6 +21,7 @@
   gap: 8px;
   margin-right: 10px;
   cursor: pointer;
+  margin-left: 25px;
   /* border: 3px solid black; */
 }
 .imagesScrollOnImage:hover {

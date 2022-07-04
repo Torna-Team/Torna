@@ -17,11 +17,11 @@ import './Canvas.css';
 import { Link } from 'react-router-dom';
 import tornaLogo from '../../images/TORNA png flecha amarilla.png';
 import {
-	FiStar,
-	FiCircle,
-	FiSquare,
-	FiArrowUpRight,
-	FiTrash2,
+  FiStar,
+  FiCircle,
+  FiSquare,
+  FiArrowUpRight,
+  FiTrash2,
 } from 'react-icons/fi';
 import { IoMdColorFill } from 'react-icons/io';
 import { RiText } from 'react-icons/ri';
@@ -60,21 +60,21 @@ type ShapeType =
   | typeof Texts;
 
 const shapeType = {
-	star: Stars,
-	arrow: Arrows,
-	circle: Circles,
-	square: Squares,
-	image: Images,
-	text: Texts,
-	gif: Gifs,
+  star: Stars,
+  arrow: Arrows,
+  circle: Circles,
+  square: Squares,
+  image: Images,
+  text: Texts,
+  gif: Gifs,
 };
 
 const toggleTool = {
-	backgroundTool: false,
-	textTool: false,
-	animatedTextTool: false,
-	colorTool: false,
-	gifTool: false,
+  backgroundTool: false,
+  textTool: false,
+  animatedTextTool: false,
+  colorTool: false,
+  gifTool: false,
 };
 
 function Canvas() {
@@ -219,7 +219,7 @@ function Canvas() {
       frontPage: frontImage ? frontImage : tornaLogo,
       id: albumId,
       authorId: album?.authorId as number,
-      height: maxHeightPoint + 1400,
+      height: (height as number) + 1400,
     };
     saveAlbum(savedAlbum as unknown as AlbumInterface);
   };

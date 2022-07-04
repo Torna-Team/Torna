@@ -3,18 +3,18 @@
   height: 20px;
   position: flex;
   /* margin-top: 8px; */
-  margin-left: 40px;
+  margin-left: 24px;
 }
 
 .loader::before {
   content: '';
   box-sizing: border-box;
   position: absolute;
-  width: 20px;
-  height: 20px;
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
-  border-top: 3px solid #8900ff;
-  border-right: 3px solid transparent;
+  border-top: 4px solid #ffb140;
+  border-right: 4px solid transparent;
   animation: spinner8217 0.8s linear infinite;
 }
 
