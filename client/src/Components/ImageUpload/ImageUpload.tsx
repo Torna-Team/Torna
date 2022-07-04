@@ -15,10 +15,17 @@ function ImageUpload({ setNewImage }: UploadImageProps) {
     fileInputRef.current?.click();
   };
 
-  const handleClick = async (imageClicked: any) => {
-    setImageLoading(true);
+
+  const handleClick = async (imageClicked: string | Blob | Image) => {
+    // setImageUpload(false);
+
+ // const handleClick = async (imageClicked: any) => {
+  //  setImageLoading(true);
+
     const formData = new FormData();
-    formData.append('file', imageClicked);
+    console.log(imageClicked, 'imgClicked');
+    formData.append('file', imageClicked as Blob);
+    formData.append('folder', 'userimg');
     formData.append('upload_preset', 'yvorzt4q');
     const url = process.env.REACT_APP_CLOUDURL as string;
     const upload = await fetch(url, { method: 'POST', body: formData });
@@ -71,12 +78,13 @@ function ImageUpload({ setNewImage }: UploadImageProps) {
         </div>
       </form>
       <div className='imagesScroll'>
-        {imageObj?.map((el: Image, indx: Number) => {
+        {imageObj?.map((el) => {
           return (
             <img
+              className='imagesScrollOnImage'
               onClick={() => {
                 const file = el;
-                handleClick(file);
+                handleClick(file as Image);
               }}
               key={uuidv4()}
               src={el.preview}

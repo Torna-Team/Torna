@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import { GiphyFetch } from '@giphy/js-fetch-api';
 import './AnimatedText.css';
+import { uuidv4 } from '@firebase/util';
 import { AnimatedTextProps } from '../../types/AnimatedText.interface';
 import { IGif } from '@giphy/js-types';
+import { Image } from '../../types/ImageUpload.interface';
 
 const giphyKey = process.env.REACT_APP_GIPHY_KEY as string;
 const giphy = new GiphyFetch(giphyKey);
@@ -13,6 +15,13 @@ const AnimatedText = ({ setNewGif }: AnimatedTextProps) => {
   const [err, setErr] = useState<boolean>(false);
   const [width, setWidth] = useState<number>((window.innerWidth / 100) * 14);
   // const [height, setHeight] = useState<number>(window.innerHeight);
+
+  const handleClick = async (gifClicked: string | any) => {
+    console.log(gifClicked, 'gcli');
+    // let GifObj = { src : ''}
+    // GifObj.src= gifClicked.url
+    setNewGif(gifClicked);
+  };
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setText(e.target.value);
@@ -47,16 +56,16 @@ const AnimatedText = ({ setNewGif }: AnimatedTextProps) => {
       <div className='TextResult-container'>
         {results &&
           !err &&
-          results.map((gif, index) => {
+          results.map((gif) => {
             return (
               <img
                 src={gif.url}
                 width={width}
-                key={index}
-                alt={index.toString()}
-                // onClick={() => {
-                //   setNewGif(gif);
-                // }}
+                key={uuidv4()}
+                alt={'Gif not uploaded'}
+                onClick={() => {
+                  handleClick(gif.url as string);
+                }}
               />
             );
           })}

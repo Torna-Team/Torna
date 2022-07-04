@@ -12,6 +12,7 @@ import Gifs from '../Gifs';
 import tornaLogo from '../../images/tornalogo.png';
 import { useParams } from 'react-router-dom';
 import { saveAlbum, getAlbum } from '../../Services/Server-Client';
+import { AlbumInterface } from '../../types/Canvas.interface';
 import { CanvaElement } from '../../types/Canvas.interface';
 import './Viewer.css';
 
@@ -49,10 +50,11 @@ const Viewer = (props: Props) => {
   const height = 1200;
   const [width, setWidth] = useState(window.innerWidth - 60);
   const [canvaElements, setCanvaElements] = useState<CanvaElement[]>([]);
-  const [album, setAlbum] = useState<Album>({});
+  const [album, setAlbum] = useState<AlbumInterface | null>({});
   const [backgroundColor, setBackGroundColor] = useState<string>(
     'rgba(255, 255, 255)'
   );
+  const [play, setPlay] = useState<boolean>(true);
   const { genericItems, textItems } = splitTextFromGenericShapes(canvaElements);
 
   async function getAlbumInfo() {
@@ -61,6 +63,17 @@ const Viewer = (props: Props) => {
     album?.background && setBackGroundColor(album.background);
     album?.template && setCanvaElements([...JSON.parse(album.template)]);
     album && setAlbum(album);
+  }
+  function handlePlay() {
+    setPlay(!play);
+    if (play) {
+      pageScroll();
+    }
+  }
+
+  function pageScroll() {
+    window.scrollBy(0, 5);
+    scrolldelay = setTimeout(pageScroll, 50);
   }
 
   useEffect(() => {
@@ -73,6 +86,7 @@ const Viewer = (props: Props) => {
         <img src={tornaLogo} alt='Torna Logo' className='viewerLogo' />
 
         <h1>{album.title}</h1>
+        <button onClick={handlePlay}> Play</button>
       </div>
       <div className='canvasViewer' style={{ background: backgroundColor }}>
         <Stage width={width} height={height}>
