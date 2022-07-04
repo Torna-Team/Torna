@@ -26,6 +26,7 @@ import {
 import { IoMdColorFill } from 'react-icons/io';
 import { RiText } from 'react-icons/ri';
 import { MdGif, MdOutlineColorLens } from 'react-icons/md';
+import { AiOutlineLine } from 'react-icons/ai';
 import { TbTextResize } from 'react-icons/tb';
 import { uuidv4 } from '@firebase/util';
 import { useParams } from 'react-router-dom';
@@ -38,6 +39,7 @@ import {
   AlbumInterface,
 } from '../../Types/Canvas.interface';
 import { KonvaEventObject } from 'konva/lib/Node';
+import Lines from '../Lines';
 
 function splitTextFromGenericShapes(shapeList: CanvaElement[]) {
   return shapeList.reduce(
@@ -56,6 +58,7 @@ type ShapeType =
   | typeof Circles
   | typeof Squares
   | typeof Images
+  | typeof Lines
   | typeof Texts;
 
 const shapeType = {
@@ -66,6 +69,7 @@ const shapeType = {
   image: Images,
   text: Texts,
   gif: Gifs,
+  line: Lines,
 };
 
 const toggleTool = {
@@ -379,6 +383,15 @@ function Canvas() {
                 <FiSquare />
               </button>
 
+              {/* LINE */}
+              <button
+                className='drawButtons'
+                value='line'
+                onClick={handleClick}
+              >
+                <AiOutlineLine />
+              </button>
+
               {/* ARROW */}
               <button
                 className='drawButtons'
@@ -487,6 +500,18 @@ function Canvas() {
                     <label>Fill</label>
                     <BlockPicker
                       color={color}
+                      colors={[
+                        '#fffafa',
+                        '#ed2939',
+                        '#ff8a65',
+                        '#deb887',
+                        '#ffdb58',
+                        '#37D67A',
+                        '#2CCCE4',
+                        '#ffa6c9',
+                        '#ba68c8',
+                        '#1b1b1b',
+                      ]}
                       onChange={(updatedColor) => {
                         const res = updatedColor.rgb;
                         const string = `rgba(${res.r}, ${res.g}, ${res.b}, ${res.a})`;
@@ -497,6 +522,18 @@ function Canvas() {
                     <label>Stroke</label>
                     <BlockPicker
                       color={stroke}
+                      colors={[
+                        '#fffafa',
+                        '#ed2939',
+                        '#ff8a65',
+                        '#deb887',
+                        '#ffdb58',
+                        '#37D67A',
+                        '#2CCCE4',
+                        '#ffa6c9',
+                        '#ba68c8',
+                        '#1b1b1b',
+                      ]}
                       onChange={(updatedColor) => {
                         const res = updatedColor.rgb;
                         const string = `rgba(${res.r}, ${res.g}, ${res.b}, ${res.a})`;

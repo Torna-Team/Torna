@@ -49,6 +49,15 @@ const checkCanvaElement = (
         color: color,
       };
       return arrow as CanvaElement;
+    case 'line':
+      const line = {
+        type: 'line',
+        id: elementId,
+        x: window.innerWidth / 2,
+        y: window.innerHeight / 2,
+        color: color,
+      };
+      return line as CanvaElement;
     case 'image':
       const image = {
         type: 'image',
