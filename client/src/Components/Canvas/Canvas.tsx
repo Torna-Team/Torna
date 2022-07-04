@@ -130,6 +130,7 @@ function Canvas() {
         elementId,
         color,
         stroke,
+        canvaElements as CanvaElement[],
         newImage
       );
       setCanvaElements((prev) => {
@@ -145,6 +146,7 @@ function Canvas() {
         elementId,
         color,
         stroke,
+        canvaElements as CanvaElement[],
         newGif
       );
       setCanvaElements((prev) => {
@@ -170,6 +172,7 @@ function Canvas() {
         elementId,
         color,
         stroke,
+        canvaElements as CanvaElement[],
         type
       ) as CanvaElement;
     } else if (type.includes('http://res.cloudinary.com')) {
@@ -178,6 +181,7 @@ function Canvas() {
         elementId,
         color,
         stroke,
+        canvaElements as CanvaElement[],
         type
       ) as CanvaElement;
     } else {
@@ -185,7 +189,8 @@ function Canvas() {
         type,
         elementId,
         color,
-        stroke
+        stroke,
+        canvaElements as CanvaElement[]
       ) as CanvaElement;
     }
     setCanvaElements((prev) => {
@@ -202,10 +207,9 @@ function Canvas() {
         maxHeightPoint = element.y;
       }
     }
-    setHeight(Math.floor(maxHeightPoint + 1400));
 
-    //save inside object and inside BE
-
+    const newHeight = Math.floor(maxHeightPoint) + 900;
+    setHeight(newHeight);
     const title = e.target.albumTitle.value as string;
     let frontImage;
     if (canvaElements)
@@ -223,7 +227,7 @@ function Canvas() {
       frontPage: frontImage,
       id: albumId,
       authorId: album?.authorId as number,
-      height: (height as number) + 1400,
+      height: newHeight as number,
     };
     saveAlbum(savedAlbum as unknown as AlbumInterface);
   };
@@ -247,8 +251,6 @@ function Canvas() {
       selectShape(null);
     }
   };
-
-  const handleDragStart = () => {};
   const handleDragEnd = (el: CanvaElement) => {
     let indx!: number;
     if (canvaElements)
@@ -574,7 +576,6 @@ function Canvas() {
                     element={el}
                     canvaElements={canvaElements as CanvaElement[]}
                     setCanvaElements={setCanvaElements}
-                    handleDragStart={handleDragStart}
                     handleDragEnd={() => handleDragEnd(el)}
                     isSelected={el.id === (selectedId as number | string)}
                     onSelect={() => {
@@ -592,7 +593,6 @@ function Canvas() {
                   element={el}
                   canvaElements={canvaElements as CanvaElement[]}
                   setCanvaElements={setCanvaElements}
-                  handleDragStart={handleDragStart}
                   handleDragEnd={() => handleDragEnd(el)}
                   isSelected={el.id === (selectedId as number | string)}
                   onSelect={() => {
