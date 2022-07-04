@@ -15,6 +15,7 @@ import { saveAlbum, getAlbum } from '../../Services/Server-Client';
 import { AlbumInterface } from '../../types/Canvas.interface';
 import { CanvaElement } from '../../types/Canvas.interface';
 import './Viewer.css';
+import { BsPlayFill, BsFillPauseFill } from 'react-icons/bs';
 
 // import splitTextFromGenericShapes from '../Canvas/Canvas';
 // import AnimatedText from '../AnimatedText/AnimatedText';
@@ -34,7 +35,6 @@ const shapeType = {
 };
 
 export function splitTextFromGenericShapes(shapeList) {
-  // console.log(shapeList);
   return shapeList.reduce(
     (res, el) => {
       if (el.type === 'text') res.textItems.push(el);
@@ -55,41 +55,70 @@ const Viewer = (props: Props) => {
     'rgba(255, 255, 255)'
   );
   const [play, setPlay] = useState<boolean>(true);
+  const [delayID, setDelayID] = useState(null);
   const { genericItems, textItems } = splitTextFromGenericShapes(canvaElements);
+  let scrollDelay;
 
   async function getAlbumInfo() {
     const album = await getAlbum(albumId);
-    // console.log('album', album);
     album?.background && setBackGroundColor(album.background);
     album?.template && setCanvaElements([...JSON.parse(album.template)]);
     album && setAlbum(album);
   }
   function handlePlay() {
     setPlay(!play);
-    if (play) {
-      pageScroll();
-    }
+    pageScroll();
   }
 
   function pageScroll() {
-    window.scrollBy(0, 5);
-    scrolldelay = setTimeout(pageScroll, 50);
+    if (play) {
+      window.scrollBy(0, 2);
+      scrollDelay = setTimeout(pageScroll, 20);
+      setDelayID(scrollDelay);
+    }
+    window.onScroll = function () {
+      // @var int totalPageHeight
+      var totalPageHeight = document.body.scrollHeight;
+      // @var int scrollPoint
+      var scrollPoint = window.scrollY + window.innerHeight;
+      // check if we hit the bottom of the page
+      if (scrollPoint >= totalPageHeight) {
+        console.log('at the bottom');
+      }
+    };
+  }
+
+  function handlePause() {
+    setPlay(false);
+    clearTimeout(delayID);
+    setPlay(true);
   }
 
   useEffect(() => {
     getAlbumInfo();
   }, []);
-  console.log(canvaElements, 'canv.el');
   return (
     <div className='mainViewerContainer'>
       <div className='viewerNavbar'>
         <img src={tornaLogo} alt='Torna Logo' className='viewerLogo' />
 
         <h1>{album.title}</h1>
-        <button onClick={handlePlay}> Play</button>
+        <div>
+          {play ? (
+            <button onClick={handlePlay}>
+              <BsPlayFill />
+              PLAY
+            </button>
+          ) : (
+            <button onClick={handlePause}>
+              <BsFillPauseFill />
+              PAUSE
+            </button>
+          )}
+        </div>
       </div>
       <div className='canvasViewer' style={{ background: backgroundColor }}>
-        <Stage width={width} height={height}>
+        <Stage width={width} height={album?.height}>
           <Layer>
             {genericItems?.map((el: CanvaElement) => {
               const Shape = shapeType[el?.type];
