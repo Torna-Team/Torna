@@ -15,6 +15,8 @@ import { AlbumInterface } from '../../Types/Canvas.interface';
 import { CanvaElement } from '../../Types/Canvas.interface';
 import './Viewer.css';
 import { BsPlayFill, BsFillPauseFill } from 'react-icons/bs';
+import { GrLinkTop } from 'react-icons/gr';
+import { Link } from 'react-router-dom';
 
 type Props = {};
 
@@ -88,27 +90,39 @@ const Viewer = (props: Props) => {
     setPlay(true);
   }
 
+  function handleTop() {
+    window.scrollTo(0, 0);
+  }
+
   useEffect(() => {
     getAlbumInfo();
   }, []);
   return (
     <div className='mainViewerContainer'>
       <div className='viewerNavbar'>
-        <img src={tornaLogo} alt='Torna Logo' className='viewerLogo' />
-
+        <Link to='/'>
+          <img src={tornaLogo} alt='Torna Logo' className='viewerLogo' />
+        </Link>
         <h1>{album.title}</h1>
-        <div>
+        <div className='viewerNavBarButtons'>
           {play ? (
             <button onClick={handlePlay}>
-              <BsPlayFill />
-              PLAY
+              <div className='PlayButton'>
+                <BsPlayFill />
+                PLAY
+              </div>
             </button>
           ) : (
             <button onClick={handlePause}>
-              <BsFillPauseFill />
-              PAUSE
+              <div className='PlayButton'>
+                <BsFillPauseFill />
+                PAUSE
+              </div>
             </button>
           )}
+          <button onClick={handleTop}>
+            <GrLinkTop />
+          </button>
         </div>
       </div>
       <div className='canvasViewer' style={{ background: backgroundColor }}>
