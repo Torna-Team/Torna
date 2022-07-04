@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { BlockPicker, CompactPicker } from 'react-color';
-import { Layer, Stage } from 'react-konva';
+import { Layer, Stage, Rect } from 'react-konva';
+import { render } from 'react-dom';
 import FontPicker from 'font-picker-react';
 import Draggable from 'react-draggable';
 import checkCanvaElement from '../../Services/utils';
@@ -25,7 +26,7 @@ import {
 } from 'react-icons/fi';
 import { IoMdColorFill } from 'react-icons/io';
 import { RiText } from 'react-icons/ri';
-import { MdGif, MdOutlineColorLens } from 'react-icons/md';
+import { MdGif, MdOutlineColorLens, MdOutlineGrid4X4 } from 'react-icons/md';
 import { TbTextResize } from 'react-icons/tb';
 import { uuidv4 } from '@firebase/util';
 import { useParams } from 'react-router-dom';
@@ -74,6 +75,7 @@ const toggleTool = {
   animatedTextTool: false,
   colorTool: false,
   gifTool: false,
+  // grid: false,
 };
 
 function Canvas() {
@@ -96,8 +98,13 @@ function Canvas() {
   const [font, setFont] = useState<string>('Ubuntu');
   const [render, setRender] = useState<boolean>(true);
   const [toolOption, setToolOption] = useState<ToggleTool>(toggleTool);
-
+  // const [gridComponents, setGridComponents] = useState<any>([]);
   const [newGif, setNewGif] = useState<string | null>(null);
+  const [grid, setGrid] = useState<boolean>(true);
+
+  ///per borrar si no funciona
+  const WIDTH = 40;
+  const HEIGHT = 40;
 
   const fontAPI = process.env.REACT_APP_GOOGLEAPI as string;
 
@@ -316,6 +323,31 @@ function Canvas() {
     canvaElements as CanvaElement[]
   );
 
+  const [stagePos, setStagePos] = React.useState({ x: 0, y: 0 });
+  const startX = Math.floor((-stagePos.x - window.innerWidth) / WIDTH) * WIDTH;
+  const endX =
+    Math.floor((-stagePos.x + window.innerWidth * 2) / WIDTH) * WIDTH;
+  console.log(endX, 'endX');
+
+  const startY =
+    Math.floor((-stagePos.y - window.innerHeight) / HEIGHT) * HEIGHT;
+  const endY =
+    Math.floor((-stagePos.y + window.innerHeight * 2) / HEIGHT) * HEIGHT;
+
+  const gridComponents = [];
+  var i = 0;
+  for (var x = startX; x < endX - 60; x += WIDTH) {
+    for (var y = startY; y < endY; y += HEIGHT) {
+      if (i === 4) {
+        i = 0;
+      }
+
+      gridComponents.push(
+        <Rect x={x} y={y} width={40} height={40} stroke='WhiteSmoke' />
+      );
+    }
+  }
+
   return (
     <div className='mainContainer'>
       {/* NAVBAR */}
@@ -444,6 +476,12 @@ function Canvas() {
                       return setBackGroundColor(string);
                     }}
                   ></CompactPicker>
+                  <div>
+                    <button onClick={() => setGrid(!grid)}>
+                      <MdOutlineGrid4X4 />
+                    </button>
+                    TOGGLE GRID
+                  </div>
                 </div>
               )}
 
@@ -479,7 +517,7 @@ function Canvas() {
                 </div>
               )}
               {toggleTool.animatedTextTool && (
-                <AnimatedText setNewGif={setNewGif} />
+                <AnimatedText setNewGif={setNewGif} setRender={setRender} />
               )}
 
               {toggleTool.colorTool && (
@@ -524,6 +562,7 @@ function Canvas() {
             onMouseDown={checkDeselect}
             onTouchStart={checkDeselect}
           >
+            <Layer>{grid && gridComponents}</Layer>
             <Layer>
               {genericItems?.map((el: CanvaElement) => {
                 const Shape = shapeType[

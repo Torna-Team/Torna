@@ -8,7 +8,7 @@ import { IGif } from '@giphy/js-types';
 const giphyKey = process.env.REACT_APP_GIPHY_KEY as string;
 const giphy = new GiphyFetch(giphyKey);
 
-const AnimatedText = ({ setNewGif }: AnimatedTextProps) => {
+const AnimatedText = ({ setNewGif, setRender }: AnimatedTextProps) => {
   const [text, setText] = useState<string>('');
   const [results, setResults] = useState<IGif[]>([]);
   const [err, setErr] = useState<boolean>(false);
@@ -19,7 +19,8 @@ const AnimatedText = ({ setNewGif }: AnimatedTextProps) => {
     console.log(gifClicked, 'gcli');
     // let GifObj = { src : ''}
     // GifObj.src= gifClicked.url
-    setNewGif(gifClicked);
+    setNewGif(gifClicked.images.preview_webp.url);
+    setRender(true);
   };
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -32,6 +33,7 @@ const AnimatedText = ({ setNewGif }: AnimatedTextProps) => {
     }
     const apiCall = async () => {
       const res = await giphy.animate(text, { limit: 25 });
+      console.log(res.data, 'resDAta');
       setResults(res.data);
     };
     apiCall();
@@ -63,7 +65,7 @@ const AnimatedText = ({ setNewGif }: AnimatedTextProps) => {
                 key={uuidv4()}
                 alt={'Gif not uploaded'}
                 onClick={() => {
-                  handleClick(gif.url as string);
+                  handleClick(gif as any);
                 }}
               />
             );
