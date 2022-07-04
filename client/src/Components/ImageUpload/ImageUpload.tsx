@@ -1,8 +1,8 @@
 import { useRef, useState } from 'react';
 import './ImageUpload.css';
 import { uuidv4 } from '@firebase/util';
-import { UploadImageProps } from '../../types/Canvas.interface';
-import { Image } from '../../types/ImageUpload.interface';
+import { UploadImageProps } from '../../Types/Canvas.interface';
+import { Image } from '../../Types/ImageUpload.interface';
 import Loader from '../Loader/Loader';
 
 function ImageUpload({ setNewImage }: UploadImageProps) {

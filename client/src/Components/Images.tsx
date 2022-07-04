@@ -1,7 +1,7 @@
 import { Transformer, Image } from 'react-konva';
 import React from 'react';
 import Loader from '../Components/Loader/Loader';
-import { ShapeProps, CanvaElement } from '../types/Canvas.interface';
+import { ShapeProps } from '../Types/Canvas.interface';
 import Konva from 'konva';
 
 function Images({

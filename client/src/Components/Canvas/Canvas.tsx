@@ -15,7 +15,7 @@ import ImageUpload from '../ImageUpload/ImageUpload';
 import Gifs from '../Gifs';
 import './Canvas.css';
 import { Link } from 'react-router-dom';
-import tornaLogo from '../../images/TORNA png flecha amarilla.png';
+import tornaLogo from '../../Images/tornalogoyellow.png';
 import {
   FiStar,
   FiCircle,
@@ -30,14 +30,13 @@ import { TbTextResize } from 'react-icons/tb';
 import { uuidv4 } from '@firebase/util';
 import { useParams } from 'react-router-dom';
 import { saveAlbum, getAlbum } from '../../Services/Server-Client';
-import { text } from 'stream/consumers';
 import GifSearcher from '../GifSearcher/GifSearcher';
 import {
   CanvaElement,
   SplitTextFromGenericShapesReducer,
   ToggleTool,
   AlbumInterface,
-} from '../../types/Canvas.interface';
+} from '../../Types/Canvas.interface';
 import { KonvaEventObject } from 'konva/lib/Node';
 
 function splitTextFromGenericShapes(shapeList: CanvaElement[]) {
@@ -218,7 +217,7 @@ function Canvas() {
       title: title,
       background: backgroundColor,
       template: JSON.stringify(canvaElements),
-      frontPage: frontImage ? frontImage : tornaLogo,
+      frontPage: frontImage,
       id: albumId,
       authorId: album?.authorId as number,
       height: (height as number) + 1400,

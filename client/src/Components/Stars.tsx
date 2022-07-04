@@ -1,6 +1,6 @@
 import React from 'react';
 import { Transformer, Star } from 'react-konva';
-import { ShapeProps } from '../types/Canvas.interface';
+import { ShapeProps } from '../Types/Canvas.interface';
 import Konva from 'konva';
 
 function Stars({

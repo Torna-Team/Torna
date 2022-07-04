@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-// import { useEffect } from 'react';
 import { Image } from 'react-konva';
 import 'gifler';
 
@@ -24,7 +23,6 @@ const GIF = ({ src }: any) => {
         imageRef.current.getLayer().draw();
       };
     });
-    // console.log(anim, 'anim2');
     if (an) {
       return () => an.stop();
     }

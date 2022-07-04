@@ -1,7 +1,6 @@
 //@ts-nocheck
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Layer, Stage } from 'react-konva';
-import checkCanvaElement from '../../Services/utils';
 import Arrows from '../Arrows';
 import Circles from '../Circles';
 import Squares from '../Squares';
@@ -9,17 +8,12 @@ import Stars from '../Stars';
 import Texts from '../Texts';
 import Images from '../Images';
 import Gifs from '../Gifs';
-import tornaLogo from '../../images/tornalogo.png';
+import tornaLogo from '../../Images/tornalogoyellow.png';
 import { useParams } from 'react-router-dom';
-import { saveAlbum, getAlbum } from '../../Services/Server-Client';
-import { AlbumInterface } from '../../types/Canvas.interface';
-import { CanvaElement } from '../../types/Canvas.interface';
+import { getAlbum } from '../../Services/Server-Client';
+import { AlbumInterface } from '../../Types/Canvas.interface';
+import { CanvaElement } from '../../Types/Canvas.interface';
 import './Viewer.css';
-
-// import splitTextFromGenericShapes from '../Canvas/Canvas';
-// import AnimatedText from '../AnimatedText/AnimatedText';
-// import shapeType from '../Canvas/Canvas';
-// import getAlbumInfo from '../Canvas/Canvas';
 
 type Props = {};
 

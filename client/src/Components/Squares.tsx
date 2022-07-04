@@ -1,6 +1,6 @@
 import { Transformer, Rect } from 'react-konva';
 import React from 'react';
-import { ShapeProps } from '../types/Canvas.interface';
+import { ShapeProps } from '../Types/Canvas.interface';
 import Konva from 'konva';
 
 function Squares({

@@ -11,7 +11,7 @@
 }
 .albumFrontImage {
   border-radius: 6px;
-  max-height: 300px;
+  max-height: 350px;
   transition: transform 300ms ease;
   cursor: pointer;
 }
@@ -36,19 +36,45 @@
   cursor: pointer;
 }
 
-.deleteButton {
+.toolButton {
   width: 36px;
   height: 36px;
   cursor: pointer;
   z-index: 1;
   position: absolute;
   user-select: none;
-  top: -17%;
-  right: -5%;
-  /* bordr: 2px solid white; */
+  top: -25%;
+  left: -5%;
   color: white;
 }
-.deleteButton:hover {
+.toolButton:hover {
+  transform: scale(1.5);
+  color: #ffb140;
+}
+
+.albumTools {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  padding: 12px;
+  top: -8%;
+  left: -6.5%;
+  gap: 14px;
+  background-color: #d6d7e582;
+  border-radius: 6px;
+  box-shadow: 0.4px 0.4px 2px #132830;
+}
+
+.toolIcon {
+  width: 28px;
+  height: 28px;
+  cursor: pointer;
+  z-index: 1;
+  user-select: none;
+  color: white;
+}
+
+.toolIcon:hover {
   transform: scale(1.5);
   color: #ffb140;
 }

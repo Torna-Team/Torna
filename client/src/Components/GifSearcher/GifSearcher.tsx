@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { GifSearcherProps } from '../../types/Canvas.interface';
+import { GifSearcherProps } from '../../Types/Canvas.interface';
 import './GifSearcher.css';
-import { Gif } from '../../types/GifSearcher.interface';
+import { Gif } from '../../Types/GifSearcher.interface';
 
 const GifSearcher = ({ setNewGif, setRender }: GifSearcherProps) => {
   const [searchValue, setSearchValue] = useState<string>('');

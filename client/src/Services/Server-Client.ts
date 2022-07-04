@@ -1,6 +1,6 @@
-import tornaLogo from '../images/tornalogo.png';
-import { AlbumInterface } from '../types/Canvas.interface';
-import { LoggingUser, User } from '../types/ServerClient.interface';
+import logoArrow from '../Images/logobackgroundgray.jpg';
+import { AlbumInterface } from '../Types/Canvas.interface';
+import { LoggingUser, User } from '../Types/ServerClient.interface';
 
 const BASE_URL = 'https://torna-backend.herokuapp.com';
 
@@ -88,12 +88,13 @@ export const createAlbum = async (user: User) => {
   try {
     console.log(user);
     const album = {
-      title: 'new album',
+      title: 'New album',
       template: '',
-      background: 'rgba(255, 255, 255)',
-      frontPage: tornaLogo,
+      background: 'rgb(255, 255, 255)',
+      frontPage: logoArrow,
       author: user.id,
     };
+    console.log(album);
     const result = await fetch(`${BASE_URL}/album/`, {
       method: 'POST',
       headers: { 'Content-type': 'application/json' },
@@ -101,7 +102,7 @@ export const createAlbum = async (user: User) => {
     });
     // console.log(result);
     const res = await result.json();
-    // console.log(res);
+    console.log('??????', res);
     return res as User;
   } catch (error) {
     console.error(error);

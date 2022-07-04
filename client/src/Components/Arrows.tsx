@@ -1,6 +1,6 @@
 import { Transformer, Arrow } from 'react-konva';
 import React from 'react';
-import { ShapeProps } from '../types/Canvas.interface';
+import { ShapeProps } from '../Types/Canvas.interface';
 import Konva from 'konva';
 
 function Arrows({

@@ -4,13 +4,13 @@
 }
 
 .albumsContainer {
-  margin-top: 10px;
+  margin-top: 3%;
   display: flex;
   justify-content: center;
   align-items: center;
   border-radius: 6px;
-  height: 450px;
-  width: 95%;
+  height: 550px;
+  width: 96%;
   margin-left: 2%;
   background-color: #ffffff7e;
 }
@@ -18,7 +18,7 @@
 .albumList {
   display: flex;
   align-items: center;
-  height: 400px;
+  height: 500px;
   width: 98%;
   overflow-x: auto;
   border-radius: 6px;

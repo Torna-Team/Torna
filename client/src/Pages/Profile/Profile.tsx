@@ -1,13 +1,13 @@
-import Navbar from '../Components/Navbar';
-import React, { useState, useContext, useEffect } from 'react';
-import { LoginContext, LoginContextType } from '../Utils/Context';
-import { useNavigate, useParams } from 'react-router-dom';
-import '../Styles/Profile.css';
-import { createAlbum } from '../Services/Server-Client';
-import Album from '../Components/Album/Album';
-import { getUser } from '../Services/Server-Client';
-import { AlbumInterface } from '../types/Canvas.interface';
-import { User } from '../types/ServerClient.interface';
+import Navbar from '../../Components/Navbar/Navbar';
+import { useState, useContext, useEffect } from 'react';
+import { LoginContext, LoginContextType } from '../../Services/Context';
+import { useNavigate } from 'react-router-dom';
+import './Profile.css';
+import { createAlbum } from '../../Services/Server-Client';
+import Album from '../../Components/Album/Album';
+import { getUser } from '../../Services/Server-Client';
+import { AlbumInterface } from '../../Types/Canvas.interface';
+import { User } from '../../Types/ServerClient.interface';
 
 function Profile() {
   const navigate = useNavigate();
