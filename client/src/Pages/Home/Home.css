@@ -1,5 +1,5 @@
 .backgroundContainer {
-  background-image: url('../Assets/sarandy-westfall-qqd8APhaOg4-unsplash.jpg');
+  background-image: url('../../Assets/sarandy-westfall-qqd8APhaOg4-unsplash.jpg');
   background-repeat: no-repeat;
   background-position-y: top;
   background-size: cover;
@@ -52,8 +52,6 @@
   flex-direction: column;
   justify-content: space-between;
   height: 170px;
-  /* justify-self: flex-start;
-  align-self: flex-start; */
 }
 
 .signInBtn {

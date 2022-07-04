@@ -1,11 +1,11 @@
 import './App.css';
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Home from './Pages/Home';
-import Register from './Pages/Register';
-import Profile from './Pages/Profile';
-import ErrorPage from './Pages/ErrorPage';
-import { LoginContext } from './Utils/Context';
+import Home from './Pages/Home/Home';
+import Register from './Pages/Register/Register';
+import Profile from './Pages/Profile/Profile';
+import ErrorPage from './Pages/ErrorPage/ErrorPage';
+import { LoginContext } from './Services/Context';
 import Canvas from './Components/Canvas/Canvas';
 import Viewer from './Components/Viewer/Viewer';
 // import GifSearcher from './components/GifSearcher';

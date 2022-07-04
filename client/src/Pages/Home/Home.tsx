@@ -1,13 +1,13 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import '../Styles/Home.css';
+import './Home.css';
 import GoogleButton from 'react-google-button';
-import { auth } from '../Services/Firebase';
+import { auth } from '../../Services/Firebase';
 import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
-import { login, getUser } from '../Services/Server-Client';
-import { User, LoggingUser } from '../types/ServerClient.interface';
-import { LoginContext } from '../Utils/Context';
-import tornaLogo from '../images/TORNA png flecha amarilla.png';
+import { login, getUser } from '../../Services/Server-Client';
+import { User, LoggingUser } from '../../Types/ServerClient.interface';
+import { LoginContext } from '../../Services/Context';
+import tornaLogo from '../../Images/tornalogoyellow.png';
 
 const Home = () => {
   const { loggedIn, setLoggedIn } = useContext(LoginContext as any);

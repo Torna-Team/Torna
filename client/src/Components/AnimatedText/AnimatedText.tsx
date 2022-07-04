@@ -2,9 +2,8 @@ import { useState } from 'react';
 import { GiphyFetch } from '@giphy/js-fetch-api';
 import './AnimatedText.css';
 import { uuidv4 } from '@firebase/util';
-import { AnimatedTextProps } from '../../types/AnimatedText.interface';
+import { AnimatedTextProps } from '../../Types/AnimatedText.interface';
 import { IGif } from '@giphy/js-types';
-import { Image } from '../../types/ImageUpload.interface';
 
 const giphyKey = process.env.REACT_APP_GIPHY_KEY as string;
 const giphy = new GiphyFetch(giphyKey);

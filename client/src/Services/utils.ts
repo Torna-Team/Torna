@@ -1,5 +1,5 @@
 import { IGif } from '@giphy/js-types';
-import { CanvaElement } from '../types/Canvas.interface';
+import { CanvaElement } from '../Types/Canvas.interface';
 
 const checkCanvaElement = (
   type: string,
