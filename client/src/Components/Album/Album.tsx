@@ -45,14 +45,19 @@ const Album = ({ element, editAlbum, setUser }: AlbumProps) => {
           <h4 unselectable='on' className='albumTitle'>
             {element.title}
           </h4>
-          <button
+          {/* <button
             className='deleteButton'
             onClick={() => {
               return deleteOneAlbum(element);
             }}
-          >
-            <TiDelete />
-          </button>
+          > */}
+          <TiDelete
+            className=' deleteButton'
+            onClick={() => {
+              return deleteOneAlbum(element);
+            }}
+          />
+          {/* </button> */}
         </>
       )}
     </div>

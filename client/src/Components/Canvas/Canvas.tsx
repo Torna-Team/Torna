@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ChromePicker, CompactPicker } from 'react-color';
+import { BlockPicker, CompactPicker } from 'react-color';
 import { Layer, Stage } from 'react-konva';
 import FontPicker from 'font-picker-react';
 import Draggable from 'react-draggable';
@@ -15,13 +15,13 @@ import ImageUpload from '../ImageUpload/ImageUpload';
 import Gifs from '../Gifs';
 import './Canvas.css';
 import { Link } from 'react-router-dom';
-import tornaLogo from '../../images/tornalogo.png';
+import tornaLogo from '../../images/TORNA png flecha amarilla.png';
 import {
-  FiStar,
-  FiCircle,
-  FiSquare,
-  FiArrowUpRight,
-  FiTrash2,
+	FiStar,
+	FiCircle,
+	FiSquare,
+	FiArrowUpRight,
+	FiTrash2,
 } from 'react-icons/fi';
 import { IoMdColorFill } from 'react-icons/io';
 import { RiText } from 'react-icons/ri';
@@ -30,8 +30,8 @@ import { TbTextResize } from 'react-icons/tb';
 import { uuidv4 } from '@firebase/util';
 import { useParams } from 'react-router-dom';
 import { saveAlbum, getAlbum } from '../../Services/Server-Client';
+import { text } from 'stream/consumers';
 import GifSearcher from '../GifSearcher/GifSearcher';
-
 import {
   CanvaElement,
   SplitTextFromGenericShapesReducer,
@@ -39,7 +39,6 @@ import {
   AlbumInterface,
 } from '../../types/Canvas.interface';
 import { KonvaEventObject } from 'konva/lib/Node';
-import { IGif } from '@giphy/js-types';
 
 function splitTextFromGenericShapes(shapeList: CanvaElement[]) {
   return shapeList.reduce(
@@ -61,21 +60,21 @@ type ShapeType =
   | typeof Texts;
 
 const shapeType = {
-  star: Stars,
-  arrow: Arrows,
-  circle: Circles,
-  square: Squares,
-  image: Images,
-  text: Texts,
-  gif: Gifs,
+	star: Stars,
+	arrow: Arrows,
+	circle: Circles,
+	square: Squares,
+	image: Images,
+	text: Texts,
+	gif: Gifs,
 };
 
 const toggleTool = {
-  backgroundTool: false,
-  textTool: false,
-  animatedTextTool: false,
-  colorTool: false,
-  gifTool: false,
+	backgroundTool: false,
+	textTool: false,
+	animatedTextTool: false,
+	colorTool: false,
+	gifTool: false,
 };
 
 function Canvas() {
@@ -91,7 +90,7 @@ function Canvas() {
   const [textColor, setTextColor] = useState<string>('rgba(0, 0, 0, 1)');
   const [stroke, setStroke] = useState<string>('rgba(0, 0, 0, 1)');
   const [strokedText, setStrokedText] = useState<boolean>(false);
-  const [height, setHeight] = useState<number>(600);
+  const [height, setHeight] = useState<number | null>(null);
   const [width, setWidth] = useState<number>(window.innerWidth - 60);
   const [selectedId, selectShape] = useState<number | null>(null);
   const [newImage, setNewImage] = useState<string | null>(null);
@@ -105,6 +104,7 @@ function Canvas() {
 
   useEffect(() => {
     getAlbumInfo();
+    if (!height) setHeight(600);
   }, []);
 
   useEffect(() => {
@@ -113,8 +113,10 @@ function Canvas() {
 
   async function getAlbumInfo() {
     const album = await getAlbum(Number(albumId));
+    console.log(album);
     album?.template && setCanvaElements([...JSON.parse(album.template)]);
     album?.background && setBackGroundColor(album.background);
+    album?.height && setHeight(album.height);
     album && setAlbum(album);
   }
 
@@ -190,6 +192,16 @@ function Canvas() {
 
   const editAlbum = async (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
+    let maxHeightPoint = 0;
+    for (const element of canvaElements as CanvaElement[]) {
+      if (element.y > maxHeightPoint) {
+        maxHeightPoint = element.y;
+      }
+    }
+    setHeight(Math.floor(maxHeightPoint + 1400));
+
+    //save inside object and inside BE
+
     const title = e.target.albumTitle.value as string;
     let frontImage;
     if (canvaElements)
@@ -207,17 +219,20 @@ function Canvas() {
       frontPage: frontImage ? frontImage : tornaLogo,
       id: albumId,
       authorId: album?.authorId as number,
+      height: maxHeightPoint + 1400,
     };
     saveAlbum(savedAlbum as unknown as AlbumInterface);
   };
 
   const handleWheel = (e: KonvaEventObject<WheelEvent | TouchEvent>) => {
-    if ((e.evt as WheelEvent).deltaY > 0) {
-      setHeight(height * 1.05);
-    }
-    if ((e.evt as WheelEvent).deltaY < 0) {
-      if (height >= 1200) {
-        setHeight(height / 1.05);
+    if (height) {
+      if ((e.evt as WheelEvent).deltaY > 0) {
+        setHeight(height * 1.05);
+      }
+      if ((e.evt as WheelEvent).deltaY < 0) {
+        if (height >= 1200) {
+          setHeight(height / 1.05);
+        }
       }
     }
   };
@@ -337,6 +352,7 @@ function Canvas() {
                 <IoMdColorFill />
               </button>
 
+              {/* STAR */}
               <button
                 className='drawButtons'
                 value='star'
@@ -344,6 +360,8 @@ function Canvas() {
               >
                 <FiStar />
               </button>
+
+              {/* CIRCLE */}
               <button
                 className='drawButtons'
                 value='circle'
@@ -351,6 +369,8 @@ function Canvas() {
               >
                 <FiCircle />
               </button>
+
+              {/* SQUARE */}
               <button
                 className='drawButtons'
                 value='square'
@@ -358,6 +378,8 @@ function Canvas() {
               >
                 <FiSquare />
               </button>
+
+              {/* ARROW */}
               <button
                 className='drawButtons'
                 value='arrow'
@@ -384,14 +406,6 @@ function Canvas() {
                 <TbTextResize />
               </button>
 
-              <button
-                className='drawButtons'
-                onClick={handleToggle}
-                value='colorTool'
-              >
-                <MdOutlineColorLens />
-              </button>
-
               {/* GIF */}
               <button
                 className='drawButtons'
@@ -400,6 +414,16 @@ function Canvas() {
               >
                 <MdGif />
               </button>
+
+              {/* COLORS */}
+              <button
+                className='drawButtons'
+                onClick={handleToggle}
+                value='colorTool'
+              >
+                <MdOutlineColorLens />
+              </button>
+
               {/* DELETE  */}
               <button className='drawButtons' onClick={handleDelete}>
                 <FiTrash2 />
@@ -456,45 +480,44 @@ function Canvas() {
               {toggleTool.animatedTextTool && (
                 <AnimatedText setNewGif={setNewGif} />
               )}
+
               {toggleTool.colorTool && (
                 <div className='toolContainer'>
-                  <div className='colorPickers'>
-                    <div className='fillAndStroke'>
-                      <label>Fill</label>
-                      <ChromePicker
-                        color={color}
-                        onChange={(updatedColor) => {
-                          const res = updatedColor.rgb;
-                          const string = `rgba(${res.r}, ${res.g}, ${res.b}, ${res.a})`;
-                          setTextColor(string);
-                          return setColor(string);
-                        }}
-                      ></ChromePicker>
-                    </div>
-                    <div className='fillAndStroke'>
-                      <label>Stroke</label>
-                      <ChromePicker
-                        color={stroke}
-                        onChange={(updatedColor) => {
-                          const res = updatedColor.rgb;
-                          const string = `rgba(${res.r}, ${res.g}, ${res.b}, ${res.a})`;
-                          return setStroke(string);
-                        }}
-                      ></ChromePicker>
-                    </div>
+                  <div className='fillAndStroke'>
+                    <label>Fill</label>
+                    <BlockPicker
+                      color={color}
+                      onChange={(updatedColor) => {
+                        const res = updatedColor.rgb;
+                        const string = `rgba(${res.r}, ${res.g}, ${res.b}, ${res.a})`;
+                        setTextColor(string);
+                        return setColor(string);
+                      }}
+                    ></BlockPicker>
+                    <label>Stroke</label>
+                    <BlockPicker
+                      color={stroke}
+                      onChange={(updatedColor) => {
+                        const res = updatedColor.rgb;
+                        const string = `rgba(${res.r}, ${res.g}, ${res.b}, ${res.a})`;
+                        return setStroke(string);
+                      }}
+                    ></BlockPicker>
                   </div>
                 </div>
               )}
+
               {toggleTool.gifTool && (
                 <GifSearcher setNewGif={setNewGif} setRender={setRender} />
               )}
             </div>
           </div>
         </Draggable>
+
         <div className='canvaContainer'>
           <Stage
             width={width}
-            height={height}
+            height={height as number}
             onWheel={handleWheel}
             onTouchMove={handleWheel}
             onMouseDown={checkDeselect}

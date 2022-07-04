@@ -22,6 +22,8 @@ model Album {
   template String
   background String
   frontPage String
+  height Int?
+  width Int?
   authorId Int
   author   User   @relation(fields: [authorId], references: [id], onDelete: Cascade)
 }
