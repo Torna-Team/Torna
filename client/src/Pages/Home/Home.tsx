@@ -74,6 +74,7 @@ const Home = () => {
       <div className='form-container'>
         <div className='loginWelcome'>
           <img src={tornaLogo} alt='torna logo' />
+          <p className='slogan'>Customize your memories</p>
         </div>
         <form className='login-container' onSubmit={onSubmitHandler}>
           <div className='formInputsContainer'>
