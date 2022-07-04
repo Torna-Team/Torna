@@ -199,10 +199,9 @@ function Canvas() {
         maxHeightPoint = element.y;
       }
     }
-    setHeight(Math.floor(maxHeightPoint + 1400));
 
-    //save inside object and inside BE
-
+    const newHeight = Math.floor(maxHeightPoint) + 900;
+    setHeight(newHeight);
     const title = e.target.albumTitle.value as string;
     let frontImage;
     if (canvaElements)
@@ -220,7 +219,7 @@ function Canvas() {
       frontPage: frontImage,
       id: albumId,
       authorId: album?.authorId as number,
-      height: (height as number) + 1400,
+      height: newHeight as number,
     };
     saveAlbum(savedAlbum as unknown as AlbumInterface);
   };
