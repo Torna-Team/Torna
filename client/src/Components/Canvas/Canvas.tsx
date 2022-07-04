@@ -127,6 +127,7 @@ function Canvas() {
         elementId,
         color,
         stroke,
+        canvaElements as CanvaElement[],
         newImage
       );
       setCanvaElements((prev) => {
@@ -142,6 +143,7 @@ function Canvas() {
         elementId,
         color,
         stroke,
+        canvaElements as CanvaElement[],
         newGif
       );
       setCanvaElements((prev) => {
@@ -167,6 +169,7 @@ function Canvas() {
         elementId,
         color,
         stroke,
+        canvaElements as CanvaElement[],
         type
       ) as CanvaElement;
     } else if (type.includes('http://res.cloudinary.com')) {
@@ -175,6 +178,7 @@ function Canvas() {
         elementId,
         color,
         stroke,
+        canvaElements as CanvaElement[],
         type
       ) as CanvaElement;
     } else {
@@ -182,7 +186,8 @@ function Canvas() {
         type,
         elementId,
         color,
-        stroke
+        stroke,
+        canvaElements as CanvaElement[]
       ) as CanvaElement;
     }
     setCanvaElements((prev) => {
@@ -263,6 +268,7 @@ function Canvas() {
         return result;
       } else return [el];
     });
+    console.log(canvaElements);
     return indx;
   };
 
