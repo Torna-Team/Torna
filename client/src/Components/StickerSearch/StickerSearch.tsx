@@ -47,7 +47,7 @@ const StickerSearcher = ({ setNewGif, setRender }: GifSearcherProps) => {
 
   const handleClick = (gifClicked: Gif) => {
     console.log(gifClicked, 'gifCLicked');
-    setNewGif(gifClicked.images.downsized_medium.url);
+    setNewGif(gifClicked.images.fixed_height_downsampled.url);
     setRender(true);
   };
 
@@ -74,7 +74,7 @@ const StickerSearcher = ({ setNewGif, setRender }: GifSearcherProps) => {
           gifs.map((gif, index) => {
             return (
               <img
-                src={gif.images.downsized_medium.url}
+                src={gif.images.fixed_height_downsampled.url}
                 key={index.toString()}
                 alt={'not loaded'}
                 width={230}
