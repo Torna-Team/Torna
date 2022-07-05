@@ -284,7 +284,10 @@ function Canvas() {
       text: e.target.textInput.value,
       id: uuidv4(),
       x: window.innerWidth / 2,
-      y: window.innerHeight / 2,
+      y:
+        canvaElements && canvaElements.length > 0
+          ? canvaElements[canvaElements.length - 1].y + 100
+          : window.innerHeight / 2,
       color: textColor,
       stroke: strokedText ? stroke : null,
       font: font,
@@ -493,6 +496,7 @@ function Canvas() {
                     <label>STROKE</label>
                     <input
                       type='checkbox'
+                      defaultChecked={strokedText}
                       onClick={() => {
                         setStrokedText(!strokedText);
                       }}

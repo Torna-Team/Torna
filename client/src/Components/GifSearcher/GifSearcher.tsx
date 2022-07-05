@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { GifSearcherProps } from '../../Types/Canvas.interface';
 import './GifSearcher.css';
-import { Gif2 } from '../../Types/GifSearcher.interface';
+import { Gif } from '../../Types/GifSearcher.interface';
 
 const GifSearcher = ({ setNewGif, setRender }: GifSearcherProps) => {
   const [searchValue, setSearchValue] = useState<string>('');
   const [error, setError] = useState<boolean>(false);
-  const [gifs, setGifs] = useState<Gif2[]>([]);
+  const [gifs, setGifs] = useState<Gif[]>([]);
   const [flag, setFlag] = useState<number>(0);
   const [search, setSearch] = useState<string>('');
 
@@ -44,8 +44,9 @@ const GifSearcher = ({ setNewGif, setRender }: GifSearcherProps) => {
     fetchGiphy();
   }, [search]);
 
-  const handleClick = (gifClicked: Gif2) => {
-    setNewGif(gifClicked.images.downsized_medium.url);
+  const handleClick = (gifClicked: Gif) => {
+    console.log(gifClicked, 'GC');
+    setNewGif(gifClicked.images.fixed_height_downsampled.url);
     setRender(true);
   };
 
@@ -72,12 +73,12 @@ const GifSearcher = ({ setNewGif, setRender }: GifSearcherProps) => {
           gifs.map((gif, index) => {
             return (
               <img
-                src={gif.images.downsized_medium.url}
+                src={gif.images.fixed_height_downsampled.url}
                 key={index.toString()}
                 alt={'not loaded'}
                 width={230}
                 onClick={() => {
-                  return handleClick(gif as unknown as Gif2);
+                  return handleClick(gif as unknown as Gif);
                 }}
               />
             );
