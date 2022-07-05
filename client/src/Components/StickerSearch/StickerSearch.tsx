@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { GifSearcherProps } from '../../Types/Canvas.interface';
-import './GifSearcher.css';
+import '../GifSearcher/GifSearcher.css';
 import { Gif } from '../../Types/GifSearcher.interface';
 
-const GifSearcher = ({ setNewGif, setRender }: GifSearcherProps) => {
+const StickerSearcher = ({ setNewGif, setRender }: GifSearcherProps) => {
   const [searchValue, setSearchValue] = useState<string>('');
   const [error, setError] = useState<boolean>(false);
   const [gifs, setGifs] = useState<Gif[]>([]);
   const [flag, setFlag] = useState<number>(0);
   const [search, setSearch] = useState<string>('');
 
-  const giphySearchEndpoint: string = 'https://api.giphy.com/v1/gifs/search?';
+  const giphySearchEndpoint: string =
+    'https://api.giphy.com/v1/stickers/search?';
   const giphyApiKey: string = 'api_key=' + process.env.REACT_APP_GIPHY_KEY;
   const searchQuery: string = `&q=${search}`;
   const queryLimit = '&limit=20';
@@ -36,7 +37,7 @@ const GifSearcher = ({ setNewGif, setRender }: GifSearcherProps) => {
         setGifs(jsonRes.data);
       } catch (error) {}
     } else {
-      console.error('you fetched more than 10 times already');
+      console.log('you fetched more than 10 times already');
     }
   };
 
@@ -45,6 +46,7 @@ const GifSearcher = ({ setNewGif, setRender }: GifSearcherProps) => {
   }, [search]);
 
   const handleClick = (gifClicked: Gif) => {
+    console.log(gifClicked, 'gifCLicked');
     setNewGif(gifClicked.images.downsized_medium.url);
     setRender(true);
   };
@@ -87,4 +89,4 @@ const GifSearcher = ({ setNewGif, setRender }: GifSearcherProps) => {
   );
 };
 
-export default GifSearcher;
+export default StickerSearcher;

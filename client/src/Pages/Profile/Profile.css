@@ -51,8 +51,11 @@
 }
 
 .sortBtn {
-	display: flex;
-	font-size: 24px;
-	color: #132830;
-	margin-left: 2px;
+
+  display: flex;
+  font-size: 24px;
+  color: #132830;
+  margin-left: 2px;
+  cursor: pointer;
+
 }

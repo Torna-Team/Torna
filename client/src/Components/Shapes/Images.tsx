@@ -1,59 +1,35 @@
 import { Transformer, Image } from 'react-konva';
 import React from 'react';
-import 'gifler';
-import { ShapeProps } from '../Types/Canvas.interface';
+import { ShapeProps } from '../../Types/Canvas.interface';
 import Konva from 'konva';
 
-function Gifs({
+function Images({
   element,
   canvaElements,
   handleDragEnd,
   isSelected,
   onSelect,
-  render,
-  setRender,
 }: ShapeProps) {
-  const imageRef = React.useRef<Konva.Image | null>(null);
+  const shapeRef = React.useRef<Konva.Image | null>(null);
   const trRef = React.useRef<Konva.Transformer | null>(null);
-  const canvas = React.useMemo(() => {
-    const node = document.createElement('canvas');
-    return node;
-  }, []);
 
   React.useEffect(() => {
-    if (isSelected && imageRef.current) {
-      // we need to attach transformer manually
-      trRef.current?.nodes([imageRef.current]);
+    if (isSelected && shapeRef.current) {
+      trRef.current?.nodes([shapeRef.current]);
       trRef.current?.getLayer()?.batchDraw();
     }
-
-    if (render) {
-      let an: any;
-      window.gifler(element.src).get((a: any) => {
-        an = a;
-        an.animateInCanvas(canvas);
-        an.onDrawFrame = (ctx: any, frame: any) => {
-          ctx.drawImage(frame.buffer, frame.x, frame.y);
-          if (imageRef.current) {
-            imageRef.current.getLayer()?.draw();
-          }
-        };
-      });
-      if (an) {
-        return () => an.stop();
-      }
-    }
-  }, [isSelected, element, canvas]);
-
+  }, [isSelected]);
   const imageProps = {
     type: 'image',
     id: element ? element.id : canvaElements.length - 1,
     x: element ? element.x : window.innerWidth / 2,
-    y: element ? element.y : window.innerHeight / 2,
+    y: element ? element.y : canvaElements[canvaElements.length - 1].y + 100,
     rotation: element ? element.rotation : 0,
     scaleX: element ? element.scaleX : 0.05,
     scaleY: element ? element.scaleY : 0.05,
   };
+  const newImage = new window.Image();
+  newImage.src = element.imageSrc as string;
 
   return (
     <>
@@ -65,9 +41,9 @@ function Gifs({
         y={imageProps.y}
         scaleX={imageProps.scaleX}
         scaleY={imageProps.scaleY}
-        ref={imageRef}
+        ref={shapeRef}
         rotation={imageProps.rotation}
-        image={canvas}
+        image={newImage}
         draggable={true}
         onDragEnd={(e) => {
           const indx = handleDragEnd();
@@ -76,9 +52,9 @@ function Gifs({
         }}
         stroke='black'
         onClick={onSelect}
-        // onTap={onSelect}
+        onTap={onSelect}
         onTransformEnd={() => {
-          const node = imageRef.current;
+          const node = shapeRef.current;
           const scaleX = node?.scaleX();
           const scaleY = node?.scaleY();
           const rotation = node?.rotation();
@@ -92,7 +68,6 @@ function Gifs({
         <Transformer
           ref={trRef}
           boundBoxFunc={(oldBox, newBox) => {
-            // limit resize
             if (newBox.width < 5 || newBox.height < 5) {
               return oldBox;
             }
@@ -104,4 +79,4 @@ function Gifs({
   );
 }
 
-export default Gifs;
+export default Images;

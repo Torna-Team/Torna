@@ -4,15 +4,15 @@ import { Layer, Stage } from 'react-konva';
 import FontPicker from 'font-picker-react';
 import Draggable from 'react-draggable';
 import checkCanvaElement from '../../Services/utils';
-import Arrows from '../Arrows';
-import Circles from '../Circles';
-import Squares from '../Squares';
-import Stars from '../Stars';
-import Texts from '../Texts';
-import Images from '../Images';
-import AnimatedText from '../AnimatedText/AnimatedText';
+import Arrows from '../Shapes/Arrows';
+import Circles from '../Shapes/Circles';
+import Squares from '../Shapes/Squares';
+import Stars from '../Shapes/Stars';
+import Texts from '../Shapes/Texts';
+import Images from '../Shapes/Images';
+import AnimatedText from '../StickerSearch/StickerSearch';
 import ImageUpload from '../ImageUpload/ImageUpload';
-import Gifs from '../Gifs';
+import Gifs from '../Shapes/Gifs';
 import './Canvas.css';
 import { Link } from 'react-router-dom';
 import tornaLogo from '../../Images/tornalogoyellow.png';
@@ -25,9 +25,9 @@ import {
 } from 'react-icons/fi';
 import { IoMdColorFill } from 'react-icons/io';
 import { RiText } from 'react-icons/ri';
-import { MdGif, MdOutlineColorLens } from 'react-icons/md';
 import { AiOutlineLine } from 'react-icons/ai';
-import { TbTextResize } from 'react-icons/tb';
+import { TbSticker } from 'react-icons/tb';
+import { MdGif, MdOutlineColorLens } from 'react-icons/md';
 import { uuidv4 } from '@firebase/util';
 import { useParams } from 'react-router-dom';
 import { saveAlbum, getAlbum } from '../../Services/Server-Client';
@@ -39,7 +39,8 @@ import {
   AlbumInterface,
 } from '../../Types/Canvas.interface';
 import { KonvaEventObject } from 'konva/lib/Node';
-import Lines from '../Lines';
+import Lines from '../Shapes/Lines';
+import Grid from '../Shapes/Grid';
 
 function splitTextFromGenericShapes(shapeList: CanvaElement[]) {
   return shapeList.reduce(
@@ -94,14 +95,16 @@ function Canvas() {
   const [stroke, setStroke] = useState<string>('rgba(0, 0, 0, 1)');
   const [strokedText, setStrokedText] = useState<boolean>(false);
   const [height, setHeight] = useState<number | null>(null);
-  const [width, setWidth] = useState<number>(window.innerWidth - 60);
+  const [width, setWidth] = useState<number>(
+    window.innerWidth - window.innerWidth * 0.05
+  );
   const [selectedId, selectShape] = useState<number | null>(null);
   const [newImage, setNewImage] = useState<string | null>(null);
   const [font, setFont] = useState<string>('Ubuntu');
   const [render, setRender] = useState<boolean>(true);
   const [toolOption, setToolOption] = useState<ToggleTool>(toggleTool);
-
   const [newGif, setNewGif] = useState<string | null>(null);
+  const [grid, setGrid] = useState<boolean>(true);
 
   const fontAPI = process.env.REACT_APP_GOOGLEAPI as string;
 
@@ -111,7 +114,7 @@ function Canvas() {
   }, []);
 
   useEffect(() => {
-    setWidth(window.innerWidth - 60);
+    setWidth(window.innerWidth - window.innerWidth * 0.05);
   }, [window.innerWidth]);
 
   async function getAlbumInfo() {
@@ -247,7 +250,9 @@ function Canvas() {
 
   const checkDeselect = (e: KonvaEventObject<MouseEvent | TouchEvent>) => {
     const clickedOnEmpty = e.target === e.target.getStage();
-    if (clickedOnEmpty) {
+    let clickedOnGrid;
+    if (grid) clickedOnGrid = e.target.getLayer().index === 0;
+    if (clickedOnEmpty || clickedOnGrid) {
       selectShape(null);
     }
   };
@@ -418,7 +423,7 @@ function Canvas() {
                 onClick={handleToggle}
                 value='animatedTextTool'
               >
-                <TbTextResize />
+                <TbSticker />
               </button>
 
               {/* GIF */}
@@ -448,7 +453,7 @@ function Canvas() {
             <div className='logicContainer'>
               {toggleTool.backgroundTool && (
                 <div className='toolContainer'>
-                  <label className='toolLabel'>Background color</label>
+                  <label className='toolLabel'>Background</label>
                   <CompactPicker
                     className='huePicker'
                     color={backgroundColor}
@@ -458,6 +463,14 @@ function Canvas() {
                       return setBackGroundColor(string);
                     }}
                   ></CompactPicker>
+                  <div className='check'>
+                    <label>GRID</label>
+                    <input
+                      type='checkbox'
+                      onClick={() => setGrid(!grid)}
+                      defaultChecked={true}
+                    />
+                  </div>
                 </div>
               )}
 
@@ -476,7 +489,7 @@ function Canvas() {
                       ADD
                     </button>
                   </form>
-                  <div className='fontStroke'>
+                  <div className='check'>
                     <label>STROKE</label>
                     <input
                       type='checkbox'
@@ -493,7 +506,7 @@ function Canvas() {
                 </div>
               )}
               {toggleTool.animatedTextTool && (
-                <AnimatedText setNewGif={setNewGif} />
+                <AnimatedText setNewGif={setNewGif} setRender={setRender} />
               )}
 
               {toggleTool.colorTool && (
@@ -503,10 +516,10 @@ function Canvas() {
                     <BlockPicker
                       color={color}
                       colors={[
+                        'transparent',
                         '#fffafa',
                         '#ed2939',
                         '#ff8a65',
-                        '#deb887',
                         '#ffdb58',
                         '#37D67A',
                         '#2CCCE4',
@@ -525,10 +538,10 @@ function Canvas() {
                     <BlockPicker
                       color={stroke}
                       colors={[
+                        'transparent',
                         '#fffafa',
                         '#ed2939',
                         '#ff8a65',
-                        '#deb887',
                         '#ffdb58',
                         '#37D67A',
                         '#2CCCE4',
@@ -561,7 +574,10 @@ function Canvas() {
             onTouchMove={handleWheel}
             onMouseDown={checkDeselect}
             onTouchStart={checkDeselect}
+            draggable
           >
+            <Layer>{grid && <Grid></Grid>}</Layer>
+
             <Layer>
               {genericItems?.map((el: CanvaElement) => {
                 const Shape = shapeType[

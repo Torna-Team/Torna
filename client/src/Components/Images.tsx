@@ -56,7 +56,6 @@ function Images({
             canvaElements[indx].x = e.target.x();
             canvaElements[indx].y = e.target.y();
           }}
-          stroke='black'
           onClick={onSelect}
           onTap={onSelect}
           onTransformEnd={() => {

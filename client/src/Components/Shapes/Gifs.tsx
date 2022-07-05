@@ -1,62 +1,80 @@
-import { Transformer, Rect } from 'react-konva';
+import { Transformer, Image } from 'react-konva';
 import React from 'react';
-import { ShapeProps } from '../Types/Canvas.interface';
+import 'gifler';
+import { ShapeProps } from '../../Types/Canvas.interface';
 import Konva from 'konva';
 
-function Squares({
+function Gifs({
   element,
   canvaElements,
   handleDragEnd,
   isSelected,
   onSelect,
+  render,
 }: ShapeProps) {
-  const shapeRef = React.useRef<Konva.Rect | null>(null);
+  const imageRef = React.useRef<Konva.Image | null>(null);
   const trRef = React.useRef<Konva.Transformer | null>(null);
+  const canvas = React.useMemo(() => {
+    const node = document.createElement('canvas');
+    return node;
+  }, []);
 
   React.useEffect(() => {
-    if (isSelected && shapeRef.current) {
-      trRef.current?.nodes([shapeRef.current]);
+    if (isSelected && imageRef.current) {
+      trRef.current?.nodes([imageRef.current]);
       trRef.current?.getLayer()?.batchDraw();
     }
-  }, [isSelected]);
 
-  const square = {
-    type: 'square',
+    if (render) {
+      let an: any;
+      window.gifler(element.src).get((a: any) => {
+        an = a;
+        an.animateInCanvas(canvas);
+        an.onDrawFrame = (ctx: any, frame: any) => {
+          ctx.drawImage(frame.buffer, frame.x, frame.y);
+          if (imageRef.current) {
+            imageRef.current.getLayer()?.draw();
+          }
+        };
+      });
+      if (an) {
+        return () => an.stop();
+      }
+    }
+  }, [isSelected, element, canvas]);
+
+  const imageProps = {
+    type: 'image',
     id: element ? element.id : canvaElements.length - 1,
     x: element ? element.x : window.innerWidth / 2,
     y: element ? element.y : window.innerHeight / 2,
     rotation: element ? element.rotation : 0,
-    scaleX: element ? element.scaleX : 0,
-    scaleY: element ? element.scaleY : 0,
-    color: element ? element.color : 'rgb(255, 255, 255)',
-    stroke: element ? element.stroke : 'rgb(0, 0, 0, 0)',
+    scaleX: element ? element.scaleX : 0.05,
+    scaleY: element ? element.scaleY : 0.05,
   };
 
   return (
     <>
-      <Rect
-        key={square.id}
-        id={square.id.toString()}
-        x={square.x}
-        y={square.y}
-        scaleX={square.scaleX}
-        scaleY={square.scaleY}
-        ref={shapeRef}
-        rotation={square.rotation}
+      <Image
+        type={imageProps.type}
+        key={imageProps.id}
+        id={imageProps.id.toString()}
+        x={imageProps.x}
+        y={imageProps.y}
+        scaleX={imageProps.scaleX}
+        scaleY={imageProps.scaleY}
+        ref={imageRef}
+        rotation={imageProps.rotation}
+        image={canvas}
         draggable={true}
-        width={100}
-        height={100}
-        fill={square.color}
-        stroke={square.stroke}
         onDragEnd={(e) => {
           const indx = handleDragEnd();
           canvaElements[indx].x = e.target.x();
           canvaElements[indx].y = e.target.y();
         }}
         onClick={onSelect}
-        onTap={onSelect}
         onTransformEnd={() => {
-          const node = shapeRef.current;
+          const node = imageRef.current;
           const scaleX = node?.scaleX();
           const scaleY = node?.scaleY();
           const rotation = node?.rotation();
@@ -81,4 +99,4 @@ function Squares({
   );
 }
 
-export default Squares;
+export default Gifs;

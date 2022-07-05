@@ -1,16 +1,16 @@
-import { Transformer, Circle } from 'react-konva';
+import { Transformer, Arrow } from 'react-konva';
 import React from 'react';
-import { ShapeProps } from '../Types/Canvas.interface';
+import { ShapeProps } from '../../Types/Canvas.interface';
 import Konva from 'konva';
 
-function Circles({
+function Arrows({
   element,
   canvaElements,
   handleDragEnd,
   isSelected,
   onSelect,
 }: ShapeProps) {
-  const shapeRef = React.useRef<Konva.Circle | null>(null);
+  const shapeRef = React.useRef<Konva.Arrow | null>(null);
   const trRef = React.useRef<Konva.Transformer | null>(null);
 
   React.useEffect(() => {
@@ -19,38 +19,39 @@ function Circles({
       trRef.current?.getLayer()?.batchDraw();
     }
   }, [isSelected]);
-  const circle = {
-    type: 'circle',
+  const arrow = {
+    type: 'arrow',
     id: element ? element.id : canvaElements.length - 1,
     x: element ? element.x : window.innerWidth / 2,
     y: element ? element.y : window.innerHeight / 2,
     rotation: element ? element.rotation : 0,
     scaleX: element ? element.scaleX : 0,
     scaleY: element ? element.scaleY : 0,
-    color: element ? element.color : 'rgb(255, 255, 255)',
-    stroke: element ? element.stroke : 'rgb(0, 0, 0, 0)',
+    color: element ? element.color : 'rgb(0, 0, 0, 1)',
   };
 
   return (
     <>
-      <Circle
-        key={circle.id}
-        id={circle.id.toString()}
-        x={circle.x}
-        y={circle.y}
-        scaleX={circle.scaleX}
-        scaleY={circle.scaleY}
+      <Arrow
+        key={arrow.id}
+        id={arrow.id.toString()}
+        x={arrow.x}
+        y={arrow.y}
+        scaleX={arrow.scaleX}
+        scaleY={arrow.scaleY}
         ref={shapeRef}
-        rotation={circle.rotation}
-        radius={50}
-        fill={circle.color}
-        stroke={circle.stroke}
+        rotation={arrow.rotation}
+        points={[0, 100, 100, 0]}
+        pointerLength={6}
+        pointerWidth={6}
         onDragEnd={(e) => {
           const indx = handleDragEnd();
           canvaElements[indx].x = e.target.x();
           canvaElements[indx].y = e.target.y();
         }}
         draggable={true}
+        stroke={arrow.color}
+        strokeWidth={4}
         onClick={onSelect}
         onTap={onSelect}
         onTransformEnd={() => {
@@ -64,6 +65,7 @@ function Circles({
           canvaElements[indx].rotation = rotation;
         }}
       />
+
       {isSelected && (
         <Transformer
           ref={trRef}
@@ -79,4 +81,4 @@ function Circles({
   );
 }
 
-export default Circles;
+export default Arrows;

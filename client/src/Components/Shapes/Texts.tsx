@@ -1,16 +1,16 @@
-import { Transformer, Arrow } from 'react-konva';
+import { Transformer, Text } from 'react-konva';
 import React from 'react';
-import { ShapeProps } from '../Types/Canvas.interface';
+import { ShapeProps } from '../../Types/Canvas.interface';
 import Konva from 'konva';
 
-function Arrows({
+function Texts({
   element,
   canvaElements,
   handleDragEnd,
   isSelected,
   onSelect,
 }: ShapeProps) {
-  const shapeRef = React.useRef<Konva.Arrow | null>(null);
+  const shapeRef = React.useRef<Konva.Text | null>(null);
   const trRef = React.useRef<Konva.Transformer | null>(null);
 
   React.useEffect(() => {
@@ -19,8 +19,10 @@ function Arrows({
       trRef.current?.getLayer()?.batchDraw();
     }
   }, [isSelected]);
-  const arrow = {
-    type: 'arrow',
+
+  const text = {
+    type: 'text',
+    text: element.text,
     id: element ? element.id : canvaElements.length - 1,
     x: element ? element.x : window.innerWidth / 2,
     y: element ? element.y : window.innerHeight / 2,
@@ -28,30 +30,32 @@ function Arrows({
     scaleX: element ? element.scaleX : 0,
     scaleY: element ? element.scaleY : 0,
     color: element ? element.color : 'rgb(0, 0, 0, 1)',
+    stroke: element ? element.stroke : 'rgb(0, 0, 0, 1)',
+    font: element ? element.font : 'Ubuntu',
   };
 
   return (
     <>
-      <Arrow
-        key={arrow.id}
-        id={arrow.id.toString()}
-        x={arrow.x}
-        y={arrow.y}
-        scaleX={arrow.scaleX}
-        scaleY={arrow.scaleY}
+      <Text
+        key={text.id}
+        x={text.x}
+        y={text.y}
+        scaleX={text.scaleX}
+        scaleY={text.scaleY}
         ref={shapeRef}
-        rotation={arrow.rotation}
-        points={[0, 100, 100, 0]}
-        pointerLength={6}
-        pointerWidth={6}
+        rotation={text.rotation}
+        draggable={true}
+        text={text.text}
+        fontSize={30}
+        fill={text.color}
+        stroke={text.stroke}
+        fontFamily={text.font}
+        id={text.id.toString()}
         onDragEnd={(e) => {
           const indx = handleDragEnd();
           canvaElements[indx].x = e.target.x();
           canvaElements[indx].y = e.target.y();
         }}
-        draggable={true}
-        stroke={arrow.color}
-        strokeWidth={4}
         onClick={onSelect}
         onTap={onSelect}
         onTransformEnd={() => {
@@ -65,7 +69,6 @@ function Arrows({
           canvaElements[indx].rotation = rotation;
         }}
       />
-
       {isSelected && (
         <Transformer
           ref={trRef}
@@ -81,4 +84,4 @@ function Arrows({
   );
 }
 
-export default Arrows;
+export default Texts;

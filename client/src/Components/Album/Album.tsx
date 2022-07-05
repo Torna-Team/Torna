@@ -50,7 +50,11 @@ const Album = ({ element, editAlbum, setUser }: AlbumProps) => {
 
       {visibilityOnTitle && (
         <>
-          <h4 unselectable='on' className='albumTitle'>
+          <h4
+            unselectable='on'
+            className='albumTitle'
+            onClick={() => navigate(`/album/${element.id}/view`)}
+          >
             {element.title}
           </h4>
           {!toolToggle ? (

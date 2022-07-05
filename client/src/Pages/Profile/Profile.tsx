@@ -74,45 +74,47 @@ function Profile() {
 		navigate(`/album/${newAlbum?.id}/edit`);
 	};
 
-	return (
-		<div className='ProfileMainContainer'>
-			<Navbar user={user as User} />
-			<div className='albumsContainer'>
-				{loggedIn ? (
-					<>
-						<div className='profileContainer'>
-							<div className='sortBtnsContainer'>
-								{oldToNewOrder ? (
-									<HiSortAscending className='sortBtn' onClick={sortAlbums} />
-								) : (
-									<HiSortDescending className='sortBtn' onClick={sortAlbums} />
-								)}
-							</div>
-							<div className='albumList'>
-								{user && user.albums && user.albums.length !== 0 ? (
-									user.albums.map((el: AlbumInterface) => {
-										return (
-											<>
-												<Album
-													setUser={setUser}
-													element={el}
-													editAlbum={editAlbum}
-												/>
-											</>
-										);
-									})
-								) : (
-									<p>You don't have albums yet</p>
-								)}
-							</div>
-						</div>
-					</>
-				) : (
-					<h3 className='loginText'>
-						Log in to see your albums or to create a new one
-					</h3>
-				)}
-			</div>
+
+  return (
+    <div className='ProfileMainContainer'>
+      <Navbar user={user as User} />
+      <div className='albumsContainer'>
+        {loggedIn ? (
+          <>
+            <div className='profileContainer'>
+              <div className='sortBtnsContainer'>
+                {oldToNewOrder ? (
+                  <HiSortAscending className='sortBtn' onClick={sortAlbums} />
+                ) : (
+                  <HiSortDescending className='sortBtn' onClick={sortAlbums} />
+                )}
+              </div>
+              <div className='albumList'>
+                {user && user.albums && user.albums.length !== 0 ? (
+                  user.albums.map((el: AlbumInterface) => {
+                    return (
+                      <>
+                        <Album
+                          setUser={setUser}
+                          element={el}
+                          editAlbum={editAlbum}
+                        />
+                      </>
+                    );
+                  })
+                ) : (
+                  <p>You don't have albums yet</p>
+                )}
+              </div>
+            </div>
+          </>
+        ) : (
+          <h3 className='loginText'>
+            Log in to see your albums or to create a new one
+          </h3>
+        )}
+      </div>
+
 
 			{loggedIn && (
 				<div className='newAlbum'>

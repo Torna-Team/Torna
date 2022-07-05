@@ -1,16 +1,16 @@
+import { Transformer, Circle } from 'react-konva';
 import React from 'react';
-import { Transformer, Star } from 'react-konva';
-import { ShapeProps } from '../Types/Canvas.interface';
+import { ShapeProps } from '../../Types/Canvas.interface';
 import Konva from 'konva';
 
-function Stars({
+function Circles({
   element,
   canvaElements,
   handleDragEnd,
   isSelected,
   onSelect,
 }: ShapeProps) {
-  const shapeRef = React.useRef<Konva.Star | null>(null);
+  const shapeRef = React.useRef<Konva.Circle | null>(null);
   const trRef = React.useRef<Konva.Transformer | null>(null);
 
   React.useEffect(() => {
@@ -19,8 +19,8 @@ function Stars({
       trRef.current?.getLayer()?.batchDraw();
     }
   }, [isSelected]);
-  const star = {
-    type: 'star',
+  const circle = {
+    type: 'circle',
     id: element ? element.id : canvaElements.length - 1,
     x: element ? element.x : window.innerWidth / 2,
     y: element ? element.y : window.innerHeight / 2,
@@ -33,27 +33,24 @@ function Stars({
 
   return (
     <>
-      <Star
-        type={star.type}
-        key={star.id}
-        id={star.id.toString()}
-        x={star.x}
-        y={star.y}
-        scaleX={star.scaleX}
-        scaleY={star.scaleY}
+      <Circle
+        key={circle.id}
+        id={circle.id.toString()}
+        x={circle.x}
+        y={circle.y}
+        scaleX={circle.scaleX}
+        scaleY={circle.scaleY}
         ref={shapeRef}
-        rotation={star.rotation}
-        numPoints={5}
-        innerRadius={20}
-        outerRadius={40}
-        fill={star.color}
-        stroke={star.stroke}
-        draggable={true}
+        rotation={circle.rotation}
+        radius={50}
+        fill={circle.color}
+        stroke={circle.stroke}
         onDragEnd={(e) => {
           const indx = handleDragEnd();
           canvaElements[indx].x = e.target.x();
           canvaElements[indx].y = e.target.y();
         }}
+        draggable={true}
         onClick={onSelect}
         onTap={onSelect}
         onTransformEnd={() => {
@@ -71,7 +68,6 @@ function Stars({
         <Transformer
           ref={trRef}
           boundBoxFunc={(oldBox, newBox) => {
-            // limit resize
             if (newBox.width < 5 || newBox.height < 5) {
               return oldBox;
             }
@@ -83,4 +79,4 @@ function Stars({
   );
 }
 
-export default Stars;
+export default Circles;
