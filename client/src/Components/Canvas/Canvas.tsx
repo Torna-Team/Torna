@@ -468,7 +468,7 @@ function Canvas() {
                     <input
                       type='checkbox'
                       onClick={() => setGrid(!grid)}
-                      defaultChecked={true}
+                      defaultChecked={grid}
                     />
                   </div>
                 </div>
@@ -574,7 +574,6 @@ function Canvas() {
             onTouchMove={handleWheel}
             onMouseDown={checkDeselect}
             onTouchStart={checkDeselect}
-            draggable
           >
             <Layer>{grid && <Grid></Grid>}</Layer>
 
