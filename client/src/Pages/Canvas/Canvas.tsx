@@ -1,29 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { BlockPicker, CompactPicker } from 'react-color';
 import { Layer, Stage } from 'react-konva';
-import FontPicker from 'font-picker-react';
-import Draggable from 'react-draggable';
 import checkCanvaElement from '../../Services/utils';
-
 import './Canvas.css';
 import { Link } from 'react-router-dom';
 import tornaLogo from '../../Images/tornalogoyellow.png';
-import {
-  FiStar,
-  FiCircle,
-  FiSquare,
-  FiArrowUpRight,
-  FiTrash2,
-} from 'react-icons/fi';
-import { IoMdColorFill } from 'react-icons/io';
-import { RiText } from 'react-icons/ri';
-import { AiOutlineLine } from 'react-icons/ai';
-import { TbSticker } from 'react-icons/tb';
-import { MdGif, MdOutlineColorLens } from 'react-icons/md';
 import { uuidv4 } from '@firebase/util';
 import { useParams } from 'react-router-dom';
 import { saveAlbum, getAlbum } from '../../Services/Server-Client';
-import GifSearcher from '../../Components/GifSearcher/GifSearcher';
+
 import {
   CanvaElement,
   SplitTextFromGenericShapesReducer,
@@ -32,6 +16,7 @@ import {
 } from '../../Types/Canvas.interface';
 import { KonvaEventObject } from 'konva/lib/Node';
 import { CanvaImports } from './CanvaImports';
+import ToolsBar from '../../Components/ToolsBar/ToolsBar';
 function splitTextFromGenericShapes(shapeList: CanvaElement[]) {
   return shapeList.reduce(
     (res: SplitTextFromGenericShapesReducer, el: CanvaElement) => {
@@ -95,8 +80,6 @@ function Canvas() {
   const [toolOption, setToolOption] = useState<ToggleTool>(toggleTool);
   const [newGif, setNewGif] = useState<string | null>(null);
   const [grid, setGrid] = useState<boolean>(true);
-
-  const fontAPI = process.env.REACT_APP_GOOGLEAPI as string;
 
   async function getAlbumInfo() {
     const album = await getAlbum(Number(albumId));
@@ -345,224 +328,28 @@ function Canvas() {
       </div>
 
       <div className='canvasEditor' style={{ background: backgroundColor }}>
-        <Draggable>
-          <div className='sidebarContainer'>
-            <div className='toolsContainer'>
-              {/* BACKGROUND */}
-              <button
-                className='drawButtons'
-                onClick={handleToggle}
-                value='backgroundTool'
-              >
-                <IoMdColorFill />
-              </button>
-
-              {/* STAR */}
-              <button
-                className='drawButtons'
-                value='star'
-                onClick={handleClick}
-              >
-                <FiStar />
-              </button>
-
-              {/* CIRCLE */}
-              <button
-                className='drawButtons'
-                value='circle'
-                onClick={handleClick}
-              >
-                <FiCircle />
-              </button>
-
-              {/* SQUARE */}
-              <button
-                className='drawButtons'
-                value='square'
-                onClick={handleClick}
-              >
-                <FiSquare />
-              </button>
-
-              {/* LINE */}
-              <button
-                className='drawButtons'
-                value='line'
-                onClick={handleClick}
-              >
-                <AiOutlineLine />
-              </button>
-
-              {/* ARROW */}
-              <button
-                className='drawButtons'
-                value='arrow'
-                onClick={handleClick}
-              >
-                <FiArrowUpRight />
-              </button>
-
-              {/* TEXT */}
-              <button
-                className='drawButtons'
-                onClick={handleToggle}
-                value='textTool'
-              >
-                <RiText />
-              </button>
-
-              {/* ANIMATED TEXT */}
-              <button
-                className='drawButtons'
-                onClick={handleToggle}
-                value='animatedTextTool'
-              >
-                <TbSticker />
-              </button>
-
-              {/* GIF */}
-              <button
-                className='drawButtons'
-                onClick={handleToggle}
-                value='gifTool'
-              >
-                <MdGif />
-              </button>
-
-              {/* COLORS */}
-              <button
-                className='drawButtons'
-                onClick={handleToggle}
-                value='colorTool'
-              >
-                <MdOutlineColorLens />
-              </button>
-
-              {/* DELETE  */}
-              <button className='drawButtons' onClick={handleDelete}>
-                <FiTrash2 />
-              </button>
-            </div>
-
-            <div className='logicContainer'>
-              {toggleTool.backgroundTool && (
-                <div className='toolContainer'>
-                  <label className='toolLabel'>Background</label>
-                  <CompactPicker
-                    className='huePicker'
-                    color={backgroundColor}
-                    onChange={(updatedColor) => {
-                      const res = updatedColor.rgb;
-                      const string = `rgba(${res.r}, ${res.g}, ${res.b}, ${res.a})`;
-                      return setBackGroundColor(string);
-                    }}
-                  ></CompactPicker>
-                  <div className='check'>
-                    <label>GRID</label>
-                    <input
-                      type='checkbox'
-                      onClick={() => setGrid(!grid)}
-                      defaultChecked={grid}
-                    />
-                  </div>
-                </div>
-              )}
-
-              {toggleTool.textTool && (
-                <div className='toolContainer'>
-                  <label className='toolLabel'>Text Editor</label>
-                  <form className='formFont' onSubmit={handleSubmit}>
-                    <input
-                      className='addTextFont'
-                      type='text'
-                      id='text'
-                      name='textInput'
-                      placeholder='Type here'
-                    />
-                    <button className='buttonFont' type='submit'>
-                      ADD
-                    </button>
-                  </form>
-                  <div className='check'>
-                    <label>STROKE</label>
-                    <input
-                      type='checkbox'
-                      defaultChecked={strokedText}
-                      onClick={() => {
-                        setStrokedText(!strokedText);
-                      }}
-                    />
-                  </div>
-                  <FontPicker
-                    apiKey={fontAPI as string}
-                    activeFontFamily={font}
-                    onChange={(nextFont) => setFont(nextFont.family)}
-                  />
-                </div>
-              )}
-              {toggleTool.animatedTextTool && (
-                <CanvaImports.AnimatedText
-                  setNewGif={setNewGif}
-                  setRender={setRender}
-                />
-              )}
-
-              {toggleTool.colorTool && (
-                <div className='toolContainer'>
-                  <div className='fillAndStroke'>
-                    <label>Fill</label>
-                    <BlockPicker
-                      color={color}
-                      colors={[
-                        'transparent',
-                        '#fffafa',
-                        '#ed2939',
-                        '#ff8a65',
-                        '#ffdb58',
-                        '#37D67A',
-                        '#2CCCE4',
-                        '#ffa6c9',
-                        '#ba68c8',
-                        '#1b1b1b',
-                      ]}
-                      onChange={(updatedColor) => {
-                        const res = updatedColor.rgb;
-                        const string = `rgba(${res.r}, ${res.g}, ${res.b}, ${res.a})`;
-                        setTextColor(string);
-                        return setColor(string);
-                      }}
-                    ></BlockPicker>
-                    <label>Stroke</label>
-                    <BlockPicker
-                      color={stroke}
-                      colors={[
-                        'transparent',
-                        '#fffafa',
-                        '#ed2939',
-                        '#ff8a65',
-                        '#ffdb58',
-                        '#37D67A',
-                        '#2CCCE4',
-                        '#ffa6c9',
-                        '#ba68c8',
-                        '#1b1b1b',
-                      ]}
-                      onChange={(updatedColor) => {
-                        const res = updatedColor.rgb;
-                        const string = `rgba(${res.r}, ${res.g}, ${res.b}, ${res.a})`;
-                        return setStroke(string);
-                      }}
-                    ></BlockPicker>
-                  </div>
-                </div>
-              )}
-
-              {toggleTool.gifTool && (
-                <GifSearcher setNewGif={setNewGif} setRender={setRender} />
-              )}
-            </div>
-          </div>
-        </Draggable>
+        <ToolsBar
+          handleToggle={handleToggle}
+          handleClick={handleClick}
+          handleDelete={handleDelete}
+          handleSubmit={handleSubmit}
+          toggleTool={toggleTool}
+          backgroundColor={backgroundColor}
+          setBackGroundColor={setBackGroundColor}
+          grid={grid}
+          setGrid={setGrid}
+          strokedText={strokedText}
+          setStrokedText={setStrokedText}
+          font={font}
+          setFont={setFont}
+          color={color}
+          setColor={setColor}
+          setNewGif={setNewGif}
+          setTextColor={setTextColor}
+          stroke={stroke}
+          setStroke={setStroke}
+          setRender={setRender}
+        ></ToolsBar>
 
         <div className='canvaContainer'>
           <Stage
