@@ -7,7 +7,6 @@ import tornaLogo from '../../Images/tornalogoyellow.png';
 import { uuidv4 } from '@firebase/util';
 import { useParams } from 'react-router-dom';
 import { saveAlbum, getAlbum } from '../../Services/Server-Client';
-
 import {
   CanvaElement,
   SplitTextFromGenericShapesReducer,
@@ -228,6 +227,7 @@ function Canvas() {
       selectShape(null);
     }
   };
+
   const handleDragEnd = (el: CanvaElement) => {
     let indx!: number;
     if (canvaElements)
@@ -326,7 +326,6 @@ function Canvas() {
           </button>
         </form>
       </div>
-
       <div className='canvasEditor' style={{ background: backgroundColor }}>
         <ToolsBar
           handleToggle={handleToggle}
@@ -350,7 +349,6 @@ function Canvas() {
           setStroke={setStroke}
           setRender={setRender}
         ></ToolsBar>
-
         <div className='canvaContainer'>
           <Stage
             width={width}
@@ -361,7 +359,6 @@ function Canvas() {
             onTouchStart={checkDeselect}
           >
             <Layer>{grid && <CanvaImports.Grid />}</Layer>
-
             <Layer>
               {genericItems?.map((el: CanvaElement) => {
                 const Shape = shapeType[

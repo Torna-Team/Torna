@@ -16,7 +16,9 @@ import { MdGif, MdOutlineColorLens } from 'react-icons/md';
 import GifSearcher from '../../Components/GifSearcher/GifSearcher';
 import { CanvaImports } from '../../Pages/Canvas/CanvaImports';
 import Draggable from 'react-draggable';
+import './ToolsBar.css';
 import { ToolsBarProps } from '../../Types/ToolsBar.interface';
+
 
 const fontAPI = process.env.REACT_APP_GOOGLEAPI as string;
 
@@ -145,10 +147,9 @@ function ToolsBar({
               </div>
             </div>
           )}
-
           {toggleTool.textTool && (
             <div className='toolContainer'>
-              <label className='toolLabel'>Text Editor</label>
+              <label>Text Editor</label>
               <form className='formFont' onSubmit={handleSubmit}>
                 <input
                   className='addTextFont'
@@ -234,7 +235,6 @@ function ToolsBar({
               </div>
             </div>
           )}
-
           {toggleTool.gifTool && (
             <GifSearcher setNewGif={setNewGif} setRender={setRender} />
           )}
