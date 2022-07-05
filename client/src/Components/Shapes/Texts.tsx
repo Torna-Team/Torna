@@ -1,6 +1,6 @@
 import { Transformer, Text } from 'react-konva';
 import React from 'react';
-import { ShapeProps } from '../../Types/Canvas.interface';
+import { ShapeProps, ViewerProps } from '../../Types/Canvas.interface';
 import Konva from 'konva';
 
 function Texts({
