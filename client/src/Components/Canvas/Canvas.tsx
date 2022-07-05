@@ -96,13 +96,14 @@ function Canvas() {
   const [stroke, setStroke] = useState<string>('rgba(0, 0, 0, 1)');
   const [strokedText, setStrokedText] = useState<boolean>(false);
   const [height, setHeight] = useState<number | null>(null);
-  const [width, setWidth] = useState<number>(window.innerWidth - 60);
+  const [width, setWidth] = useState<number>(
+    window.innerWidth - window.innerWidth * 0.05
+  );
   const [selectedId, selectShape] = useState<number | null>(null);
   const [newImage, setNewImage] = useState<string | null>(null);
   const [font, setFont] = useState<string>('Ubuntu');
   const [render, setRender] = useState<boolean>(true);
   const [toolOption, setToolOption] = useState<ToggleTool>(toggleTool);
-  // const [gridComponents, setGridComponents] = useState<any>([]);
   const [newGif, setNewGif] = useState<string | null>(null);
   const [grid, setGrid] = useState<boolean>(true);
 
@@ -118,7 +119,7 @@ function Canvas() {
   }, []);
 
   useEffect(() => {
-    setWidth(window.innerWidth - 60);
+    setWidth(window.innerWidth - window.innerWidth * 0.05);
   }, [window.innerWidth]);
 
   async function getAlbumInfo() {
@@ -332,7 +333,6 @@ function Canvas() {
   const startX = Math.floor((-stagePos.x - window.innerWidth) / WIDTH) * WIDTH;
   const endX =
     Math.floor((-stagePos.x + window.innerWidth * 2) / WIDTH) * WIDTH;
-  console.log(endX, 'endX');
 
   const startY =
     Math.floor((-stagePos.y - window.innerHeight) / HEIGHT) * HEIGHT;
