@@ -80,8 +80,8 @@ const checkCanvaElement = (
           canvaElements.length > 0
             ? canvaElements[canvaElements.length - 1].y + 100
             : window.innerHeight / 2,
-        scaleX: 0.1,
-        scaleY: 0.1,
+        scaleX: 0.4,
+        scaleY: 0.4,
         imageSrc,
       };
       return image as CanvaElement;
@@ -97,8 +97,8 @@ const checkCanvaElement = (
             ? canvaElements[canvaElements.length - 1].y + 100
             : window.innerHeight / 2,
         src: imageSrc,
-        scaleX: 1,
-        scaleY: 1,
+        scaleX: 0.5,
+        scaleY: 0.5,
       };
       return gif;
     default:

@@ -72,7 +72,6 @@ function Gifs({
           canvaElements[indx].x = e.target.x();
           canvaElements[indx].y = e.target.y();
         }}
-        stroke='black'
         onClick={onSelect}
         onTransformEnd={() => {
           const node = imageRef.current;

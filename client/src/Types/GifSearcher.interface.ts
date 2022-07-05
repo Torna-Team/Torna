@@ -1,6 +1,6 @@
 export interface Gif {
   images: {
-    downsized_medium: {
+    fixed_height_downsampled: {
       url: string;
     };
   };

@@ -10,7 +10,7 @@ import Squares from '../Shapes/Squares';
 import Stars from '../Shapes/Stars';
 import Texts from '../Shapes/Texts';
 import Images from '../Shapes/Images';
-import AnimatedText from '../AnimatedText/AnimatedText';
+import AnimatedText from '../StickerSearch/StickerSearch';
 import ImageUpload from '../ImageUpload/ImageUpload';
 import Gifs from '../Shapes/Gifs';
 import './Canvas.css';
@@ -26,8 +26,8 @@ import {
 import { IoMdColorFill } from 'react-icons/io';
 import { RiText } from 'react-icons/ri';
 import { AiOutlineLine } from 'react-icons/ai';
+import { TbSticker } from 'react-icons/tb';
 import { MdGif, MdOutlineColorLens } from 'react-icons/md';
-import { TbTextResize } from 'react-icons/tb';
 import { uuidv4 } from '@firebase/util';
 import { useParams } from 'react-router-dom';
 import { saveAlbum, getAlbum } from '../../Services/Server-Client';
@@ -423,7 +423,7 @@ function Canvas() {
                 onClick={handleToggle}
                 value='animatedTextTool'
               >
-                <TbTextResize />
+                <TbSticker />
               </button>
 
               {/* GIF */}
@@ -468,7 +468,7 @@ function Canvas() {
                     <input
                       type='checkbox'
                       onClick={() => setGrid(!grid)}
-                      defaultChecked={true}
+                      defaultChecked={grid}
                     />
                   </div>
                 </div>
