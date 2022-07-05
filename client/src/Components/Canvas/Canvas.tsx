@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { BlockPicker, CompactPicker } from 'react-color';
-import { Layer, Stage, Rect } from 'react-konva';
+import { Layer, Stage } from 'react-konva';
 import FontPicker from 'font-picker-react';
 import Draggable from 'react-draggable';
 import checkCanvaElement from '../../Services/utils';
@@ -26,7 +26,7 @@ import {
 import { IoMdColorFill } from 'react-icons/io';
 import { RiText } from 'react-icons/ri';
 import { AiOutlineLine } from 'react-icons/ai';
-import { MdGif, MdOutlineColorLens, MdOutlineGrid4X4 } from 'react-icons/md';
+import { MdGif, MdOutlineColorLens } from 'react-icons/md';
 import { TbTextResize } from 'react-icons/tb';
 import { uuidv4 } from '@firebase/util';
 import { useParams } from 'react-router-dom';
@@ -250,7 +250,9 @@ function Canvas() {
 
   const checkDeselect = (e: KonvaEventObject<MouseEvent | TouchEvent>) => {
     const clickedOnEmpty = e.target === e.target.getStage();
-    if (clickedOnEmpty) {
+    let clickedOnGrid;
+    if (grid) clickedOnGrid = e.target.getLayer().index === 0;
+    if (clickedOnEmpty || clickedOnGrid) {
       selectShape(null);
     }
   };
