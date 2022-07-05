@@ -1,16 +1,16 @@
-import { Transformer, Arrow } from 'react-konva';
+import { Transformer, Image } from 'react-konva';
 import React from 'react';
-import { ShapeProps } from '../Types/Canvas.interface';
+import { ShapeProps } from '../../Types/Canvas.interface';
 import Konva from 'konva';
 
-function Arrows({
+function Images({
   element,
   canvaElements,
   handleDragEnd,
   isSelected,
   onSelect,
 }: ShapeProps) {
-  const shapeRef = React.useRef<Konva.Arrow | null>(null);
+  const shapeRef = React.useRef<Konva.Image | null>(null);
   const trRef = React.useRef<Konva.Transformer | null>(null);
 
   React.useEffect(() => {
@@ -19,39 +19,38 @@ function Arrows({
       trRef.current?.getLayer()?.batchDraw();
     }
   }, [isSelected]);
-  const arrow = {
-    type: 'arrow',
+  const imageProps = {
+    type: 'image',
     id: element ? element.id : canvaElements.length - 1,
     x: element ? element.x : window.innerWidth / 2,
-    y: element ? element.y : window.innerHeight / 2,
+    y: element ? element.y : canvaElements[canvaElements.length - 1].y + 100,
     rotation: element ? element.rotation : 0,
-    scaleX: element ? element.scaleX : 0,
-    scaleY: element ? element.scaleY : 0,
-    color: element ? element.color : 'rgb(0, 0, 0, 1)',
+    scaleX: element ? element.scaleX : 0.05,
+    scaleY: element ? element.scaleY : 0.05,
   };
+  const newImage = new window.Image();
+  newImage.src = element.imageSrc as string;
 
   return (
     <>
-      <Arrow
-        key={arrow.id}
-        id={arrow.id.toString()}
-        x={arrow.x}
-        y={arrow.y}
-        scaleX={arrow.scaleX}
-        scaleY={arrow.scaleY}
+      <Image
+        type={imageProps.type}
+        key={imageProps.id}
+        id={imageProps.id.toString()}
+        x={imageProps.x}
+        y={imageProps.y}
+        scaleX={imageProps.scaleX}
+        scaleY={imageProps.scaleY}
         ref={shapeRef}
-        rotation={arrow.rotation}
-        points={[0, 100, 100, 0]}
-        pointerLength={6}
-        pointerWidth={6}
+        rotation={imageProps.rotation}
+        image={newImage}
+        draggable={true}
         onDragEnd={(e) => {
           const indx = handleDragEnd();
           canvaElements[indx].x = e.target.x();
           canvaElements[indx].y = e.target.y();
         }}
-        draggable={true}
-        stroke={arrow.color}
-        strokeWidth={4}
+        stroke='black'
         onClick={onSelect}
         onTap={onSelect}
         onTransformEnd={() => {
@@ -65,7 +64,6 @@ function Arrows({
           canvaElements[indx].rotation = rotation;
         }}
       />
-
       {isSelected && (
         <Transformer
           ref={trRef}
@@ -81,4 +79,4 @@ function Arrows({
   );
 }
 
-export default Arrows;
+export default Images;

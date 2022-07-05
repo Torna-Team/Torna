@@ -1,16 +1,16 @@
-import { Transformer, Text } from 'react-konva';
+import { Transformer, Rect } from 'react-konva';
 import React from 'react';
-import { ShapeProps } from '../Types/Canvas.interface';
+import { ShapeProps } from '../../Types/Canvas.interface';
 import Konva from 'konva';
 
-function Texts({
+function Squares({
   element,
   canvaElements,
   handleDragEnd,
   isSelected,
   onSelect,
 }: ShapeProps) {
-  const shapeRef = React.useRef<Konva.Text | null>(null);
+  const shapeRef = React.useRef<Konva.Rect | null>(null);
   const trRef = React.useRef<Konva.Transformer | null>(null);
 
   React.useEffect(() => {
@@ -20,37 +20,34 @@ function Texts({
     }
   }, [isSelected]);
 
-  const text = {
-    type: 'text',
-    text: element.text,
+  const square = {
+    type: 'square',
     id: element ? element.id : canvaElements.length - 1,
     x: element ? element.x : window.innerWidth / 2,
     y: element ? element.y : window.innerHeight / 2,
     rotation: element ? element.rotation : 0,
     scaleX: element ? element.scaleX : 0,
     scaleY: element ? element.scaleY : 0,
-    color: element ? element.color : 'rgb(0, 0, 0, 1)',
-    stroke: element ? element.stroke : 'rgb(0, 0, 0, 1)',
-    font: element ? element.font : 'Ubuntu',
+    color: element ? element.color : 'rgb(255, 255, 255)',
+    stroke: element ? element.stroke : 'rgb(0, 0, 0, 0)',
   };
 
   return (
     <>
-      <Text
-        key={text.id}
-        x={text.x}
-        y={text.y}
-        scaleX={text.scaleX}
-        scaleY={text.scaleY}
+      <Rect
+        key={square.id}
+        id={square.id.toString()}
+        x={square.x}
+        y={square.y}
+        scaleX={square.scaleX}
+        scaleY={square.scaleY}
         ref={shapeRef}
-        rotation={text.rotation}
+        rotation={square.rotation}
         draggable={true}
-        text={text.text}
-        fontSize={30}
-        fill={text.color}
-        stroke={text.stroke}
-        fontFamily={text.font}
-        id={text.id.toString()}
+        width={100}
+        height={100}
+        fill={square.color}
+        stroke={square.stroke}
         onDragEnd={(e) => {
           const indx = handleDragEnd();
           canvaElements[indx].x = e.target.x();
@@ -84,4 +81,4 @@ function Texts({
   );
 }
 
-export default Texts;
+export default Squares;

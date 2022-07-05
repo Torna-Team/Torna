@@ -13,12 +13,8 @@ const AnimatedText = ({ setNewGif, setRender }: AnimatedTextProps) => {
   const [results, setResults] = useState<IGif[]>([]);
   const [err, setErr] = useState<boolean>(false);
   const [width, setWidth] = useState<number>((window.innerWidth / 100) * 14);
-  // const [height, setHeight] = useState<number>(window.innerHeight);
 
   const handleClick = async (gifClicked: string | any) => {
-    console.log(gifClicked, 'gcli');
-    // let GifObj = { src : ''}
-    // GifObj.src= gifClicked.url
     setNewGif(gifClicked.images.preview_webp.url);
     setRender(true);
   };
@@ -33,7 +29,6 @@ const AnimatedText = ({ setNewGif, setRender }: AnimatedTextProps) => {
     }
     const apiCall = async () => {
       const res = await giphy.animate(text, { limit: 25 });
-      console.log(res.data, 'resDAta');
       setResults(res.data);
     };
     apiCall();

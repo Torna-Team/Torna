@@ -1,13 +1,13 @@
 //@ts-nocheck
 import { useEffect, useState } from 'react';
 import { Layer, Stage } from 'react-konva';
-import Arrows from '../Arrows';
-import Circles from '../Circles';
-import Squares from '../Squares';
-import Stars from '../Stars';
-import Texts from '../Texts';
-import Images from '../Images';
-import Gifs from '../Gifs';
+import Arrows from '../Shapes/Arrows';
+import Circles from '../Shapes/Circles';
+import Squares from '../Shapes/Squares';
+import Stars from '../Shapes/Stars';
+import Texts from '../Shapes/Texts';
+import Images from '../Shapes/Images';
+import Gifs from '../Shapes/Gifs';
 import tornaLogo from '../../Images/tornalogoyellow.png';
 import { useParams } from 'react-router-dom';
 import { getAlbum } from '../../Services/Server-Client';

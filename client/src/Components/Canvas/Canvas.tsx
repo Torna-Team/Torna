@@ -1,19 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { BlockPicker, CompactPicker } from 'react-color';
 import { Layer, Stage, Rect } from 'react-konva';
-import { render } from 'react-dom';
 import FontPicker from 'font-picker-react';
 import Draggable from 'react-draggable';
 import checkCanvaElement from '../../Services/utils';
-import Arrows from '../Arrows';
-import Circles from '../Circles';
-import Squares from '../Squares';
-import Stars from '../Stars';
-import Texts from '../Texts';
-import Images from '../Images';
+import Arrows from '../Shapes/Arrows';
+import Circles from '../Shapes/Circles';
+import Squares from '../Shapes/Squares';
+import Stars from '../Shapes/Stars';
+import Texts from '../Shapes/Texts';
+import Images from '../Shapes/Images';
 import AnimatedText from '../AnimatedText/AnimatedText';
 import ImageUpload from '../ImageUpload/ImageUpload';
-import Gifs from '../Gifs';
+import Gifs from '../Shapes/Gifs';
 import './Canvas.css';
 import { Link } from 'react-router-dom';
 import tornaLogo from '../../Images/tornalogoyellow.png';
@@ -40,7 +39,8 @@ import {
   AlbumInterface,
 } from '../../Types/Canvas.interface';
 import { KonvaEventObject } from 'konva/lib/Node';
-import Lines from '../Lines';
+import Lines from '../Shapes/Lines';
+import Grid from '../Shapes/Grid';
 
 function splitTextFromGenericShapes(shapeList: CanvaElement[]) {
   return shapeList.reduce(
@@ -79,7 +79,6 @@ const toggleTool = {
   animatedTextTool: false,
   colorTool: false,
   gifTool: false,
-  // grid: false,
 };
 
 function Canvas() {
@@ -106,10 +105,6 @@ function Canvas() {
   const [toolOption, setToolOption] = useState<ToggleTool>(toggleTool);
   const [newGif, setNewGif] = useState<string | null>(null);
   const [grid, setGrid] = useState<boolean>(true);
-
-  ///per borrar si no funciona
-  const WIDTH = 40;
-  const HEIGHT = 40;
 
   const fontAPI = process.env.REACT_APP_GOOGLEAPI as string;
 
@@ -329,30 +324,6 @@ function Canvas() {
     canvaElements as CanvaElement[]
   );
 
-  const [stagePos, setStagePos] = React.useState({ x: 0, y: 0 });
-  const startX = Math.floor((-stagePos.x - window.innerWidth) / WIDTH) * WIDTH;
-  const endX =
-    Math.floor((-stagePos.x + window.innerWidth * 2) / WIDTH) * WIDTH;
-
-  const startY =
-    Math.floor((-stagePos.y - window.innerHeight) / HEIGHT) * HEIGHT;
-  const endY =
-    Math.floor((-stagePos.y + window.innerHeight * 2) / HEIGHT) * HEIGHT;
-
-  const gridComponents = [];
-  var i = 0;
-  for (var x = startX; x < endX - 60; x += WIDTH) {
-    for (var y = startY; y < endY; y += HEIGHT) {
-      if (i === 4) {
-        i = 0;
-      }
-
-      gridComponents.push(
-        <Rect x={x} y={y} width={40} height={40} stroke='WhiteSmoke' />
-      );
-    }
-  }
-
   return (
     <div className='mainContainer'>
       {/* NAVBAR */}
@@ -480,7 +451,7 @@ function Canvas() {
             <div className='logicContainer'>
               {toggleTool.backgroundTool && (
                 <div className='toolContainer'>
-                  <label className='toolLabel'>Background color</label>
+                  <label className='toolLabel'>Background</label>
                   <CompactPicker
                     className='huePicker'
                     color={backgroundColor}
@@ -490,11 +461,13 @@ function Canvas() {
                       return setBackGroundColor(string);
                     }}
                   ></CompactPicker>
-                  <div>
-                    <button onClick={() => setGrid(!grid)}>
-                      <MdOutlineGrid4X4 />
-                    </button>
-                    TOGGLE GRID
+                  <div className='check'>
+                    <label>GRID</label>
+                    <input
+                      type='checkbox'
+                      onClick={() => setGrid(!grid)}
+                      defaultChecked={true}
+                    />
                   </div>
                 </div>
               )}
@@ -514,7 +487,7 @@ function Canvas() {
                       ADD
                     </button>
                   </form>
-                  <div className='fontStroke'>
+                  <div className='check'>
                     <label>STROKE</label>
                     <input
                       type='checkbox'
@@ -541,10 +514,10 @@ function Canvas() {
                     <BlockPicker
                       color={color}
                       colors={[
+                        'transparent',
                         '#fffafa',
                         '#ed2939',
                         '#ff8a65',
-                        '#deb887',
                         '#ffdb58',
                         '#37D67A',
                         '#2CCCE4',
@@ -563,10 +536,10 @@ function Canvas() {
                     <BlockPicker
                       color={stroke}
                       colors={[
+                        'transparent',
                         '#fffafa',
                         '#ed2939',
                         '#ff8a65',
-                        '#deb887',
                         '#ffdb58',
                         '#37D67A',
                         '#2CCCE4',
@@ -600,7 +573,8 @@ function Canvas() {
             onMouseDown={checkDeselect}
             onTouchStart={checkDeselect}
           >
-            <Layer>{grid && gridComponents}</Layer>
+            <Layer>{grid && <Grid></Grid>}</Layer>
+
             <Layer>
               {genericItems?.map((el: CanvaElement) => {
                 const Shape = shapeType[

@@ -139,13 +139,13 @@
   padding-left: 4px;
 }
 
-.fontStroke {
+.check {
   display: flex;
   align-items: center;
   margin: 4px;
 }
 
-.fontStroke input {
+.check input {
   width: 16px;
   height: 16px;
   border-radius: 4px;
