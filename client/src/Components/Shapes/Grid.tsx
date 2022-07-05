@@ -1,7 +1,7 @@
 import { Rect } from 'react-konva';
 
-const gridWidth = 100;
-const gridHeight = 100;
+const gridWidth = 300;
+const gridHeight = 300;
 
 const Grid = () => {
   const stagePos = { x: 0, y: 0 };
@@ -10,11 +10,8 @@ const Grid = () => {
   const endX =
     Math.floor((-stagePos.x + window.innerWidth * 2) / gridWidth) * gridWidth;
 
-  const startY =
-    Math.floor((-stagePos.y - window.innerHeight) / gridHeight) * gridHeight;
-  const endY =
-    Math.floor((-stagePos.y + window.innerHeight * 2) / gridHeight) *
-    gridHeight;
+  const startY = Math.floor((-stagePos.y - 5000) / gridHeight) * gridHeight;
+  const endY = Math.floor((-stagePos.y + 5000 * 2) / gridHeight) * gridHeight;
 
   const gridComponents = [];
   var i = 0;
