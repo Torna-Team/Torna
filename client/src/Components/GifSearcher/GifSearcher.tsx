@@ -45,6 +45,7 @@ const GifSearcher = ({ setNewGif, setRender }: GifSearcherProps) => {
   }, [search]);
 
   const handleClick = (gifClicked: Gif) => {
+    console.log(gifClicked, 'gifCLicked');
     setNewGif(gifClicked.images.downsized_medium.url);
     setRender(true);
   };

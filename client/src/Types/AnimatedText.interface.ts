@@ -3,4 +3,5 @@ import { Dispatch, SetStateAction } from 'react';
 
 export interface AnimatedTextProps {
   setNewGif: Dispatch<SetStateAction<string | null>>;
+  setRender: Dispatch<SetStateAction<boolean>>;
 }
