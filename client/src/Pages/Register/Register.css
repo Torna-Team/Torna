@@ -1,3 +1,19 @@
+@media (max-width: 1600px) {
+  .register-container {
+    justify-content: space-around !important;
+    width: 76% !important;
+    height: 100% !important;
+  }
+  .registerInput {
+    border-radius: 5px;
+    height: 36px !important;
+  }
+  .registerLabel {
+    margin-top: 4px !important;
+    font-weight: bold;
+  }
+}
+
 .register-container {
   display: flex;
   justify-content: space-between;

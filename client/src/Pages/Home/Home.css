@@ -1,9 +1,23 @@
+@media (max-width: 1600px) {
+  .form-container {
+    width: 34% !important;
+    margin-left: 30% !important;
+    height: 86% !important;
+    margin-top: 1% !important;
+  }
+  .login-container {
+    height: 60% !important;
+    justify-content: space-evenly !important;
+  }
+}
+
 .backgroundContainer {
   background-image: url('../../Images/homebackground.jpg');
   background-repeat: no-repeat;
   background-position-y: top;
   background-size: cover;
   background-position-x: center;
+
   height: 100vh;
   display: flex;
 }
