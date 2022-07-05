@@ -16,6 +16,7 @@ import { MdGif, MdOutlineColorLens } from 'react-icons/md';
 import GifSearcher from '../../Components/GifSearcher/GifSearcher';
 import { CanvaImports } from '../../Pages/Canvas/CanvaImports';
 import Draggable from 'react-draggable';
+import { ToolsBarProps } from '../../Types/ToolsBar.interface';
 
 const fontAPI = process.env.REACT_APP_GOOGLEAPI as string;
 
@@ -40,7 +41,7 @@ function ToolsBar({
   stroke,
   setStroke,
   setRender,
-}) {
+}: ToolsBarProps) {
   return (
     <Draggable>
       <div className='sidebarContainer'>
