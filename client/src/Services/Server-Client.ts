@@ -18,7 +18,7 @@ export const getUser = async (displayName: string, email: string) => {
     const json = await result.json();
     return json;
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 };
 
@@ -32,7 +32,7 @@ export const login = async (user: LoggingUser) => {
     const res = await result.json();
     return res as User;
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 };
 

@@ -43,7 +43,7 @@ const Register = () => {
         navigate(`/profile/${(registration as User).id}`);
       } else throw new Error();
     } catch (error) {
-      console.log(error);
+      console.error(error);
       alert('Email already exists. Try again');
     }
   };

@@ -11,69 +11,68 @@ import { User } from '../../Types/ServerClient.interface';
 import { HiSortAscending, HiSortDescending } from 'react-icons/hi';
 
 function Profile() {
-	const navigate = useNavigate();
-	const { loggedIn, setLoggedIn } = useContext<LoginContextType>(LoginContext);
-	const [user, setUser] = useState<User>();
-	const [oldToNewOrder, setOldToNewOrder] = useState<boolean>(false);
+  const navigate = useNavigate();
+  const { loggedIn, setLoggedIn } = useContext<LoginContextType>(LoginContext);
+  const [user, setUser] = useState<User>();
+  const [oldToNewOrder, setOldToNewOrder] = useState(false);
 
-	useEffect(() => {
-		if (sessionStorage && sessionStorage.getItem('user')) {
-			const res = JSON.parse(sessionStorage.getItem('user') as string);
-			setUser(res);
-			const email = sessionStorage.getItem('email');
-			checkExistingUser(res.firstName, email as string);
-			setLoggedIn(true);
-		}
-	}, []);
+  useEffect(() => {
+    if (sessionStorage && sessionStorage.getItem('user')) {
+      const res = JSON.parse(sessionStorage.getItem('user') as string);
+      setUser(res);
+      const email = sessionStorage.getItem('email');
+      checkExistingUser(res.firstName, email as string);
+      setLoggedIn(true);
+    }
+  }, []);
 
-	const checkExistingUser = async (displayName: string, email: string) => {
-		if (displayName && email) {
-			const result = await getUser(displayName, email);
-			result?.albums?.sort((a: AlbumInterface, b: AlbumInterface) => {
-				return a.id - b.id;
-			});
-			setUser(result);
-			return result;
-		}
-	};
+  const checkExistingUser = async (displayName: string, email: string) => {
+    if (displayName && email) {
+      const result: User = await getUser(displayName, email);
+      result?.albums?.sort((a, b) => {
+        return a.id - b.id;
+      });
+      setUser(result);
+      return result;
+    }
+  };
 
-	const sortAlbums = () => {
-		let sortedUserAlbums: AlbumInterface[] = [];
-		if (user?.albums) {
-			if (!oldToNewOrder) {
-				sortedUserAlbums = user?.albums?.sort(
-					(a: AlbumInterface, b: AlbumInterface) => {
-						return b.id - a.id;
-					}
-				);
-				setOldToNewOrder(true);
-			} else {
-				sortedUserAlbums = user?.albums?.sort(
-					(a: AlbumInterface, b: AlbumInterface) => {
-						return a.id - b.id;
-					}
-				);
-				setOldToNewOrder(false);
-			}
-		}
-		const sortedUser = {
-			id: user?.id,
-			firstName: user?.firstName,
-			lastName: user?.lastName,
-			albums: sortedUserAlbums,
-		};
-		setUser(sortedUser as User);
-	};
+  const sortAlbums = () => {
+    let sortedUserAlbums: AlbumInterface[] = [];
+    if (user?.albums) {
+      if (!oldToNewOrder) {
+        sortedUserAlbums = user?.albums?.sort(
+          (a: AlbumInterface, b: AlbumInterface) => {
+            return b.id - a.id;
+          }
+        );
+        setOldToNewOrder(true);
+      } else {
+        sortedUserAlbums = user?.albums?.sort(
+          (a: AlbumInterface, b: AlbumInterface) => {
+            return a.id - b.id;
+          }
+        );
+        setOldToNewOrder(false);
+      }
+    }
+    const sortedUser = {
+      id: user?.id,
+      firstName: user?.firstName,
+      lastName: user?.lastName,
+      albums: sortedUserAlbums,
+    };
+    setUser(sortedUser as User);
+  };
 
-	const editAlbum = (album: AlbumInterface) => {
-		navigate(`/album/${album.id}/edit`);
-	};
+  const editAlbum = (album: AlbumInterface) => {
+    navigate(`/album/${album.id}/edit`);
+  };
 
-	const createNewAlbum = async (user: User) => {
-		const newAlbum = await createAlbum(user);
-		navigate(`/album/${newAlbum?.id}/edit`);
-	};
-
+  const createNewAlbum = async (user: User) => {
+    const newAlbum = await createAlbum(user);
+    navigate(`/album/${newAlbum?.id}/edit`);
+  };
 
   return (
     <div className='ProfileMainContainer'>
@@ -115,19 +114,18 @@ function Profile() {
         )}
       </div>
 
-
-			{loggedIn && (
-				<div className='newAlbum'>
-					<button
-						className='newAlbumButton'
-						onClick={() => createNewAlbum(user as unknown as User)}
-					>
-						Create new Album
-					</button>
-				</div>
-			)}
-		</div>
-	);
+      {loggedIn && (
+        <div className='newAlbum'>
+          <button
+            className='newAlbumButton'
+            onClick={() => createNewAlbum(user as unknown as User)}
+          >
+            Create new Album
+          </button>
+        </div>
+      )}
+    </div>
+  );
 }
 
 export default Profile;

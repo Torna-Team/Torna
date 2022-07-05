@@ -5,7 +5,7 @@ import { RiShareForwardLine } from 'react-icons/ri';
 import { TiDelete } from 'react-icons/ti';
 import { useNavigate } from 'react-router-dom';
 import { deleteAlbum } from '../../Services/Server-Client';
-import { AlbumProps } from '../../Types/Album.Interfact';
+import { AlbumProps } from '../../Types/Album.Interface';
 import { AlbumInterface } from '../../Types/Canvas.interface';
 import { User } from '../../Types/ServerClient.interface';
 import './Album.css';
@@ -78,7 +78,7 @@ const Album = ({ element, editAlbum, setUser }: AlbumProps) => {
                   onClick={async () => {
                     await navigator.clipboard.writeText(
                       encodeURI(
-                        `http://localhost:3000/album/${element.id}/view`
+                        `https://thesis-project-jet.vercel.app/album/${element.id}/view`
                       )
                     );
                     alert('Album link copied 🎉');
