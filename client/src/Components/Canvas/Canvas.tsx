@@ -28,7 +28,7 @@ import { IoMdColorFill } from 'react-icons/io';
 import { RiText } from 'react-icons/ri';
 import { AiOutlineLine } from 'react-icons/ai';
 import { MdGif, MdOutlineColorLens, MdOutlineGrid4X4 } from 'react-icons/md';
-import { TbTextResize } from 'react-icons/tb';
+import { TbSticker } from 'react-icons/tb';
 import { uuidv4 } from '@firebase/util';
 import { useParams } from 'react-router-dom';
 import { saveAlbum, getAlbum } from '../../Services/Server-Client';
@@ -450,7 +450,7 @@ function Canvas() {
                 onClick={handleToggle}
                 value='animatedTextTool'
               >
-                <TbTextResize />
+                <TbSticker />
               </button>
 
               {/* GIF */}

@@ -97,8 +97,8 @@ const checkCanvaElement = (
             ? canvaElements[canvaElements.length - 1].y + 100
             : window.innerHeight / 2,
         src: imageSrc,
-        scaleX: 1,
-        scaleY: 1,
+        scaleX: 0.8,
+        scaleY: 0.8,
       };
       return gif;
     default:
