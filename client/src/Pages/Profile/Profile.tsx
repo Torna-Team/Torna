@@ -109,7 +109,7 @@ function Profile() {
           </>
         ) : (
           <h3 className='loginText'>
-            Log in to see your albums or to create a new one{' '}
+            Log in to see your albums or to create a new one
           </h3>
         )}
       </div>
