@@ -50,21 +50,11 @@ export interface GifSearcherProps {
   setRender: Dispatch<SetStateAction<boolean>>;
 }
 
-// export interface ShapeProps {
-//   element: CanvaElement;
-//   canvaElements: CanvaElement[];
-//   setCanvaElements: Dispatch<SetStateAction<CanvaElement>>;
-//   handleDragEnd: () => number;
-//   isSelected: boolean;
-//   onSelect: () => void;
-// }
-
 export interface ShapeProps {
   key: string;
   element: CanvaElement;
   canvaElements: CanvaElement[];
   setCanvaElements?: Dispatch<SetStateAction<CanvaElement[] | undefined>>;
-  handleDragStart: () => void;
   handleDragEnd: () => number;
   isSelected: boolean;
   onSelect: () => void;

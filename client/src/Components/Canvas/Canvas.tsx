@@ -26,6 +26,7 @@ import {
 } from 'react-icons/fi';
 import { IoMdColorFill } from 'react-icons/io';
 import { RiText } from 'react-icons/ri';
+import { AiOutlineLine } from 'react-icons/ai';
 import { MdGif, MdOutlineColorLens, MdOutlineGrid4X4 } from 'react-icons/md';
 import { TbTextResize } from 'react-icons/tb';
 import { uuidv4 } from '@firebase/util';
@@ -39,6 +40,7 @@ import {
   AlbumInterface,
 } from '../../Types/Canvas.interface';
 import { KonvaEventObject } from 'konva/lib/Node';
+import Lines from '../Lines';
 
 function splitTextFromGenericShapes(shapeList: CanvaElement[]) {
   return shapeList.reduce(
@@ -57,6 +59,7 @@ type ShapeType =
   | typeof Circles
   | typeof Squares
   | typeof Images
+  | typeof Lines
   | typeof Texts;
 
 const shapeType = {
@@ -67,6 +70,7 @@ const shapeType = {
   image: Images,
   text: Texts,
   gif: Gifs,
+  line: Lines,
 };
 
 const toggleTool = {
@@ -119,7 +123,6 @@ function Canvas() {
 
   async function getAlbumInfo() {
     const album = await getAlbum(Number(albumId));
-    console.log(album);
     album?.template && setCanvaElements([...JSON.parse(album.template)]);
     album?.background && setBackGroundColor(album.background);
     album?.height && setHeight(album.height);
@@ -134,6 +137,7 @@ function Canvas() {
         elementId,
         color,
         stroke,
+        canvaElements as CanvaElement[],
         newImage
       );
       setCanvaElements((prev) => {
@@ -149,6 +153,7 @@ function Canvas() {
         elementId,
         color,
         stroke,
+        canvaElements as CanvaElement[],
         newGif
       );
       setCanvaElements((prev) => {
@@ -174,6 +179,7 @@ function Canvas() {
         elementId,
         color,
         stroke,
+        canvaElements as CanvaElement[],
         type
       ) as CanvaElement;
     } else if (type.includes('http://res.cloudinary.com')) {
@@ -182,6 +188,7 @@ function Canvas() {
         elementId,
         color,
         stroke,
+        canvaElements as CanvaElement[],
         type
       ) as CanvaElement;
     } else {
@@ -189,7 +196,8 @@ function Canvas() {
         type,
         elementId,
         color,
-        stroke
+        stroke,
+        canvaElements as CanvaElement[]
       ) as CanvaElement;
     }
     setCanvaElements((prev) => {
@@ -206,10 +214,9 @@ function Canvas() {
         maxHeightPoint = element.y;
       }
     }
-    setHeight(Math.floor(maxHeightPoint + 1400));
 
-    //save inside object and inside BE
-
+    const newHeight = Math.floor(maxHeightPoint) + 900;
+    setHeight(newHeight);
     const title = e.target.albumTitle.value as string;
     let frontImage;
     if (canvaElements)
@@ -227,7 +234,7 @@ function Canvas() {
       frontPage: frontImage,
       id: albumId,
       authorId: album?.authorId as number,
-      height: (height as number) + 1400,
+      height: newHeight as number,
     };
     saveAlbum(savedAlbum as unknown as AlbumInterface);
   };
@@ -251,8 +258,6 @@ function Canvas() {
       selectShape(null);
     }
   };
-
-  const handleDragStart = () => {};
   const handleDragEnd = (el: CanvaElement) => {
     let indx!: number;
     if (canvaElements)
@@ -412,6 +417,15 @@ function Canvas() {
                 <FiSquare />
               </button>
 
+              {/* LINE */}
+              <button
+                className='drawButtons'
+                value='line'
+                onClick={handleClick}
+              >
+                <AiOutlineLine />
+              </button>
+
               {/* ARROW */}
               <button
                 className='drawButtons'
@@ -526,6 +540,18 @@ function Canvas() {
                     <label>Fill</label>
                     <BlockPicker
                       color={color}
+                      colors={[
+                        '#fffafa',
+                        '#ed2939',
+                        '#ff8a65',
+                        '#deb887',
+                        '#ffdb58',
+                        '#37D67A',
+                        '#2CCCE4',
+                        '#ffa6c9',
+                        '#ba68c8',
+                        '#1b1b1b',
+                      ]}
                       onChange={(updatedColor) => {
                         const res = updatedColor.rgb;
                         const string = `rgba(${res.r}, ${res.g}, ${res.b}, ${res.a})`;
@@ -536,6 +562,18 @@ function Canvas() {
                     <label>Stroke</label>
                     <BlockPicker
                       color={stroke}
+                      colors={[
+                        '#fffafa',
+                        '#ed2939',
+                        '#ff8a65',
+                        '#deb887',
+                        '#ffdb58',
+                        '#37D67A',
+                        '#2CCCE4',
+                        '#ffa6c9',
+                        '#ba68c8',
+                        '#1b1b1b',
+                      ]}
                       onChange={(updatedColor) => {
                         const res = updatedColor.rgb;
                         const string = `rgba(${res.r}, ${res.g}, ${res.b}, ${res.a})`;
@@ -577,7 +615,6 @@ function Canvas() {
                     element={el}
                     canvaElements={canvaElements as CanvaElement[]}
                     setCanvaElements={setCanvaElements}
-                    handleDragStart={handleDragStart}
                     handleDragEnd={() => handleDragEnd(el)}
                     isSelected={el.id === (selectedId as number | string)}
                     onSelect={() => {
@@ -595,7 +632,6 @@ function Canvas() {
                   element={el}
                   canvaElements={canvaElements as CanvaElement[]}
                   setCanvaElements={setCanvaElements}
-                  handleDragStart={handleDragStart}
                   handleDragEnd={() => handleDragEnd(el)}
                   isSelected={el.id === (selectedId as number | string)}
                   onSelect={() => {

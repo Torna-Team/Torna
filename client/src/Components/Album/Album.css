@@ -9,15 +9,18 @@
   flex-direction: column;
   position: relative;
 }
+
 .albumFrontImage {
   border-radius: 6px;
   max-height: 350px;
   transition: transform 300ms ease;
   cursor: pointer;
 }
+
 .albumFrontPage:hover .albumFrontImage {
   transform: scale(1.2);
 }
+
 .albumTitle {
   -webkit-text-fill-color: white;
   -webkit-text-stroke-color: black;

@@ -19,14 +19,32 @@
   display: flex;
   align-items: center;
   height: 500px;
-  width: 98%;
+  width: 100%;
   overflow-x: auto;
   border-radius: 6px;
   border: 2px solid #d6d7e5;
   background-color: #ffffff6d;
 }
 
-.newAlbumButton {
-  margin: 50px;
-  margin-left: 40px;
+.newAlbum {
+  display: flex;
+  justify-content: center;
+  margin: 40px;
+}
+
+.loginText {
+  font-family: 'Ubuntu';
+}
+
+.profileContainer {
+  width: 96%;
+  align-items: center;
+}
+
+.sortBtn {
+  display: flex;
+  font-size: 24px;
+  color: #132830;
+  margin-left: 2px;
+  cursor: pointer;
 }

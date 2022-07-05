@@ -6,6 +6,7 @@ const checkCanvaElement = (
   elementId: string,
   color: string,
   stroke: string,
+  canvaElements: CanvaElement[],
   imageSrc?: string | IGif
 ) => {
   switch (type) {
@@ -14,7 +15,10 @@ const checkCanvaElement = (
         type: 'star',
         id: elementId,
         x: window.innerWidth / 2,
-        y: window.innerHeight / 2,
+        y:
+          canvaElements.length > 0
+            ? canvaElements[canvaElements.length - 1].y + 100
+            : window.innerHeight / 2,
         color: color,
         stroke: stroke,
       };
@@ -25,7 +29,10 @@ const checkCanvaElement = (
         type: 'circle',
         id: elementId,
         x: window.innerWidth / 2,
-        y: window.innerHeight / 2,
+        y:
+          canvaElements.length > 0
+            ? canvaElements[canvaElements.length - 1].y + 100
+            : window.innerHeight / 2,
         color: color,
         stroke: stroke,
       };
@@ -35,7 +42,10 @@ const checkCanvaElement = (
         type: 'square',
         id: elementId,
         x: window.innerWidth / 2,
-        y: window.innerHeight / 2,
+        y:
+          canvaElements.length > 0
+            ? canvaElements[canvaElements.length - 1].y + 100
+            : window.innerHeight / 2,
         color: color,
         stroke: stroke,
       };
@@ -45,16 +55,31 @@ const checkCanvaElement = (
         type: 'arrow',
         id: elementId,
         x: window.innerWidth / 2,
-        y: window.innerHeight / 2,
+        y:
+          canvaElements.length > 0
+            ? canvaElements[canvaElements.length - 1].y + 100
+            : window.innerHeight / 2,
         color: color,
       };
       return arrow as CanvaElement;
+    case 'line':
+      const line = {
+        type: 'line',
+        id: elementId,
+        x: window.innerWidth / 2,
+        y: window.innerHeight / 2,
+        color: color,
+      };
+      return line as CanvaElement;
     case 'image':
       const image = {
         type: 'image',
         id: elementId,
         x: window.innerWidth / 2,
-        y: window.innerHeight / 2,
+        y:
+          canvaElements.length > 0
+            ? canvaElements[canvaElements.length - 1].y + 100
+            : window.innerHeight / 2,
         scaleX: 0.1,
         scaleY: 0.1,
         imageSrc,
@@ -67,7 +92,10 @@ const checkCanvaElement = (
         type: 'gif',
         id: elementId,
         x: window.innerWidth / 2,
-        y: window.innerHeight / 2,
+        y:
+          canvaElements.length > 0
+            ? canvaElements[canvaElements.length - 1].y + 100
+            : window.innerHeight / 2,
         src: imageSrc,
         scaleX: 1,
         scaleY: 1,

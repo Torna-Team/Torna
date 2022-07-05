@@ -79,7 +79,6 @@ const Viewer = (props: Props) => {
       var scrollPoint = window.scrollY + window.innerHeight;
       // check if we hit the bottom of the page
       if (scrollPoint >= totalPageHeight) {
-        console.log('at the bottom');
       }
     };
   }
@@ -100,7 +99,7 @@ const Viewer = (props: Props) => {
   return (
     <div className='mainViewerContainer'>
       <div className='viewerNavbar'>
-        <Link to='/'>
+        <Link to={`/profile/${album?.authorId}`}>
           <img src={tornaLogo} alt='Torna Logo' className='viewerLogo' />
         </Link>
         <h1>{album.title}</h1>

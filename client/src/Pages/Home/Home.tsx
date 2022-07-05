@@ -40,7 +40,6 @@ const Home = () => {
   const checkExistingUser = async (displayName: string, email: string) => {
     if (displayName && email) {
       const result = await getUser(displayName, email);
-      console.log(result);
       return result;
     }
   };
@@ -74,6 +73,7 @@ const Home = () => {
       <div className='form-container'>
         <div className='loginWelcome'>
           <img src={tornaLogo} alt='torna logo' />
+          <p className='slogan'>Customize your memories</p>
         </div>
         <form className='login-container' onSubmit={onSubmitHandler}>
           <div className='formInputsContainer'>

@@ -27,7 +27,7 @@ function Images({
     type: 'image',
     id: element ? element.id : canvaElements.length - 1,
     x: element ? element.x : window.innerWidth / 2,
-    y: element ? element.y : window.innerHeight / 2,
+    y: element ? element.y : canvaElements[canvaElements.length - 1].y + 100,
     rotation: element ? element.rotation : 0,
     scaleX: element ? element.scaleX : 0.05,
     scaleY: element ? element.scaleY : 0.05,
