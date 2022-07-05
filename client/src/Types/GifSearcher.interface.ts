@@ -5,11 +5,3 @@ export interface Gif {
     };
   };
 }
-
-export interface Gif2 {
-  images: {
-    downsized_medium: {
-      url: string;
-    };
-  };
-}
