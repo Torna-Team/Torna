@@ -53,6 +53,7 @@
 .buttonSave {
   width: 120px;
 }
+
 .canvasEditor {
   display: flex;
   align-self: center;
@@ -64,102 +65,8 @@
   margin-bottom: 100px;
 }
 
-.sidebarContainer {
-  display: flex;
-  position: fixed;
-  margin: 20px;
-  padding: 8px;
-  z-index: 10;
-  border: 1px solid #132830;
-  background-color: #d6d7e582;
-  border-radius: 6px;
-  box-shadow: 0.4px 0.4px 2px #132830;
-  width: fit-content;
-}
-
-.toolsContainer {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: fit-content;
-  height: 100%;
-}
-
-.drawButtons {
-  margin: 4px;
-  border-radius: 4px;
-  height: 40px;
-  width: 40px;
-}
-
-.drawButtons > * {
-  pointer-events: none;
-  margin-top: 3px;
-  font-size: 19px;
-}
-
-.logicContainer {
-  display: flex;
-  flex-direction: column;
-  max-width: 280px;
-}
-
-.toolContainer {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  margin: 12px;
-  gap: 12px;
-}
-
 .huePicker {
   border-radius: 4px;
   border: 2px solid #132830;
   box-shadow: 0.2px 0.2px 1px #132830;
-}
-
-.formFont {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  border-radius: 4px;
-  font-size: 16px;
-  background-color: transparent;
-  gap: 12px;
-}
-
-.addTextFont {
-  height: 40px;
-  width: 220px;
-  background-color: #d6d7e5;
-  border-radius: 4px;
-  border: 2px solid #132830;
-  font-size: 16px;
-  box-shadow: 0.2px 0.2px 1px #132830;
-  padding-left: 4px;
-}
-
-.check {
-  display: flex;
-  align-items: center;
-  margin: 4px;
-}
-
-.check input {
-  width: 16px;
-  height: 16px;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.fillAndStroke {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.fillAndStroke label {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
 }
