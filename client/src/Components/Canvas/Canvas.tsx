@@ -11,7 +11,7 @@ import Squares from '../Squares';
 import Stars from '../Stars';
 import Texts from '../Texts';
 import Images from '../Images';
-import AnimatedText from '../AnimatedText/AnimatedText';
+import AnimatedText from '../StickerSearch/StickerSearch';
 import ImageUpload from '../ImageUpload/ImageUpload';
 import Gifs from '../Gifs';
 import './Canvas.css';
@@ -599,6 +599,7 @@ function Canvas() {
             onTouchMove={handleWheel}
             onMouseDown={checkDeselect}
             onTouchStart={checkDeselect}
+            draggable
           >
             <Layer>{grid && gridComponents}</Layer>
             <Layer>
