@@ -53,7 +53,7 @@ function splitTextFromGenericShapes(shapeList: CanvaElement[]) {
   );
 }
 
-type ShapeType =
+export type ShapeType =
   | typeof Stars
   | typeof Arrows
   | typeof Circles
@@ -256,15 +256,16 @@ function Canvas() {
       selectShape(null);
     }
   };
-  const handleDragEnd = (el: CanvaElement) => {
-    let indx!: number;
-    if (canvaElements)
+  const handleDragEnd = (el: CanvaElement): number => {
+    let indx = 0;
+    if (canvaElements) {
       for (let i = 0; i < canvaElements.length; i++) {
         if (canvaElements[i].id === el.id) {
           indx = i;
           break;
         }
       }
+    }
 
     setCanvaElements((prev) => {
       if (prev) {

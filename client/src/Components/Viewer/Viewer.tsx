@@ -1,4 +1,3 @@
-//@ts-nocheck
 import { useEffect, useState } from 'react';
 import { Layer, Stage } from 'react-konva';
 import Arrows from '../Shapes/Arrows';
@@ -11,12 +10,16 @@ import Gifs from '../Shapes/Gifs';
 import tornaLogo from '../../Images/tornalogoyellow.png';
 import { useParams } from 'react-router-dom';
 import { getAlbum } from '../../Services/Server-Client';
-import { AlbumInterface } from '../../Types/Canvas.interface';
-import { CanvaElement } from '../../Types/Canvas.interface';
+import { AlbumInterface, ViewerProps } from '../../Types/Canvas.interface';
+import {
+  CanvaElement,
+  SplitTextFromGenericShapesReducer,
+} from '../../Types/Canvas.interface';
 import './Viewer.css';
 import { BsPlayFill, BsFillPauseFill } from 'react-icons/bs';
 import { GrLinkTop } from 'react-icons/gr';
 import { Link } from 'react-router-dom';
+import { ShapeType } from '../Canvas/Canvas';
 
 type Props = {};
 
@@ -30,9 +33,9 @@ const shapeType = {
   gif: Gifs,
 };
 
-export function splitTextFromGenericShapes(shapeList) {
+export function splitTextFromGenericShapes(shapeList: CanvaElement[]) {
   return shapeList.reduce(
-    (res, el) => {
+    (res: SplitTextFromGenericShapesReducer, el: CanvaElement) => {
       if (el.type === 'text') res.textItems.push(el);
       else res.genericItems.push(el);
       return res;
@@ -44,19 +47,19 @@ export function splitTextFromGenericShapes(shapeList) {
 const Viewer = (props: Props) => {
   const albumId = useParams().id;
   const height = 1200;
-  const [width, setWidth] = useState(window.innerWidth - 60);
+  const width = window.innerWidth - 60;
   const [canvaElements, setCanvaElements] = useState<CanvaElement[]>([]);
-  const [album, setAlbum] = useState<AlbumInterface | null>({});
+  const [album, setAlbum] = useState<AlbumInterface>();
   const [backgroundColor, setBackGroundColor] = useState<string>(
     'rgba(255, 255, 255)'
   );
   const [play, setPlay] = useState<boolean>(true);
-  const [delayID, setDelayID] = useState(null);
+  const [delayID, setDelayID] = useState<number | null>(null);
   const { genericItems, textItems } = splitTextFromGenericShapes(canvaElements);
   let scrollDelay;
 
   async function getAlbumInfo() {
-    const album = await getAlbum(albumId);
+    const album = await getAlbum(Number(albumId));
     album?.background && setBackGroundColor(album.background);
     album?.template && setCanvaElements([...JSON.parse(album.template)]);
     album && setAlbum(album);
@@ -69,23 +72,23 @@ const Viewer = (props: Props) => {
   function pageScroll() {
     if (play) {
       window.scrollBy(0, 2);
-      scrollDelay = setTimeout(pageScroll, 20);
+      scrollDelay = window.setTimeout(pageScroll, 20);
       setDelayID(scrollDelay);
     }
-    window.onScroll = function () {
-      // @var int totalPageHeight
-      var totalPageHeight = document.body.scrollHeight;
-      // @var int scrollPoint
-      var scrollPoint = window.scrollY + window.innerHeight;
-      // check if we hit the bottom of the page
-      if (scrollPoint >= totalPageHeight) {
-      }
-    };
+    // window.onScroll = function () {
+    //   // @var int totalPageHeight
+    //   var totalPageHeight = document.body.scrollHeight;
+    //   // @var int scrollPoint
+    //   var scrollPoint = window.scrollY + window.innerHeight;
+    //   // check if we hit the bottom of the page
+    //   if (scrollPoint >= totalPageHeight) {
+    //   }
+    // };
   }
 
   function handlePause() {
     setPlay(false);
-    clearTimeout(delayID);
+    clearTimeout(delayID as unknown as number);
     setPlay(true);
   }
 
@@ -102,7 +105,7 @@ const Viewer = (props: Props) => {
         <Link to={`/profile/${album?.authorId}`}>
           <img src={tornaLogo} alt='Torna Logo' className='viewerLogo' />
         </Link>
-        <h1>{album.title}</h1>
+        <h1>{album?.title}</h1>
         <div className='viewerNavBarButtons'>
           {play ? (
             <button onClick={handlePlay}>
@@ -128,26 +131,26 @@ const Viewer = (props: Props) => {
         <Stage width={width} height={album?.height}>
           <Layer>
             {genericItems?.map((el: CanvaElement) => {
-              const Shape = shapeType[el?.type];
+              const Shape = shapeType[el?.type as keyof ShapeType] as any;
               if (!el || !Shape) return null;
               return (
                 <Shape
                   key={el.id}
                   render={true}
                   element={el}
-                  canvaElements={canvaElements}
-                  setCanvaElements={setCanvaElements}
+                  canvaElements={canvaElements as CanvaElement[]}
+                  // setCanvaElements={setCanvaElements}
                 />
               );
             })}
           </Layer>
           <Layer>
-            {textItems?.map((el) => (
+            {textItems?.map((el: CanvaElement) => (
               <Texts
                 key={el.id}
                 element={el}
-                canvaElements={canvaElements}
-                setCanvaElements={setCanvaElements}
+                handleDragEnd={() => 0}
+                canvaElements={canvaElements as CanvaElement[]}
               />
             ))}
           </Layer>
