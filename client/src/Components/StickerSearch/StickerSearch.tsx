@@ -55,14 +55,14 @@ const StickerSearcher = ({ setNewGif, setRender }: GifSearcherProps) => {
     <div className='searchGif-container'>
       <div className='search-gif'>
         <form onSubmit={searchGif}>
-          <label>Gif Searcher</label>
+          <label>Sticker Searcher</label>
           <input
             type='text'
             placeholder='Type here'
             value={searchValue}
             onChange={(e) => setSearchValue(e.target.value)}
           ></input>
-          <button>SEARCH GIF</button>
+          <button>SEARCH STICKER</button>
         </form>
       </div>
 
