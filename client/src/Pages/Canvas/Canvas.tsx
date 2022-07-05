@@ -27,7 +27,7 @@ function splitTextFromGenericShapes(shapeList: CanvaElement[]) {
   );
 }
 
-type ShapeType =
+export type ShapeType =
   | typeof CanvaImports.Stars
   | typeof CanvaImports.Arrows
   | typeof CanvaImports.Circles

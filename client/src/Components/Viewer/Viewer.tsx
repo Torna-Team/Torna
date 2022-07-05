@@ -19,7 +19,7 @@ import './Viewer.css';
 import { BsPlayFill, BsFillPauseFill } from 'react-icons/bs';
 import { GrLinkTop } from 'react-icons/gr';
 import { Link } from 'react-router-dom';
-import { ShapeType } from '../Canvas/Canvas';
+import { ShapeType } from '../../Pages/Canvas/Canvas';
 
 type Props = {};
 
