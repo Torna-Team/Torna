@@ -1,7 +1,7 @@
 import { Rect } from 'react-konva';
 
-const gridWidth = 40;
-const gridHeight = 40;
+const gridWidth = 100;
+const gridHeight = 100;
 
 const Grid = () => {
   const stagePos = { x: 0, y: 0 };
