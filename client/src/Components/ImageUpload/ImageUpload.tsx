@@ -5,6 +5,7 @@ import { UploadImageProps } from '../../Types/Canvas.interface';
 import { Image } from '../../Types/ImageUpload.interface';
 import Loader from '../Loader/Loader';
 
+//https://res.cloudinary.com/demo/image/upload/w_200,h_200,c_fill,r_max/nice_beach.png
 function ImageUpload({ setNewImage }: UploadImageProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [imageObj, setImageObj] = useState<Image[]>();
@@ -25,7 +26,10 @@ function ImageUpload({ setNewImage }: UploadImageProps) {
     const url = process.env.REACT_APP_CLOUDURL as string;
     const upload = await fetch(url, { method: 'POST', body: formData });
     const res = await upload.json();
-    setNewImage(res.url);
+    const startUrl = res.url.substring(0, 49);
+    const endUrl = res.url.substring(49);
+    const newUrl = startUrl + 'h_1000/' + endUrl;
+    setNewImage(newUrl);
     setImageLoading(false);
   };
 
