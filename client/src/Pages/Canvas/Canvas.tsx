@@ -4,15 +4,7 @@ import { Layer, Stage } from 'react-konva';
 import FontPicker from 'font-picker-react';
 import Draggable from 'react-draggable';
 import checkCanvaElement from '../../Services/utils';
-import Arrows from '../Shapes/Arrows';
-import Circles from '../Shapes/Circles';
-import Squares from '../Shapes/Squares';
-import Stars from '../Shapes/Stars';
-import Texts from '../Shapes/Texts';
-import Images from '../Shapes/Images';
-import AnimatedText from '../StickerSearch/StickerSearch';
-import ImageUpload from '../ImageUpload/ImageUpload';
-import Gifs from '../Shapes/Gifs';
+
 import './Canvas.css';
 import { Link } from 'react-router-dom';
 import tornaLogo from '../../Images/tornalogoyellow.png';
@@ -31,7 +23,7 @@ import { MdGif, MdOutlineColorLens } from 'react-icons/md';
 import { uuidv4 } from '@firebase/util';
 import { useParams } from 'react-router-dom';
 import { saveAlbum, getAlbum } from '../../Services/Server-Client';
-import GifSearcher from '../GifSearcher/GifSearcher';
+import GifSearcher from '../../Components/GifSearcher/GifSearcher';
 import {
   CanvaElement,
   SplitTextFromGenericShapesReducer,
@@ -39,9 +31,7 @@ import {
   AlbumInterface,
 } from '../../Types/Canvas.interface';
 import { KonvaEventObject } from 'konva/lib/Node';
-import Lines from '../Shapes/Lines';
-import Grid from '../Shapes/Grid';
-
+import { CanvaImports } from './CanvaImports';
 function splitTextFromGenericShapes(shapeList: CanvaElement[]) {
   return shapeList.reduce(
     (res: SplitTextFromGenericShapesReducer, el: CanvaElement) => {
@@ -54,23 +44,23 @@ function splitTextFromGenericShapes(shapeList: CanvaElement[]) {
 }
 
 type ShapeType =
-  | typeof Stars
-  | typeof Arrows
-  | typeof Circles
-  | typeof Squares
-  | typeof Images
-  | typeof Lines
-  | typeof Texts;
+  | typeof CanvaImports.Stars
+  | typeof CanvaImports.Arrows
+  | typeof CanvaImports.Circles
+  | typeof CanvaImports.Squares
+  | typeof CanvaImports.Images
+  | typeof CanvaImports.Lines
+  | typeof CanvaImports.Texts;
 
 const shapeType = {
-  star: Stars,
-  arrow: Arrows,
-  circle: Circles,
-  square: Squares,
-  image: Images,
-  text: Texts,
-  gif: Gifs,
-  line: Lines,
+  star: CanvaImports.Stars,
+  arrow: CanvaImports.Arrows,
+  circle: CanvaImports.Circles,
+  square: CanvaImports.Squares,
+  image: CanvaImports.Images,
+  text: CanvaImports.Texts,
+  gif: CanvaImports.Gifs,
+  line: CanvaImports.Lines,
 };
 
 const toggleTool = {
@@ -108,6 +98,13 @@ function Canvas() {
 
   const fontAPI = process.env.REACT_APP_GOOGLEAPI as string;
 
+  async function getAlbumInfo() {
+    const album = await getAlbum(Number(albumId));
+    album?.template && setCanvaElements([...JSON.parse(album.template)]);
+    album?.background && setBackGroundColor(album.background);
+    album?.height && setHeight(album.height);
+    album && setAlbum(album);
+  }
   useEffect(() => {
     getAlbumInfo();
     if (!height) setHeight(600);
@@ -116,14 +113,6 @@ function Canvas() {
   useEffect(() => {
     setWidth(window.innerWidth - window.innerWidth * 0.05);
   }, [window.innerWidth]);
-
-  async function getAlbumInfo() {
-    const album = await getAlbum(Number(albumId));
-    album?.template && setCanvaElements([...JSON.parse(album.template)]);
-    album?.background && setBackGroundColor(album.background);
-    album?.height && setHeight(album.height);
-    album && setAlbum(album);
-  }
 
   useEffect(() => {
     if (newImage !== null) {
@@ -337,7 +326,9 @@ function Canvas() {
           <img className='navbarLogo' src={tornaLogo} alt='Torna logo' />
         </Link>
         <div className='navbarImgs'>
-          <ImageUpload setNewImage={setNewImage}></ImageUpload>
+          <CanvaImports.ImageUpload
+            setNewImage={setNewImage}
+          ></CanvaImports.ImageUpload>
         </div>
         <form className='navbarForm' onSubmit={editAlbum}>
           <input
@@ -510,7 +501,10 @@ function Canvas() {
                 </div>
               )}
               {toggleTool.animatedTextTool && (
-                <AnimatedText setNewGif={setNewGif} setRender={setRender} />
+                <CanvaImports.AnimatedText
+                  setNewGif={setNewGif}
+                  setRender={setRender}
+                />
               )}
 
               {toggleTool.colorTool && (
@@ -579,7 +573,7 @@ function Canvas() {
             onMouseDown={checkDeselect}
             onTouchStart={checkDeselect}
           >
-            <Layer>{grid && <Grid></Grid>}</Layer>
+            <Layer>{grid && <CanvaImports.Grid />}</Layer>
 
             <Layer>
               {genericItems?.map((el: CanvaElement) => {
@@ -607,7 +601,7 @@ function Canvas() {
             </Layer>
             <Layer>
               {textItems?.map((el: CanvaElement) => (
-                <Texts
+                <CanvaImports.Texts
                   key={el.id}
                   element={el}
                   canvaElements={canvaElements as CanvaElement[]}
