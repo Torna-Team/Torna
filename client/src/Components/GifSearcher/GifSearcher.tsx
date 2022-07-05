@@ -36,7 +36,7 @@ const GifSearcher = ({ setNewGif, setRender }: GifSearcherProps) => {
         setGifs(jsonRes.data);
       } catch (error) {}
     } else {
-      console.log('you fetched more than 10 times already');
+      console.error('you fetched more than 10 times already');
     }
   };
 
@@ -45,7 +45,6 @@ const GifSearcher = ({ setNewGif, setRender }: GifSearcherProps) => {
   }, [search]);
 
   const handleClick = (gifClicked: Gif) => {
-    console.log(gifClicked, 'gifCLicked');
     setNewGif(gifClicked.images.downsized_medium.url);
     setRender(true);
   };

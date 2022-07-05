@@ -47,8 +47,7 @@ function ImageUpload({ setNewImage }: UploadImageProps) {
           ref={fileInputRef}
           onChange={(e: React.FormEvent<HTMLInputElement>) => {
             if (e.currentTarget.files) {
-              //probar e.currentTarget.files
-              const files = e.currentTarget.files; //probar e.currentTarget.files
+              const files = e.currentTarget.files;
               setImageObj((prev: any) => {
                 let arr: Element[] | null = [];
                 for (const indx in files) {
