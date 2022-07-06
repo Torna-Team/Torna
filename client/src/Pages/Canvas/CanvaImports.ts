@@ -9,6 +9,7 @@ import ImageUpload from '../../Components/ImageUpload/ImageUpload';
 import Gifs from '../../Components/Shapes/Gifs';
 import Lines from '../../Components/Shapes/Lines';
 import Grid from '../../Components/Shapes/Grid';
+import ToolsBar from '../../Components/ToolsBar/ToolsBar';
 
 export const CanvaImports = {
   Arrows,
@@ -22,4 +23,5 @@ export const CanvaImports = {
   Gifs,
   Lines,
   Grid,
+  ToolsBar,
 };

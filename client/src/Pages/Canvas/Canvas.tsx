@@ -15,7 +15,7 @@ import {
 } from '../../Types/Canvas.interface';
 import { KonvaEventObject } from 'konva/lib/Node';
 import { CanvaImports } from './CanvaImports';
-import ToolsBar from '../../Components/ToolsBar/ToolsBar';
+
 function splitTextFromGenericShapes(shapeList: CanvaElement[]) {
   return shapeList.reduce(
     (res: SplitTextFromGenericShapesReducer, el: CanvaElement) => {
@@ -79,9 +79,16 @@ function Canvas() {
   const [toolOption, setToolOption] = useState<ToggleTool>(toggleTool);
   const [newGif, setNewGif] = useState<string | null>(null);
   const [grid, setGrid] = useState<boolean>(true);
+  const [userIsCreator, SetUserIsCreator] = useState(false);
 
   async function getAlbumInfo() {
     const album = await getAlbum(Number(albumId));
+    if (sessionStorage.getItem('user')) {
+      const authorInfo = JSON.parse(sessionStorage.getItem('user') as string);
+      if (authorInfo.id === album?.authorId) {
+        SetUserIsCreator(true);
+      }
+    }
     album?.template && setCanvaElements([...JSON.parse(album.template)]);
     album?.background && setBackGroundColor(album.background);
     album?.height && setHeight(album.height);
@@ -301,7 +308,7 @@ function Canvas() {
     canvaElements as CanvaElement[]
   );
 
-  return (
+  return userIsCreator ? (
     <div className='mainContainer'>
       {/* NAVBAR */}
       <div className='navbar'>
@@ -327,7 +334,7 @@ function Canvas() {
         </form>
       </div>
       <div className='canvasEditor' style={{ background: backgroundColor }}>
-        <ToolsBar
+        <CanvaImports.ToolsBar
           handleToggle={handleToggle}
           handleClick={handleClick}
           handleDelete={handleDelete}
@@ -348,7 +355,7 @@ function Canvas() {
           stroke={stroke}
           setStroke={setStroke}
           setRender={setRender}
-        ></ToolsBar>
+        ></CanvaImports.ToolsBar>
         <div className='canvaContainer'>
           <Stage
             width={width}
@@ -402,6 +409,8 @@ function Canvas() {
         </div>
       </div>
     </div>
+  ) : (
+    <p>This album is not yours</p>
   );
 }
 

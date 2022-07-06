@@ -64,7 +64,7 @@ const Home = () => {
       }
     } catch (error) {
       alert('Error, try again');
-      console.log(error);
+      console.error(error);
     }
   };
 

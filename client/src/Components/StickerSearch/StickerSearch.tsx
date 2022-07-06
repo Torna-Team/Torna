@@ -37,7 +37,7 @@ const StickerSearcher = ({ setNewGif, setRender }: GifSearcherProps) => {
         setGifs(jsonRes.data);
       } catch (error) {}
     } else {
-      console.log('you fetched more than 10 times already');
+      alert('Something went wrong');
     }
   };
 
@@ -46,7 +46,6 @@ const StickerSearcher = ({ setNewGif, setRender }: GifSearcherProps) => {
   }, [search]);
 
   const handleClick = (gifClicked: Gif) => {
-    console.log(gifClicked, 'gifCLicked');
     setNewGif(gifClicked.images.fixed_height_downsampled.url);
     setRender(true);
   };

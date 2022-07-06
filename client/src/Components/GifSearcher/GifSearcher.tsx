@@ -45,7 +45,6 @@ const GifSearcher = ({ setNewGif, setRender }: GifSearcherProps) => {
   }, [search]);
 
   const handleClick = (gifClicked: Gif) => {
-    console.log(gifClicked, 'GC');
     setNewGif(gifClicked.images.fixed_height_downsampled.url);
     setRender(true);
   };
