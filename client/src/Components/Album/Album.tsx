@@ -78,7 +78,7 @@ const Album = ({ element, editAlbum, setUser }: AlbumProps) => {
                   onClick={async () => {
                     await navigator.clipboard.writeText(
                       encodeURI(
-                        `https://thesis-project-jet.vercel.app/album/${element.id}/view`
+                        `https://torna.vercel.app/album/${element.id}/view`
                       )
                     );
                     alert('Album link copied 🎉');
