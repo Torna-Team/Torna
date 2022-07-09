@@ -1,5 +1,5 @@
 <div align=center>
-<img src='./client/src/Images/tornalogoyellow.png'>
+<img src='./client/src/Images/logobackgroundgray.jpg'>
 </div>
 Welcome to Torna. Torna is a web app where you can create customizable photo albums and share them with the people you want.
 
