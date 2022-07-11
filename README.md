@@ -73,5 +73,10 @@ Once this is done, you should be able to see an empty profile. Click on create n
 There's always things to do! We would like to implement Stripe for premium users. And be able to edit the album with more than one user at the same time.
 -->
 # Authors
-<a href=www.github/irenecgn.com> Irene Cagnoni </a> </br> <a href=www.github/nachcoll.com> Nacho Coll</a> </br>
-<a href=www.github/Mortyrise.com> Joan Marc Domènech </a> </br> <a href=www.github/xfortunyi.com> Xavi Fortuny </a>
+Irene Cagnoni - [Github](https://github.com/irenecgn) - [Linkedin](https://www.linkedin.com/in/irenecagnoni/) 
+
+Nacho Coll - [Github](https://github.com/Nachcoll) - [Linkedin](https://www.linkedin.com/in/nachcoll)
+
+Joan Marc Domènech - [Github](https://github.com/Mortyrise) - [Linkedin](https://www.linkedin.com/in/joanmarc-domenech/)
+
+Xavier Fortuny - [Github](https://github.com/xfortunyi) - [Linkedin](https://www.linkedin.com/in/xavifortuny/)
